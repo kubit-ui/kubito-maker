@@ -1,0 +1,1 @@
+export { TipsModal } from "./TipsModal";

@@ -1,0 +1,10 @@
+export { Canvas } from './Canvas';
+export { CanvasGrid } from './CanvasGrid';
+export { CanvasBody } from './CanvasBody';
+export { CanvasItem } from './CanvasItem';
+export { CanvasGuides } from './CanvasGuides';
+export { CanvasMultiSelection } from './CanvasMultiSelection';
+export { CanvasMarquee } from './CanvasMarquee';
+export { CanvasRulers } from './CanvasRulers';
+export { CanvasUserGuides } from './CanvasGuides2';
+export { ZoomControls } from './ZoomControls';

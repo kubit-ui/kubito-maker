@@ -1,0 +1,254 @@
+{
+  "eyes": [
+    {
+      "id": "eye",
+      "name": "Eye",
+      "file": "eye.svg"
+    },
+    {
+      "id": "eye02",
+      "name": "Eye 02",
+      "file": "eye02.svg"
+    },
+    {
+      "id": "eye02-alone",
+      "name": "Eye 02 Alone",
+      "file": "eye02_alone.svg"
+    },
+    {
+      "id": "eye03",
+      "name": "Eye 03",
+      "file": "eye03.svg"
+    },
+    {
+      "id": "eye03-1",
+      "name": "Eye 03-1",
+      "file": "eye03-1.svg"
+    },
+    {
+      "id": "eye03-alone",
+      "name": "Eye 03 Alone",
+      "file": "eye03_alone.svg"
+    },
+    {
+      "id": "eye04",
+      "name": "Eye 04",
+      "file": "eye04.svg"
+    },
+    {
+      "id": "eye04-alone",
+      "name": "Eye 04 Alone",
+      "file": "eye04_alone.svg"
+    },
+    {
+      "id": "eye05",
+      "name": "Eye 05",
+      "file": "eye05.svg"
+    },
+    {
+      "id": "eye05-alone",
+      "name": "Eye 05 Alone",
+      "file": "eye05_alone.svg"
+    },
+    {
+      "id": "eyes",
+      "name": "Eyes",
+      "file": "eyes.svg"
+    },
+    {
+      "id": "eyes-alone",
+      "name": "Eyes Alone",
+      "file": "eyes_alone.svg"
+    },
+    {
+      "id": "eyes-1",
+      "name": "Eyes 1",
+      "file": "eyes-1.svg"
+    },
+    {
+      "id": "eyes-1-alone",
+      "name": "Eyes 1 Alone",
+      "file": "eyes-1_alone.svg"
+    }
+  ],
+  "mouths": [
+    {
+      "id": "mouth",
+      "name": "Mouth",
+      "file": "mouth.svg"
+    },
+    {
+      "id": "mouth-1",
+      "name": "Mouth 1",
+      "file": "mouth-1.svg"
+    },
+    {
+      "id": "mouth-2",
+      "name": "Mouth 2",
+      "file": "mouth-2.svg"
+    },
+    {
+      "id": "mouth-3",
+      "name": "Mouth 3",
+      "file": "mouth-3.svg"
+    },
+    {
+      "id": "mouth-4",
+      "name": "Mouth 4",
+      "file": "mouth-4.svg"
+    },
+    {
+      "id": "mouth02",
+      "name": "Mouth 02",
+      "file": "mouth02.svg"
+    },
+    {
+      "id": "mouth02-1",
+      "name": "Mouth 02-1",
+      "file": "mouth02-1.svg"
+    },
+    {
+      "id": "mouth06",
+      "name": "Mouth 06",
+      "file": "mouth06.svg"
+    },
+    {
+      "id": "mouth06-1",
+      "name": "Mouth 06-1",
+      "file": "mouth06-1.svg"
+    },
+    {
+      "id": "mouth06-2",
+      "name": "Mouth 06-2",
+      "file": "mouth06-2.svg"
+    }
+  ],
+  "accessories": [
+    {
+      "id": "hat",
+      "name": "Hat",
+      "file": "hat.svg"
+    },
+    {
+      "id": "hat-1",
+      "name": "Hat 1",
+      "file": "hat-1.svg"
+    },
+    {
+      "id": "original-hat",
+      "name": "Original Hat",
+      "file": "original_hat.svg"
+    },
+    {
+      "id": "cigarette",
+      "name": "Cigarette",
+      "file": "cigarrette.svg"
+    },
+    {
+      "id": "monocule",
+      "name": "Monocle",
+      "file": "monocule.svg"
+    }
+  ],
+  "eyebrows": [],
+  "noses": [],
+  "hairs": [
+    {
+      "id": "hair-2",
+      "name": "Hair 2",
+      "file": "hair_2.svg"
+    },
+    {
+      "id": "hairs",
+      "name": "Hairs",
+      "file": "hairs.svg"
+    },
+    {
+      "id": "litle-hair",
+      "name": "Little Hair",
+      "file": "litle hair.svg"
+    }
+  ],
+  "moustache": [
+    {
+      "id": "moustache",
+      "name": "Moustache",
+      "file": "moustache.svg"
+    },
+    {
+      "id": "moustache-2",
+      "name": "Moustache 2",
+      "file": "moustache_2.svg"
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "bg-01",
+      "name": "Background 01",
+      "file": "Bg-01.svg"
+    },
+    {
+      "id": "bg-02",
+      "name": "Background 02",
+      "file": "Bg-02.svg"
+    },
+    {
+      "id": "bg-03",
+      "name": "Background 03",
+      "file": "Bg-03.svg"
+    },
+    {
+      "id": "bg-04",
+      "name": "Background 04",
+      "file": "Bg-04.svg"
+    },
+    {
+      "id": "bg-05",
+      "name": "Background 05",
+      "file": "Bg-05.svg"
+    },
+    {
+      "id": "bg-06",
+      "name": "Background 06",
+      "file": "Bg-06.svg"
+    },
+    {
+      "id": "bg-06-1",
+      "name": "Background 06-1",
+      "file": "Bg-06-1.svg"
+    },
+    {
+      "id": "bg-06-2",
+      "name": "Background 06-2",
+      "file": "Bg-06-2.svg"
+    },
+    {
+      "id": "bg-07",
+      "name": "Background 07",
+      "file": "Bg-07.svg"
+    },
+    {
+      "id": "bg-08",
+      "name": "Background 08",
+      "file": "Bg-08.svg"
+    },
+    {
+      "id": "bg-08-1",
+      "name": "Background 08-1",
+      "file": "Bg-08-1.svg"
+    }
+  ],
+  "bodies": [
+    {
+      "id": "body1",
+      "name": "Body 1",
+      "file": "body1.svg"
+    },
+    {
+      "id": "body2",
+      "name": "Body 2",
+      "file": "body2.svg"
+    }
+  ],
+  "decorations": []
+}

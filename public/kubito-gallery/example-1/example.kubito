@@ -1,0 +1,92 @@
+{
+  "version": "1.0.0",
+  "name": "kubito-project",
+  "items": [
+    {
+      "id": "kubito-base",
+      "category": "Bodies",
+      "assetId": "body1",
+      "name": "Kubito Base",
+      "x": 360,
+      "y": 360,
+      "scale": 7.2,
+      "rotate": 0,
+      "flipX": false,
+      "flipY": false,
+      "z": 0,
+      "locked": false,
+      "visible": true,
+      "effects": {
+        "opacity": 1,
+        "color": "#000000",
+        "shadowBlur": 0,
+        "shadowOffsetX": 0,
+        "shadowOffsetY": 0,
+        "shadowColor": "#000000",
+        "shadowOpacity": 0,
+        "blur": 0,
+        "brightness": 1,
+        "contrast": 1,
+        "saturate": 1
+      }
+    },
+    {
+      "category": "Eyes",
+      "assetId": "eye03",
+      "name": "Happy Eyes",
+      "x": 360,
+      "y": 294.26171875,
+      "scale": 3.143487273479734,
+      "rotate": 0,
+      "flipX": false,
+      "flipY": false,
+      "id": "item_1_1763734705499",
+      "z": 1,
+      "locked": false,
+      "visible": true,
+      "effects": {
+        "opacity": 1,
+        "color": "#000000",
+        "shadowBlur": 0,
+        "shadowOffsetX": 0,
+        "shadowOffsetY": 0,
+        "shadowColor": "#000000",
+        "shadowOpacity": 0.3,
+        "blur": 0,
+        "brightness": 1,
+        "contrast": 1,
+        "saturate": 1
+      }
+    },
+    {
+      "category": "Mouths",
+      "assetId": "mouth06",
+      "name": "Laughing",
+      "x": 360,
+      "y": 341.94140625,
+      "scale": 4.192062276305561,
+      "rotate": 0,
+      "flipX": false,
+      "flipY": false,
+      "id": "item_2_1763734710227",
+      "z": 2,
+      "locked": false,
+      "visible": true,
+      "effects": {
+        "opacity": 1,
+        "color": "#000000",
+        "shadowBlur": 0,
+        "shadowOffsetX": 0,
+        "shadowOffsetY": 0,
+        "shadowColor": "#000000",
+        "shadowOpacity": 0.3,
+        "blur": 0,
+        "brightness": 1,
+        "contrast": 1,
+        "saturate": 1
+      }
+    }
+  ],
+  "createdAt": 1763734722683,
+  "updatedAt": 1763734722683
+}
