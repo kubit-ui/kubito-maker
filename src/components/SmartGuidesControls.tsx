@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo } from 'react';
 import {
   Settings,
   Crosshair,
@@ -11,8 +11,8 @@ import {
   ArrowUpDown,
   Eye,
   EyeOff,
-} from "lucide-react";
-import type { SnapConfig } from "@/utils/smartGuides";
+} from 'lucide-react';
+import type { SnapConfig } from '@/utils/smartGuides';
 
 interface SmartGuidesControlsProps {
   config: SnapConfig;
@@ -200,19 +200,19 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
             onClick={onToggleRulers}
             className={`flex w-full items-center justify-center gap-2 rounded px-3 py-2 text-sm transition-colors ${
               showRulers
-                ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200"
-                : "bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
+                : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600'
             }`}
           >
             {showRulers ? (
               <>
                 <EyeOff className="h-4 w-4" />
-                Ocultar reglas
+                Hide Rulers
               </>
             ) : (
               <>
                 <Eye className="h-4 w-4" />
-                Mostrar reglas
+                Show Rulers
               </>
             )}
           </button>
@@ -248,7 +248,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
-SmartGuidesControls.displayName = "SmartGuidesControls";
+SmartGuidesControls.displayName = 'SmartGuidesControls';

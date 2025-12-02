@@ -8,7 +8,7 @@
 
 <!-- Add your screenshot/demo image here -->
 
-![Kubito Maker Screenshot](docs/images/hero-screenshot.png)
+![Kubito Maker Screenshot](assets/1.png)
 
 </div>
 

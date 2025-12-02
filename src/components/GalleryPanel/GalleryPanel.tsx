@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { Image } from "lucide-react";
-import type { GalleryItem } from "@/types";
+import { useState, useEffect } from 'react';
+import { Image } from 'lucide-react';
+import type { GalleryItem } from '@/types';
 import {
   loadGalleryManifest,
   getGalleryThumbnailUrl,
   loadGalleryKubito,
-} from "@/data/gallery";
-import { useEditorActions } from "@/store/editorStore";
+} from '@/data/gallery';
+import { useEditorActions } from '@/store/editorStore';
 
 export function GalleryPanel() {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
@@ -31,8 +31,8 @@ export function GalleryPanel() {
       const kubitoFile = await loadGalleryKubito(item);
       importKubito(kubitoFile);
     } catch (error) {
-      console.error("Error loading gallery item:", error);
-      alert("Error al cargar el diseño de la galería");
+      console.error('Error loading gallery item:', error);
+      alert('Error loading gallery design');
     } finally {
       setSelectedItem(null);
     }
@@ -43,7 +43,7 @@ export function GalleryPanel() {
       <div className="flex h-full items-center justify-center p-4 text-gray-500">
         <div className="text-center">
           <div className="mb-2 animate-spin text-4xl">⏳</div>
-          <p>Cargando galería...</p>
+          <p>Loading gallery...</p>
         </div>
       </div>
     );
@@ -54,9 +54,9 @@ export function GalleryPanel() {
       <div className="flex h-full items-center justify-center p-4 text-gray-500">
         <div className="text-center">
           <Image className="mx-auto mb-2 h-12 w-12 opacity-50" />
-          <p>No hay diseños en la galería</p>
+          <p>No designs in gallery</p>
           <p className="mt-2 text-xs">
-            Agrega diseños en la carpeta public/kubito-gallery
+            Add designs to the public/kubito-gallery folder
           </p>
         </div>
       </div>
@@ -66,7 +66,7 @@ export function GalleryPanel() {
   return (
     <div className="h-full overflow-y-auto p-4">
       <h2 className="mb-4 text-lg font-semibold text-gray-800">
-        Galería de Diseños
+        Design Gallery
       </h2>
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         {galleryItems.map((item) => (
@@ -79,8 +79,8 @@ export function GalleryPanel() {
               transition-all duration-200 hover:scale-105 hover:shadow-lg
               ${
                 selectedItem === item.id
-                  ? "cursor-wait border-blue-500 opacity-50"
-                  : "cursor-pointer border-gray-200 hover:border-blue-400"
+                  ? 'cursor-wait border-blue-500 opacity-50'
+                  : 'cursor-pointer border-gray-200 hover:border-blue-400'
               }
             `}
             title={item.description}
@@ -94,7 +94,7 @@ export function GalleryPanel() {
                 onError={(e) => {
                   // Fallback si no existe la imagen
                   const target = e.target as HTMLImageElement;
-                  target.style.display = "none";
+                  target.style.display = 'none';
                   const parent = target.parentElement;
                   if (parent) {
                     parent.innerHTML = `
