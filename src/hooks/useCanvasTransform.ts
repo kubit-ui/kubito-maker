@@ -1,8 +1,8 @@
-import { useEffect, useRef, RefObject, useState } from "react";
-import type { KubitoItem, TransformMode } from "@/types";
-import { calculateSmartGuides } from "@/utils/smartGuides";
-import type { Guide } from "@/utils/smartGuides";
-import { useSnapConfig } from "@/store/editorStore";
+import { useEffect, useRef, RefObject, useState } from 'react';
+import type { KubitoItem, TransformMode } from '@/types';
+import { calculateSmartGuides } from '@/utils/smartGuides';
+import type { Guide } from '@/utils/smartGuides';
+import { useSnapConfig } from '@/store/editorStore';
 
 /**
  * Transform handle state
@@ -32,6 +32,7 @@ export interface UseCanvasTransformConfig {
   onUpdateItem: (id: string, updates: Partial<KubitoItem>) => void;
   onSetMode: (mode: TransformMode) => void;
   onSetActiveGuides: (guides: Guide[]) => void;
+  brushMode?: string; // Añadido para desactivar transformaciones cuando se está dibujando
 }
 
 /**
@@ -73,6 +74,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
     onUpdateItem,
     onSetMode,
     onSetActiveGuides,
+    brushMode = 'none',
   } = config;
 
   const snapConfig = useSnapConfig();
@@ -85,14 +87,19 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
     y: number;
   } | null>(null);
   const [marqueeEnd, setMarqueeEnd] = useState<{ x: number; y: number } | null>(
-    null,
+    null
   );
 
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
 
-    svg.style.touchAction = "none";
+    // Si está en modo pincel, NO registrar listeners de transformación
+    if (brushMode !== 'none') {
+      return;
+    }
+
+    svg.style.touchAction = 'none';
 
     const onPointerDown = (e: PointerEvent) => {
       let node: EventTarget | null = e.target;
@@ -102,7 +109,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
       while (node && node !== svg) {
         if (
           (node as Element).getAttribute &&
-          (node as Element).getAttribute("data-handle")
+          (node as Element).getAttribute('data-handle')
         ) {
           handle = node as Element;
           break;
@@ -116,7 +123,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
       while (node && node !== svg) {
         if (
           (node as Element).getAttribute &&
-          (node as Element).getAttribute("data-item-id")
+          (node as Element).getAttribute('data-item-id')
         ) {
           itemEl = node as Element;
           break;
@@ -126,8 +133,8 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
 
       // Handle interaction with transform handles
       if (handle) {
-        const id = handle.getAttribute("data-item-id");
-        const htype = handle.getAttribute("data-handle");
+        const id = handle.getAttribute('data-item-id');
+        const htype = handle.getAttribute('data-handle');
         if (!htype || !id) return;
 
         const item = items.find((it) => it.id === id);
@@ -140,7 +147,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
         if (selectedIds.length > 1 && selectedIds.includes(id)) {
           // For multiple selection, calculate center of all selected items
           const selectedItems = items.filter((it) =>
-            selectedIds.includes(it.id),
+            selectedIds.includes(it.id)
           );
           const sumX = selectedItems.reduce((sum, it) => sum + it.x, 0);
           const sumY = selectedItems.reduce((sum, it) => sum + it.y, 0);
@@ -167,7 +174,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
           center: { x: cx, y: cy },
         };
 
-        onSetMode(htype === "rotate" ? "rotate" : "scale");
+        onSetMode(htype === 'rotate' ? 'rotate' : 'scale');
         e.preventDefault();
         e.stopPropagation();
 
@@ -181,7 +188,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
 
       // Handle interaction with item (move)
       if (itemEl) {
-        const id = itemEl.getAttribute("data-item-id");
+        const id = itemEl.getAttribute('data-item-id');
         if (!id) return;
 
         const item = items.find((it) => it.id === id);
@@ -200,7 +207,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
         if (selectedId === id || selectedIds.includes(id)) {
           const startPt = toSvgPoint(e);
           handleRef.current = {
-            type: "pending-move",
+            type: 'pending-move',
             id,
             start: startPt,
             startState: { ...item },
@@ -210,7 +217,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
           onSetSelectedId(id);
           const startPt = toSvgPoint(e);
           handleRef.current = {
-            type: "pending-move",
+            type: 'pending-move',
             id,
             start: startPt,
             startState: { ...item },
@@ -256,21 +263,21 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
       const id = active.id;
 
       // Convert pending-move to move when actually moved
-      if (active.type === "pending-move" && active.start) {
+      if (active.type === 'pending-move' && active.start) {
         const dx = pt.x - active.start.x;
         const dy = pt.y - active.start.y;
         const dist = Math.hypot(dx, dy);
 
         // Only activate move mode if moved more than 3 pixels
         if (dist > 3) {
-          handleRef.current.type = "move";
-          onSetMode("move");
+          handleRef.current.type = 'move';
+          onSetMode('move');
         } else {
           return; // Don't move yet
         }
       }
 
-      if (active.type === "move" && active.start && active.startState) {
+      if (active.type === 'move' && active.start && active.startState) {
         const dx = pt.x - active.start.x;
         const dy = pt.y - active.start.y;
         const newX = active.startState.x + dx;
@@ -301,7 +308,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
               newX,
               newY,
               otherItems,
-              snapConfig,
+              snapConfig
             );
 
             // Update guides
@@ -318,7 +325,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
           }
         }
       } else if (
-        active.type === "scale" &&
+        active.type === 'scale' &&
         active.center &&
         active.startState &&
         active.startDist
@@ -358,7 +365,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
           });
         }
       } else if (
-        active.type === "rotate" &&
+        active.type === 'rotate' &&
         active.center &&
         active.startAngle !== undefined &&
         active.startState
@@ -441,7 +448,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
 
       if (handleRef.current.type) {
         handleRef.current = {};
-        onSetMode("none");
+        onSetMode('none');
         onSetActiveGuides([]); // Clear guides when done
 
         try {
@@ -455,7 +462,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
     const onPointerCancel = (e: PointerEvent) => {
       if (handleRef.current.type) {
         handleRef.current = {};
-        onSetMode("none");
+        onSetMode('none');
         onSetActiveGuides([]); // Clear guides when cancelled
 
         try {
@@ -482,18 +489,18 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
       onUpdateItem(selectedId, { scale: newScale });
     };
 
-    svg.addEventListener("pointerdown", onPointerDown);
-    svg.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", onPointerUp);
-    window.addEventListener("pointercancel", onPointerCancel);
+    svg.addEventListener('pointerdown', onPointerDown);
+    svg.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerCancel);
 
     return () => {
-      svg.removeEventListener("pointerdown", onPointerDown);
-      svg.removeEventListener("wheel", onWheel);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", onPointerUp);
-      window.removeEventListener("pointercancel", onPointerCancel);
+      svg.removeEventListener('pointerdown', onPointerDown);
+      svg.removeEventListener('wheel', onWheel);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerCancel);
     };
   }, [
     items,
@@ -510,6 +517,7 @@ export const useCanvasTransform = (config: UseCanvasTransformConfig) => {
     marqueeStart,
     marqueeEnd,
     snapConfig,
+    brushMode,
   ]);
 
   return {
@@ -534,7 +542,7 @@ export const useCanvasScale = (
   containerRef: RefObject<HTMLDivElement | null>,
   canvasWidth: number,
   canvasHeight: number,
-  zoomFactor: number = 1,
+  zoomFactor: number = 1
 ) => {
   const [scale, setScale] = useState(1);
 
@@ -558,8 +566,8 @@ export const useCanvasScale = (
     };
 
     updateScale();
-    window.addEventListener("resize", updateScale);
-    return () => window.removeEventListener("resize", updateScale);
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
   }, [canvasWidth, canvasHeight, containerRef, zoomFactor]);
 
   return scale;

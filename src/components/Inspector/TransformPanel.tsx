@@ -1,5 +1,5 @@
-import { memo } from "react";
-import type { KubitoItem } from "@/types";
+import { memo } from 'react';
+import type { KubitoItem } from '@/types';
 
 interface TransformPanelProps {
   item: KubitoItem;
@@ -117,8 +117,8 @@ export const TransformPanel = memo<TransformPanelProps>(
             onClick={() => onUpdate({ flipX: !item.flipX })}
             className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
               item.flipX
-                ? "bg-kubito-primary text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+                ? 'bg-kubito-primary text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
             }`}
           >
             Flip X
@@ -127,8 +127,8 @@ export const TransformPanel = memo<TransformPanelProps>(
             onClick={() => onUpdate({ flipY: !item.flipY })}
             className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
               item.flipY
-                ? "bg-kubito-primary text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+                ? 'bg-kubito-primary text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
             }`}
           >
             Flip Y
@@ -136,7 +136,7 @@ export const TransformPanel = memo<TransformPanelProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
-TransformPanel.displayName = "TransformPanel";
+TransformPanel.displayName = 'TransformPanel';

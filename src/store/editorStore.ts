@@ -12,14 +12,14 @@
  * All framework connection logic is in adapters/zustand/
  */
 
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { useShallow } from "zustand/react/shallow";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
 import {
   createInitialState,
   createEditorActions,
   type EditorStore,
-} from "@/adapters/zustand/EditorStoreAdapter";
+} from '@/adapters/zustand/EditorStoreAdapter';
 
 /**
  * Main Zustand store for the Kubito editor.
@@ -41,14 +41,14 @@ export const useEditorStore = create<EditorStore>()(
       ...createEditorActions(set, get),
     }),
     {
-      name: "kubito-editor-storage",
+      name: 'kubito-editor-storage',
       partialize: (state) => ({
         config: state.config,
         theme: state.theme,
         kubitoName: state.kubitoName,
       }),
-    },
-  ),
+    }
+  )
 );
 
 /**
@@ -68,7 +68,7 @@ export const useSelection = () =>
       selectedId: state.selectedId,
       selectedIds: state.selectedIds,
       mode: state.mode,
-    })),
+    }))
   );
 export const useSelectedId = () => useEditorStore((state) => state.selectedId);
 export const useSelectedIds = () =>
@@ -86,7 +86,7 @@ export const useGuides = () =>
       activeGuides: state.activeGuides,
       userGuides: state.userGuides,
       showRulers: state.showRulers,
-    })),
+    }))
   );
 
 export const useSnapConfig = () => useEditorStore((state) => state.snapConfig);
@@ -99,7 +99,7 @@ export const useHistory = () =>
       historyIndex: state.historyIndex,
       canUndo: state.historyIndex > 0,
       canRedo: state.historyIndex < state.history.length - 1,
-    })),
+    }))
   );
 
 // Config selectors
@@ -111,11 +111,20 @@ export const useCanvasSize = () =>
     useShallow((state) => ({
       width: state.config.canvasWidth,
       height: state.config.canvasHeight,
-    })),
+    }))
   );
 
 // View selectors
 export const useCanvasZoom = () => useEditorStore((state) => state.canvasZoom);
+
+// Brush selectors
+export const useBrushMode = () => useEditorStore((state) => state.brushMode);
+export const useBrushSettings = () =>
+  useEditorStore((state) => state.brushSettings);
+export const useBrushStrokes = () =>
+  useEditorStore((state) => state.brushStrokes);
+export const useCurrentStroke = () =>
+  useEditorStore((state) => state.currentStroke);
 
 // Action selectors (for callbacks) - OPTIMIZED with useShallow
 export const useEditorActions = () =>
@@ -175,9 +184,20 @@ export const useEditorActions = () =>
       zoomOut: state.zoomOut,
       resetZoom: state.resetZoom,
 
+      // Brush
+      setBrushMode: state.setBrushMode,
+      updateBrushSettings: state.updateBrushSettings,
+      startStroke: state.startStroke,
+      addPointToStroke: state.addPointToStroke,
+      finishStroke: state.finishStroke,
+      removeStroke: state.removeStroke,
+      clearAllStrokes: state.clearAllStrokes,
+      toggleStrokeVisibility: state.toggleStrokeVisibility,
+      toggleStrokeLock: state.toggleStrokeLock,
+
       // Utility
       clearAll: state.clearAll,
       loadProject: state.loadProject,
       importKubito: state.importKubito,
-    })),
+    }))
   ); // ✅ CRITICAL: useShallow prevents re-renders when functions don't change

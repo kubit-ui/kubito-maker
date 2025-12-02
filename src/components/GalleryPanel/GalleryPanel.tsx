@@ -79,8 +79,8 @@ export function GalleryPanel() {
               transition-all duration-200
               ${
                 selectedItem === item.id
-                  ? "cursor-wait border-kubito-primary opacity-50"
-                  : "cursor-pointer border-gray-200 hover:border-gray-300"
+                  ? 'cursor-wait border-kubito-primary opacity-50'
+                  : 'cursor-pointer border-gray-200 hover:border-gray-300'
               }
             `}
             title={item.description}

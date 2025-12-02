@@ -10,8 +10,11 @@ import type {
   EditorTheme,
   HistoryState,
   TransformMode,
-} from "@/types";
-import type { Guide, SnapConfig } from "@/utils/smartGuides";
+  BrushSettings,
+  BrushStroke,
+  BrushMode,
+} from '@/types';
+import type { Guide, SnapConfig } from '@/utils/smartGuides';
 
 /**
  * State interface for managing canvas items
@@ -50,7 +53,7 @@ export interface GuidesState {
   /** User-created guide lines */
   userGuides: Array<{
     id: string;
-    type: "horizontal" | "vertical";
+    type: 'horizontal' | 'vertical';
     position: number;
   }>;
   /** Shows/hides rulers */
@@ -90,6 +93,20 @@ export interface ViewState {
 }
 
 /**
+ * State interface for managing brush drawing tool
+ */
+export interface BrushState {
+  /** Current brush mode (brush, eraser, or none) */
+  brushMode: BrushMode;
+  /** Current brush settings */
+  brushSettings: BrushSettings;
+  /** All brush strokes drawn on the canvas */
+  brushStrokes: BrushStroke[];
+  /** Currently active stroke being drawn (null when not drawing) */
+  currentStroke: BrushStroke | null;
+}
+
+/**
  * Combined editor state
  * This is the complete state interface that combines all state slices
  */
@@ -101,4 +118,5 @@ export interface CombinedEditorState
     GuidesState,
     HistoryStateContainer,
     ConfigState,
-    ViewState {}
+    ViewState,
+    BrushState {}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -8,16 +8,16 @@ import {
   useSensors,
   type DragEndEvent,
   type DragStartEvent,
-} from "@dnd-kit/core";
-import { Canvas } from "./components/Canvas";
-import { Toolbar } from "./components/Toolbar";
-import { UnifiedSidebar } from "./components/UnifiedSidebar";
-import { Inspector } from "./components/Inspector";
-import { useEditorStore } from "./store/editorStore";
-import { useKeyboardShortcuts } from "./hooks";
-import { AssetRenderer } from "./components/AssetRenderer";
-import type { Asset, AssetCategory } from "./types";
-import { useState } from "react";
+} from '@dnd-kit/core';
+import { Canvas } from './components/Canvas';
+import { Toolbar } from './components/Toolbar';
+import { UnifiedSidebar } from './components/UnifiedSidebar';
+import { Inspector } from './components/Inspector';
+import { useEditorStore } from './store/editorStore';
+import { useKeyboardShortcuts } from './hooks';
+import { AssetRenderer } from './components/AssetRenderer';
+import type { Asset, AssetCategory } from './types';
+import { useState } from 'react';
 
 export default function KubitoEditor() {
   // Drag and drop state
@@ -38,7 +38,7 @@ export default function KubitoEditor() {
         delay: 200, // 200ms delay before touch drag starts
         tolerance: 8,
       },
-    }),
+    })
   );
 
   // Store actions
@@ -96,10 +96,10 @@ export default function KubitoEditor() {
         if (!item || item.locked) return;
 
         const updates: { x?: number; y?: number } = {};
-        if (direction === "left") updates.x = item.x - step;
-        else if (direction === "right") updates.x = item.x + step;
-        else if (direction === "up") updates.y = item.y - step;
-        else if (direction === "down") updates.y = item.y + step;
+        if (direction === 'left') updates.x = item.x - step;
+        else if (direction === 'right') updates.x = item.x + step;
+        else if (direction === 'up') updates.y = item.y - step;
+        else if (direction === 'down') updates.y = item.y + step;
 
         if (Object.keys(updates).length > 0) {
           updateItem(id, updates);
@@ -136,23 +136,23 @@ export default function KubitoEditor() {
       };
 
       try {
-        localStorage.setItem("kubito-autosave", JSON.stringify(dataToSave));
+        localStorage.setItem('kubito-autosave', JSON.stringify(dataToSave));
         // Auto-saved successfully
       } catch (error) {
-        console.error("Auto-save failed:", error);
+        console.error('Auto-save failed:', error);
       }
     }, 30000); // Every 30 seconds
 
     // Load auto-save on mount
     try {
-      const saved = localStorage.getItem("kubito-autosave");
+      const saved = localStorage.getItem('kubito-autosave');
       if (saved) {
         const data = JSON.parse(saved) as { timestamp: number };
         // Auto-save loaded successfully
         void data.timestamp; // Use the timestamp to avoid unused variable warning
       }
     } catch (error) {
-      console.error("Failed to load auto-save:", error);
+      console.error('Failed to load auto-save:', error);
     }
 
     return () => clearInterval(autoSaveInterval);
@@ -194,8 +194,8 @@ export default function KubitoEditor() {
             className="opacity-95 cursor-grabbing w-24 h-24 pointer-events-none"
             style={{
               animation:
-                "drag-physics 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, wobble 2s ease-in-out infinite",
-              filter: "drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3))",
+                'drag-physics 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, wobble 2s ease-in-out infinite',
+              filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3))',
             }}
           >
             <svg

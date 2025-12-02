@@ -19,6 +19,9 @@ import {
   useGuides,
   useEditorActions,
   useCanvasZoom,
+  useBrushMode,
+  useBrushStrokes,
+  useCurrentStroke,
 } from '@/store/editorStore';
 import {
   useCanvasDragAndDrop,
@@ -33,6 +36,7 @@ import {
   CanvasMarquee,
   ZoomControls,
 } from '.';
+import { CanvasBrushStrokes } from './CanvasBrushStrokes';
 import { ContextMenu, type ContextMenuItem } from '../ContextMenu';
 
 interface CanvasProps {
@@ -60,6 +64,12 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   const { activeGuides } = useGuides();
   const canvasZoom = useCanvasZoom();
 
+  // Brush state
+  const brushMode = useBrushMode();
+  const brushStrokes = useBrushStrokes();
+  const currentStroke = useCurrentStroke();
+  const isDrawing = useRef(false);
+
   // Store actions - Using new actions hook
   const {
     setSelectedId,
@@ -77,7 +87,14 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     moveItemToBottom,
     moveItemUp,
     moveItemDown,
+    startStroke,
+    addPointToStroke,
+    finishStroke,
+    removeStroke,
   } = useEditorActions();
+
+  // DEBUG: Log brushMode value
+  console.warn('🔍 Canvas render - brushMode:', brushMode);
 
   // Custom hooks
   const { toSvgPoint, onCanvasDragOver, onCanvasDrop } = useCanvasDragAndDrop({
@@ -203,6 +220,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     onUpdateItem: updateItem,
     onSetMode: setMode,
     onSetActiveGuides: setActiveGuides,
+    brushMode, // Pasar el modo de pincel para desactivar transformaciones
   });
 
   const scale = useCanvasScale(
@@ -319,6 +337,100 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       ]
     : [];
 
+  // Brush drawing with addEventListener for capture phase
+  useEffect(() => {
+    console.warn('Brush effect running. brushMode:', brushMode);
+
+    if (brushMode === 'none') {
+      console.warn('Brush mode is none, skipping listeners');
+      return;
+    }
+
+    const svg = svgRef.current;
+    if (!svg) {
+      console.error('SVG ref is null!');
+      return;
+    }
+
+    console.warn('Adding brush listeners to SVG');
+
+    // Usar addEventListener para tener control total sobre los eventos
+    const handlePointerDown = (e: PointerEvent) => {
+      console.warn('🎨 Brush pointer down (capture)', brushMode, e);
+
+      // Modo borrador: detectar si se hizo click en un trazo
+      if (brushMode === 'eraser') {
+        const target = e.target as Element;
+        const strokeId = target.getAttribute('data-stroke-id');
+
+        if (strokeId) {
+          console.warn('🗑️ Erasing stroke:', strokeId);
+          removeStroke(strokeId);
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+      }
+
+      // Modo dibujo normal
+      if (brushMode === 'brush') {
+        const point = toSvgPoint(e);
+        console.warn('Point from toSvgPoint:', point);
+        if (!point) {
+          console.error('toSvgPoint returned null!');
+          return;
+        }
+
+        console.warn('Starting stroke at', point);
+
+        isDrawing.current = true;
+        startStroke({ x: point.x, y: point.y });
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (brushMode !== 'brush' || !isDrawing.current) return;
+
+      const point = toSvgPoint(e);
+      if (!point) return;
+
+      console.warn('Adding point', point);
+      addPointToStroke({ x: point.x, y: point.y });
+      e.preventDefault();
+    };
+
+    const handlePointerUp = () => {
+      if (brushMode !== 'brush' || !isDrawing.current) return;
+
+      console.warn('Finishing stroke');
+      isDrawing.current = false;
+      finishStroke();
+    };
+
+    // Usar capture phase (true) para capturar eventos ANTES que el hook useCanvasTransform
+    svg.addEventListener('pointerdown', handlePointerDown, true);
+    svg.addEventListener('pointermove', handlePointerMove, true);
+    document.addEventListener('pointerup', handlePointerUp, true);
+
+    console.warn('✅ Brush listeners added successfully');
+
+    return () => {
+      console.warn('Removing brush listeners');
+      svg.removeEventListener('pointerdown', handlePointerDown, true);
+      svg.removeEventListener('pointermove', handlePointerMove, true);
+      document.removeEventListener('pointerup', handlePointerUp, true);
+    };
+  }, [
+    brushMode,
+    toSvgPoint,
+    startStroke,
+    addPointToStroke,
+    finishStroke,
+    removeStroke,
+  ]);
+
   return (
     <>
       <div
@@ -345,8 +457,22 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
           height={canvasHeight * scale}
           viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
           className="bg-white shadow-lg"
-          style={{ touchAction: 'none' }}
+          style={{
+            touchAction: 'none',
+            cursor:
+              brushMode === 'eraser'
+                ? 'not-allowed'
+                : brushMode !== 'none'
+                  ? 'crosshair'
+                  : 'default',
+          }}
           onContextMenu={(e) => {
+            // Desactivar menú contextual en modo pincel
+            if (brushMode !== 'none') {
+              e.preventDefault();
+              return;
+            }
+
             e.preventDefault();
             // Check if clicked on an item
             const target = e.target as SVGElement;
@@ -400,17 +526,28 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
                 key={item.id}
                 item={item}
                 isSelected={
-                  selectedId === item.id || selectedIds.includes(item.id)
+                  brushMode === 'none' &&
+                  (selectedId === item.id || selectedIds.includes(item.id))
                 }
                 selectedId={selectedId}
               />
             ))}
 
-          {/* Multi-selection bounding box */}
-          <CanvasMultiSelection items={items} selectedIds={selectedIds} />
+          {/* Brush strokes layer */}
+          <CanvasBrushStrokes
+            strokes={brushStrokes}
+            currentStroke={currentStroke}
+          />
 
-          {/* Marquee selection - visual feedback while dragging */}
-          {marquee && <CanvasMarquee start={marquee.start} end={marquee.end} />}
+          {/* Multi-selection bounding box - oculto en modo pincel */}
+          {brushMode === 'none' && (
+            <CanvasMultiSelection items={items} selectedIds={selectedIds} />
+          )}
+
+          {/* Marquee selection - visual feedback while dragging - oculto en modo pincel */}
+          {brushMode === 'none' && marquee && (
+            <CanvasMarquee start={marquee.start} end={marquee.end} />
+          )}
 
           {/* Smart alignment guides */}
           <CanvasGuides

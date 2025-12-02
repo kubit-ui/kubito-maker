@@ -1,6 +1,6 @@
-import { memo } from "react";
-import { useSelectedBodyId, useEditorActions } from "@/store/editorStore";
-import { bodies } from "@/data";
+import { memo } from 'react';
+import { useSelectedBodyId, useEditorActions } from '@/store/editorStore';
+import { bodies } from '@/data';
 
 export const BodySelector = memo(() => {
   const selectedBodyId = useSelectedBodyId();
@@ -22,8 +22,8 @@ export const BodySelector = memo(() => {
                   px-4 py-2 rounded-md text-sm font-medium transition-all
                   ${
                     selectedBodyId === body.id
-                      ? "bg-kubito-primary text-white shadow-md"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                      ? 'bg-kubito-primary text-white shadow-md'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }
                 `}
                 title={body.name}
@@ -38,4 +38,4 @@ export const BodySelector = memo(() => {
   );
 });
 
-BodySelector.displayName = "BodySelector";
+BodySelector.displayName = 'BodySelector';

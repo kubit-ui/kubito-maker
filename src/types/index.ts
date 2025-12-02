@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 
 /**
  * Available asset categories for organizing and filtering Kubito editor elements.
@@ -17,13 +17,13 @@ import { ReactElement } from "react";
  * ```
  */
 export type AssetCategory =
-  | "Eyes"
-  | "Mouths"
-  | "Noses"
-  | "Hairs"
-  | "Accessories"
-  | "Backgrounds"
-  | "Bodies";
+  | 'Eyes'
+  | 'Mouths'
+  | 'Noses'
+  | 'Hairs'
+  | 'Accessories'
+  | 'Backgrounds'
+  | 'Bodies';
 
 /**
  * Represents a pre-made design that can be loaded from the gallery.
@@ -431,12 +431,12 @@ export interface HistoryState {
  * - `scale`: Scale items
  * - `rotate`: Rotate items
  */
-export type TransformMode = "none" | "move" | "scale" | "rotate";
+export type TransformMode = 'none' | 'move' | 'scale' | 'rotate';
 
 /**
  * Supported export file formats.
  */
-export type ExportFormat = "svg" | "png" | "jpeg" | "webp";
+export type ExportFormat = 'svg' | 'png' | 'jpeg' | 'webp';
 
 /**
  * Options for exporting canvas content.
@@ -463,11 +463,11 @@ export interface ExportOptions {
  */
 export const DEFAULT_EFFECTS: VisualEffects = {
   opacity: 1,
-  color: "#000000",
+  color: '#000000',
   shadowBlur: 0,
   shadowOffsetX: 0,
   shadowOffsetY: 0,
-  shadowColor: "#000000",
+  shadowColor: '#000000',
   shadowOpacity: 0.3,
   blur: 0,
   brightness: 1,
@@ -486,4 +486,86 @@ export const DEFAULT_TRANSFORM: Transform = {
   rotate: 0,
   flipX: false,
   flipY: false,
+};
+
+// ==================== BRUSH SYSTEM ====================
+
+/**
+ * Types of brush tips available for drawing.
+ */
+export type BrushType =
+  | 'round'
+  | 'square'
+  | 'marker'
+  | 'pencil'
+  | 'calligraphy';
+
+/**
+ * Drawing tool modes.
+ * - `brush`: Standard drawing mode
+ * - `eraser`: Erases existing strokes
+ * - `none`: No drawing tool active
+ */
+export type BrushMode = 'brush' | 'eraser' | 'none';
+
+/**
+ * A single point in a brush stroke.
+ */
+export interface BrushPoint {
+  /** X coordinate relative to canvas */
+  x: number;
+  /** Y coordinate relative to canvas */
+  y: number;
+  /** Pressure value (0-1) for pressure-sensitive devices */
+  pressure?: number;
+}
+
+/**
+ * Configuration for brush drawing tool.
+ */
+export interface BrushSettings {
+  /** Type of brush tip */
+  type: BrushType;
+  /** Brush size/thickness in pixels */
+  size: number;
+  /** Brush color (CSS color string) */
+  color: string;
+  /** Opacity (0 = transparent, 1 = opaque) */
+  opacity: number;
+  /** Smoothing factor for stroke rendering (0 = no smoothing, 1 = maximum) */
+  smoothing: number;
+  /** Whether to use pressure sensitivity (if available) */
+  pressureSensitive: boolean;
+}
+
+/**
+ * A complete brush stroke drawn on the canvas.
+ */
+export interface BrushStroke {
+  /** Unique identifier for the stroke */
+  id: string;
+  /** Array of points forming the stroke path */
+  points: BrushPoint[];
+  /** Settings used when drawing this stroke */
+  settings: BrushSettings;
+  /** Z-index for layer ordering */
+  z: number;
+  /** When true, stroke cannot be edited or deleted */
+  locked: boolean;
+  /** Controls visibility on canvas */
+  visible: boolean;
+  /** Timestamp when stroke was created */
+  createdAt: number;
+}
+
+/**
+ * Default brush settings for new strokes.
+ */
+export const DEFAULT_BRUSH_SETTINGS: BrushSettings = {
+  type: 'round',
+  size: 5,
+  color: '#000000',
+  opacity: 1,
+  smoothing: 0.5,
+  pressureSensitive: false,
 };

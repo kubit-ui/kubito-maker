@@ -122,8 +122,8 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
                       transition-all duration-200
                       ${
                         selectedItem === item.id
-                          ? "cursor-wait border-kubito-primary opacity-50"
-                          : "cursor-pointer border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+                          ? 'cursor-wait border-kubito-primary opacity-50'
+                          : 'cursor-pointer border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                       }
                     `}
                     title={item.description}

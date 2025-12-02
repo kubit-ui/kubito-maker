@@ -16,7 +16,12 @@ import type {
   EditorTheme,
   TransformMode,
   KubitoFile,
+  BrushSettings,
+  BrushStroke,
+  BrushMode,
+  BrushPoint,
 } from '@/types';
+import { DEFAULT_BRUSH_SETTINGS } from '@/types';
 import type { Guide, SnapConfig } from '@/utils/smartGuides';
 import { DEFAULT_SNAP_CONFIG } from '@/utils/smartGuides';
 import type { CombinedEditorState } from '@/domain/models/EditorStates';
@@ -94,6 +99,17 @@ export interface EditorActions {
   zoomOut: () => void;
   resetZoom: () => void;
 
+  // Brush
+  setBrushMode: (mode: BrushMode) => void;
+  updateBrushSettings: (updates: Partial<BrushSettings>) => void;
+  startStroke: (point: BrushPoint) => void;
+  addPointToStroke: (point: BrushPoint) => void;
+  finishStroke: () => void;
+  removeStroke: (id: string) => void;
+  clearAllStrokes: () => void;
+  toggleStrokeVisibility: (id: string) => void;
+  toggleStrokeLock: (id: string) => void;
+
   // Utility
   clearAll: () => void;
   loadProject: (items: KubitoItem[], config?: Partial<EditorConfig>) => void;
@@ -156,6 +172,12 @@ export function createInitialState(
 
     // View
     canvasZoom: 1,
+
+    // Brush
+    brushMode: 'none',
+    brushSettings: DEFAULT_BRUSH_SETTINGS,
+    brushStrokes: [],
+    currentStroke: null,
   };
 }
 
@@ -599,6 +621,94 @@ export function createEditorActions(
 
     resetZoom: () => {
       set({ canvasZoom: 1 });
+    },
+
+    // Brush
+    setBrushMode: (mode: BrushMode) => {
+      console.warn('🎯 setBrushMode called in store with mode:', mode);
+      set({ brushMode: mode });
+      console.warn('🎯 State updated. New brushMode:', get().brushMode);
+      // Deseleccionar items cuando se activa el modo brush
+      if (mode !== 'none') {
+        get().deselectAll();
+      }
+    },
+
+    updateBrushSettings: (updates: Partial<BrushSettings>) => {
+      set((state) => ({
+        brushSettings: { ...state.brushSettings, ...updates },
+      }));
+    },
+
+    startStroke: (point: BrushPoint) => {
+      const state = get();
+      const newStroke: BrushStroke = {
+        id: `stroke-${Date.now()}-${Math.random()}`,
+        points: [point],
+        settings: { ...state.brushSettings },
+        z: state.brushStrokes.length,
+        locked: false,
+        visible: true,
+        createdAt: Date.now(),
+      };
+      set({ currentStroke: newStroke });
+    },
+
+    addPointToStroke: (point: BrushPoint) => {
+      set((state) => {
+        if (!state.currentStroke) return state;
+        return {
+          currentStroke: {
+            ...state.currentStroke,
+            points: [...state.currentStroke.points, point],
+          },
+        };
+      });
+    },
+
+    finishStroke: () => {
+      set((state) => {
+        if (!state.currentStroke) return state;
+
+        // Solo añadir el trazo si tiene al menos 2 puntos
+        if (state.currentStroke.points.length < 2) {
+          return { currentStroke: null };
+        }
+
+        return {
+          brushStrokes: [...state.brushStrokes, state.currentStroke],
+          currentStroke: null,
+        };
+      });
+      get().addToHistory();
+    },
+
+    removeStroke: (id: string) => {
+      set((state) => ({
+        brushStrokes: state.brushStrokes.filter((stroke) => stroke.id !== id),
+      }));
+      get().addToHistory();
+    },
+
+    clearAllStrokes: () => {
+      set({ brushStrokes: [], currentStroke: null });
+      get().addToHistory();
+    },
+
+    toggleStrokeVisibility: (id: string) => {
+      set((state) => ({
+        brushStrokes: state.brushStrokes.map((stroke) =>
+          stroke.id === id ? { ...stroke, visible: !stroke.visible } : stroke
+        ),
+      }));
+    },
+
+    toggleStrokeLock: (id: string) => {
+      set((state) => ({
+        brushStrokes: state.brushStrokes.map((stroke) =>
+          stroke.id === id ? { ...stroke, locked: !stroke.locked } : stroke
+        ),
+      }));
     },
 
     // Utility
