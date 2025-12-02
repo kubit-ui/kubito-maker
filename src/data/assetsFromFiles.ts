@@ -129,6 +129,12 @@ export const EYES_DEFINITIONS: AssetDefinition[] = [
     category: 'Eyes',
     file: 'eyes-1_alone.svg',
   },
+  {
+    id: 'big-eye',
+    name: 'Big Eye',
+    category: 'Eyes',
+    file: 'big_eye.svg',
+  },
 ];
 
 /**

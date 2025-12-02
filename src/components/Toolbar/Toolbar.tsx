@@ -1,15 +1,15 @@
-import { memo, useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { FileText, Image, Briefcase } from "lucide-react";
+import { memo, useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { FileText, Image, Briefcase } from 'lucide-react';
 import {
   useItems,
   useConfig,
   useKubitoName,
   useEditorActions,
-} from "@/store/editorStore";
-import { TipsModal } from "../TipsModal";
-import { GalleryModal } from "../GalleryModal";
-import { CanvasSizeSelector } from "../CanvasSizeSelector";
+} from '@/store/editorStore';
+import { TipsModal } from '../TipsModal';
+import { GalleryModal } from '../GalleryModal';
+import { CanvasSizeSelector } from '../CanvasSizeSelector';
 import {
   exportSVG,
   exportPNG,
@@ -17,8 +17,8 @@ import {
   exportWebP,
   exportProject,
   importProject,
-} from "@/utils/export";
-import { ExportService } from "@/domain";
+} from '@/utils/export';
+import { ExportService } from '@/domain';
 
 export const Toolbar = memo(() => {
   const [showExportMenu, setShowExportMenu] = useState(false);
@@ -39,7 +39,7 @@ export const Toolbar = memo(() => {
     // Small delay to ensure UI updates before export
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+    const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
     if (!svg) return;
 
     // Generate filename with kubito name
@@ -55,25 +55,25 @@ export const Toolbar = memo(() => {
     // Small delay to ensure UI updates before export
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+    const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
     if (!svg) return;
 
     // Check if there's a background item
-    const hasBackground = items.some((item) => item.category === "Backgrounds");
+    const hasBackground = items.some((item) => item.category === 'Backgrounds');
 
     // Create options for export
     const options = ExportService.createDefaultOptions(
       config.canvasWidth,
-      config.canvasHeight,
+      config.canvasHeight
     );
-    options.format = "png";
+    options.format = 'png';
     // Set transparent background if no background item exists
     options.transparentBackground = !hasBackground;
 
     // Validate options
     const validation = ExportService.validateOptions(options);
     if (!validation.valid) {
-      alert(`Export error: ${validation.errors.join(", ")}`);
+      alert(`Export error: ${validation.errors.join(', ')}`);
       return;
     }
 
@@ -89,21 +89,21 @@ export const Toolbar = memo(() => {
     // Small delay to ensure UI updates before export
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+    const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
     if (!svg) return;
 
     // Create options for export
     const options = ExportService.createDefaultOptions(
       config.canvasWidth,
-      config.canvasHeight,
+      config.canvasHeight
     );
-    options.format = "jpeg";
+    options.format = 'jpeg';
     options.quality = 0.98; // High quality JPEG (0-1 range)
 
     // Validate options
     const validation = ExportService.validateOptions(options);
     if (!validation.valid) {
-      alert(`Export error: ${validation.errors.join(", ")}`);
+      alert(`Export error: ${validation.errors.join(', ')}`);
       return;
     }
 
@@ -119,18 +119,18 @@ export const Toolbar = memo(() => {
     // Small delay to ensure UI updates before export
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+    const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
     if (!svg) return;
 
     // Check if there's a background item
-    const hasBackground = items.some((item) => item.category === "Backgrounds");
+    const hasBackground = items.some((item) => item.category === 'Backgrounds');
 
     // Create options for export
     const options = ExportService.createDefaultOptions(
       config.canvasWidth,
-      config.canvasHeight,
+      config.canvasHeight
     );
-    options.format = "webp";
+    options.format = 'webp';
     options.quality = 0.95; // High quality WebP (0-1 range)
     // Set transparent background if no background item exists
     options.transparentBackground = !hasBackground;
@@ -138,7 +138,7 @@ export const Toolbar = memo(() => {
     // Validate options
     const validation = ExportService.validateOptions(options);
     if (!validation.valid) {
-      alert(`Export error: ${validation.errors.join(", ")}`);
+      alert(`Export error: ${validation.errors.join(', ')}`);
       return;
     }
 
@@ -153,7 +153,7 @@ export const Toolbar = memo(() => {
   };
 
   const handleImportProject = async (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -162,11 +162,11 @@ export const Toolbar = memo(() => {
       const projectItems = await importProject(file);
       loadProject(projectItems);
     } catch (error) {
-      alert("Failed to load project: " + (error as Error).message);
+      alert('Failed to load project: ' + (error as Error).message);
     }
 
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = '';
     }
   };
 
@@ -188,7 +188,7 @@ export const Toolbar = memo(() => {
   };
 
   const handleImportProjectChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     void handleImportProject(e);
   };
@@ -322,7 +322,7 @@ export const Toolbar = memo(() => {
       <div className="relative group">
         <button
           onClick={() => {
-            if (confirm("Clear all items?")) clearAll();
+            if (confirm('Clear all items?')) clearAll();
           }}
           className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         >
@@ -459,4 +459,4 @@ export const Toolbar = memo(() => {
   );
 });
 
-Toolbar.displayName = "Toolbar";
+Toolbar.displayName = 'Toolbar';
