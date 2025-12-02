@@ -58,12 +58,17 @@ export const Toolbar = memo(() => {
     const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
     if (!svg) return;
 
+    // Check if there's a background item
+    const hasBackground = items.some((item) => item.category === "Backgrounds");
+
     // Create options for export
     const options = ExportService.createDefaultOptions(
       config.canvasWidth,
       config.canvasHeight,
     );
     options.format = "png";
+    // Set transparent background if no background item exists
+    options.transparentBackground = !hasBackground;
 
     // Validate options
     const validation = ExportService.validateOptions(options);
@@ -117,6 +122,9 @@ export const Toolbar = memo(() => {
     const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
     if (!svg) return;
 
+    // Check if there's a background item
+    const hasBackground = items.some((item) => item.category === "Backgrounds");
+
     // Create options for export
     const options = ExportService.createDefaultOptions(
       config.canvasWidth,
@@ -124,6 +132,8 @@ export const Toolbar = memo(() => {
     );
     options.format = "webp";
     options.quality = 0.95; // High quality WebP (0-1 range)
+    // Set transparent background if no background item exists
+    options.transparentBackground = !hasBackground;
 
     // Validate options
     const validation = ExportService.validateOptions(options);
