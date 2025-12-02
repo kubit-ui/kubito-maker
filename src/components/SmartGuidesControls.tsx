@@ -40,14 +40,14 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
       <div className="rounded-lg border border-gray-300 bg-white p-4 shadow-lg dark:border-gray-600 dark:bg-gray-800">
         <div className="mb-3 flex items-center gap-2">
           <Settings className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-          <h3 className="font-semibold">Guías Inteligentes</h3>
+          <h3 className="font-semibold">Smart Guides</h3>
         </div>
 
         {/* Main toggle */}
         <div className="mb-4 flex items-center justify-between">
           <label className="flex items-center gap-2 text-sm">
             <Crosshair className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-            <span>Habilitar snap</span>
+            <span>Enable snapping</span>
           </label>
           <input
             type="checkbox"
@@ -62,13 +62,13 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
             {/* Snap options */}
             <div className="mb-4 space-y-2 border-t border-gray-200 pt-3 dark:border-gray-700">
               <h4 className="text-xs font-semibold uppercase text-gray-600 dark:text-gray-400">
-                Snap a:
+                Snap to:
               </h4>
 
               <label className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-2">
                   <Grid3x3 className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-                  Bordes y centros
+                  Edges and centers
                 </span>
                 <input
                   type="checkbox"
@@ -86,7 +86,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
               <label className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-2">
                   <RotateCw className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-                  Ángulos magnéticos
+                  Magnetic angles
                 </span>
                 <input
                   type="checkbox"
@@ -101,7 +101,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
               <label className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-2">
                   <Move className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-                  Espaciado inteligente
+                  Smart spacing
                 </span>
                 <input
                   type="checkbox"
@@ -117,13 +117,13 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
             {/* Measurement options */}
             <div className="mb-4 space-y-2 border-t border-gray-200 pt-3 dark:border-gray-700">
               <h4 className="text-xs font-semibold uppercase text-gray-600 dark:text-gray-400">
-                Mostrar medidas:
+                Show measurements:
               </h4>
 
               <label className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-2">
                   <Ruler className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-                  Distancias
+                  Distances
                 </span>
                 <input
                   type="checkbox"
@@ -140,7 +140,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
               <label className="flex items-center justify-between text-sm">
                 <span className="flex items-center gap-2">
                   <Triangle className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-                  Ángulos
+                  Angles
                 </span>
                 <input
                   type="checkbox"
@@ -157,7 +157,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
             <div className="mb-4 space-y-3 border-t border-gray-200 pt-3 dark:border-gray-700">
               <div>
                 <label className="mb-1 block text-xs text-gray-600 dark:text-gray-400">
-                  Umbral de snap: {config.snapThreshold}px
+                  Snap threshold: {config.snapThreshold}px
                 </label>
                 <input
                   type="range"
@@ -174,7 +174,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
               {config.snapToAngles && (
                 <div>
                   <label className="mb-1 block text-xs text-gray-600 dark:text-gray-400">
-                    Umbral de ángulo: {config.angleSnapThreshold}°
+                    Angle threshold: {config.angleSnapThreshold}°
                   </label>
                   <input
                     type="range"
@@ -222,7 +222,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
         {(onDistributeHorizontal || onDistributeVertical) && (
           <div className="space-y-2 border-t border-gray-200 pt-3 dark:border-gray-700">
             <h4 className="text-xs font-semibold uppercase text-gray-600 dark:text-gray-400">
-              Distribuir selección:
+              Distribute selection:
             </h4>
 
             {onDistributeHorizontal && (

@@ -1,6 +1,6 @@
-import { memo } from "react";
-import { ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
-import { useCanvasZoom, useEditorActions } from "@/store/editorStore";
+import { memo } from 'react';
+import { ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
+import { useCanvasZoom, useEditorActions } from '@/store/editorStore';
 
 export const ZoomControls = memo(() => {
   const canvasZoom = useCanvasZoom();
@@ -14,8 +14,8 @@ export const ZoomControls = memo(() => {
         onClick={zoomOut}
         className="rounded p-1.5 transition-colors hover:bg-gray-100 disabled:opacity-50 dark:hover:bg-gray-700"
         disabled={canvasZoom <= 0.1}
-        title="Reducir zoom (10%)"
-        aria-label="Reducir zoom"
+        title="Zoom out (10%)"
+        aria-label="Zoom out"
       >
         <ZoomOut className="h-4 w-4" />
       </button>
@@ -23,8 +23,8 @@ export const ZoomControls = memo(() => {
       <button
         onClick={resetZoom}
         className="min-w-[60px] rounded px-2 py-1.5 text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
-        title="Restablecer zoom (100%)"
-        aria-label="Restablecer zoom"
+        title="Reset zoom (100%)"
+        aria-label="Reset zoom"
       >
         <div className="flex items-center gap-1">
           <Maximize2 className="h-3 w-3" />
@@ -36,8 +36,8 @@ export const ZoomControls = memo(() => {
         onClick={zoomIn}
         className="rounded p-1.5 transition-colors hover:bg-gray-100 disabled:opacity-50 dark:hover:bg-gray-700"
         disabled={canvasZoom >= 5}
-        title="Aumentar zoom (10%)"
-        aria-label="Aumentar zoom"
+        title="Zoom in (10%)"
+        aria-label="Zoom in"
       >
         <ZoomIn className="h-4 w-4" />
       </button>
@@ -45,4 +45,4 @@ export const ZoomControls = memo(() => {
   );
 });
 
-ZoomControls.displayName = "ZoomControls";
+ZoomControls.displayName = 'ZoomControls';

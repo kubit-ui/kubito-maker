@@ -259,14 +259,14 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     ? [
         {
           id: 'copy',
-          label: 'Copiar',
+          label: 'Copy',
           icon: <Copy className="h-4 w-4" />,
           shortcut: 'Cmd+C',
           onClick: () => copyItem(contextMenu.itemId!),
         },
         {
           id: 'paste',
-          label: 'Pegar',
+          label: 'Paste',
           icon: <FileText className="h-4 w-4" />,
           shortcut: 'Cmd+V',
           onClick: () => pasteItem(),

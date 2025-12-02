@@ -9,17 +9,17 @@
  * - React components consume through hooks
  */
 
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 import type {
   KubitoItem,
   EditorConfig,
   EditorTheme,
   TransformMode,
   KubitoFile,
-} from "@/types";
-import type { Guide, SnapConfig } from "@/utils/smartGuides";
-import { DEFAULT_SNAP_CONFIG } from "@/utils/smartGuides";
-import type { CombinedEditorState } from "@/domain/models/EditorStates";
+} from '@/types';
+import type { Guide, SnapConfig } from '@/utils/smartGuides';
+import { DEFAULT_SNAP_CONFIG } from '@/utils/smartGuides';
+import type { CombinedEditorState } from '@/domain/models/EditorStates';
 import {
   ItemService,
   HistoryService,
@@ -28,7 +28,7 @@ import {
   GuidesManager,
   ConfigManager,
   type AlignmentType,
-} from "@/domain";
+} from '@/domain';
 
 /**
  * Actions interface for editor state mutations
@@ -42,7 +42,7 @@ export interface EditorActions {
   setActiveGuides: (guides: Guide[]) => void;
 
   // User Guides
-  addGuide: (type: "horizontal" | "vertical", position: number) => void;
+  addGuide: (type: 'horizontal' | 'vertical', position: number) => void;
   removeGuide: (id: string) => void;
   moveGuide: (id: string, position: number) => void;
   toggleRulers: () => void;
@@ -50,7 +50,7 @@ export interface EditorActions {
 
   // Item CRUD
   addItem: (
-    item: Omit<KubitoItem, "id" | "z" | "locked" | "visible" | "effects">,
+    item: Omit<KubitoItem, 'id' | 'z' | 'locked' | 'visible' | 'effects'>
   ) => void;
   updateItem: (id: string, updates: Partial<KubitoItem>) => void;
   removeItem: (id: string) => void;
@@ -111,7 +111,7 @@ export type EditorStore = CombinedEditorState & EditorActions;
 type SetState = (
   partial:
     | Partial<CombinedEditorState>
-    | ((state: CombinedEditorState) => Partial<CombinedEditorState>),
+    | ((state: CombinedEditorState) => Partial<CombinedEditorState>)
 ) => void;
 
 /**
@@ -123,7 +123,7 @@ type GetState = () => CombinedEditorState & EditorActions;
  * Creates the initial editor state using domain services
  */
 export function createInitialState(
-  config: EditorConfig = ConfigManager.getDefaultConfig(),
+  config: EditorConfig = ConfigManager.getDefaultConfig()
 ): CombinedEditorState {
   const initialBodyItem = ConfigManager.createInitialBodyItem(config);
 
@@ -132,12 +132,12 @@ export function createInitialState(
     items: [initialBodyItem],
 
     // Selection
-    selectedId: "kubito-base",
+    selectedId: 'kubito-base',
     selectedIds: [],
-    mode: "none",
+    mode: 'none',
 
     // Body
-    selectedBodyId: "body1",
+    selectedBodyId: 'body1',
 
     // Guides
     activeGuides: [],
@@ -152,7 +152,7 @@ export function createInitialState(
     // Config
     config,
     theme: ConfigManager.getDefaultTheme(),
-    kubitoName: "my-kubito",
+    kubitoName: 'my-kubito',
 
     // View
     canvasZoom: 1,
@@ -166,18 +166,18 @@ export function createInitialState(
  */
 export function createEditorActions(
   set: SetState,
-  get: GetState,
+  get: GetState
 ): EditorActions {
   return {
     // Body selection
     setSelectedBodyId: (id: string) => {
       set((state) => {
-        const bodyItem = state.items.find((item) => item.id === "kubito-base");
+        const bodyItem = state.items.find((item) => item.id === 'kubito-base');
 
         // If kubito-base exists, update its assetId
         if (bodyItem) {
           const updatedItems = state.items.map((item) =>
-            item.id === "kubito-base" ? { ...item, assetId: id } : item,
+            item.id === 'kubito-base' ? { ...item, assetId: id } : item
           );
           return {
             selectedBodyId: id,
@@ -188,12 +188,12 @@ export function createEditorActions(
         // If kubito-base doesn't exist, recreate it and ADD it to existing items
         const newBodyItem = ConfigManager.createInitialBodyItem(
           state.config,
-          id,
+          id
         );
 
         return {
           selectedBodyId: id,
-          selectedId: "kubito-base",
+          selectedId: 'kubito-base',
           items: [newBodyItem, ...state.items], // ✅ Mantener items existentes
         };
       });
@@ -207,12 +207,12 @@ export function createEditorActions(
     },
 
     // User Guides
-    addGuide: (type: "horizontal" | "vertical", position: number) => {
+    addGuide: (type: 'horizontal' | 'vertical', position: number) => {
       set((state) => ({
         userGuides: GuidesManager.addUserGuide(
           state.userGuides,
           type,
-          position,
+          position
         ),
       }));
     },
@@ -243,8 +243,8 @@ export function createEditorActions(
 
     // Item CRUD using ItemService
     addItem: (itemData) => {
-      const isBackground = itemData.category === "Backgrounds";
-      const isBody = itemData.category === "Bodies";
+      const isBackground = itemData.category === 'Backgrounds';
+      const isBody = itemData.category === 'Bodies';
       const config = get().config;
 
       // Prevent adding Bodies from AssetPanel
@@ -257,7 +257,7 @@ export function createEditorActions(
       const scaleToFillCanvas = isBackground
         ? Math.max(
             config.canvasWidth / baseAssetSize,
-            config.canvasHeight / baseAssetSize,
+            config.canvasHeight / baseAssetSize
           )
         : itemData.scale;
 
@@ -273,7 +273,7 @@ export function createEditorActions(
 
       const newItem = ItemService.createItem(
         itemDataAdjusted,
-        get().items.length,
+        get().items.length
       );
 
       // Handle backgrounds specially
@@ -283,7 +283,7 @@ export function createEditorActions(
 
         set((state) => {
           const itemsWithoutBackgrounds = state.items.filter(
-            (item) => item.category !== "Backgrounds",
+            (item) => item.category !== 'Backgrounds'
           );
           return {
             items: [...itemsWithoutBackgrounds, newItem],
@@ -310,7 +310,7 @@ export function createEditorActions(
     removeItem: (_id: string) => {
       const state = get();
       const idsToRemove = SelectionManager.getFilteredSelectedIds(state, [
-        "kubito-base",
+        'kubito-base',
       ]);
 
       if (idsToRemove.length === 0) {
@@ -328,7 +328,7 @@ export function createEditorActions(
     duplicateItem: (_id: string) => {
       const state = get();
       const idsToDuplicate = SelectionManager.getFilteredSelectedIds(state, [
-        "kubito-base",
+        'kubito-base',
       ]);
 
       if (idsToDuplicate.length === 0) {
@@ -338,7 +338,7 @@ export function createEditorActions(
       const result = ItemService.duplicateItems(
         state.items,
         idsToDuplicate,
-        20,
+        20
       );
 
       if (result.newItems.length > 0) {
@@ -353,7 +353,7 @@ export function createEditorActions(
     copyItem: (_id: string) => {
       const state = get();
       const idsToCopy = SelectionManager.getFilteredSelectedIds(state, [
-        "kubito-base",
+        'kubito-base',
       ]);
 
       if (idsToCopy.length === 0) {
@@ -483,7 +483,7 @@ export function createEditorActions(
         selectedIds,
         alignmentType,
         config.canvasWidth,
-        config.canvasHeight,
+        config.canvasHeight
       );
 
       set({ items: alignedItems });
@@ -496,7 +496,7 @@ export function createEditorActions(
       const result = HistoryService.addToHistory(
         state.history,
         state.historyIndex,
-        state.items,
+        state.items
       );
 
       set({
@@ -534,7 +534,7 @@ export function createEditorActions(
       const result = ConfigManager.updateConfig(get().config, updates);
 
       if (!result.valid) {
-        toast.error(`Invalid config: ${result.validation.errors.join(", ")}`);
+        toast.error(`Invalid config: ${result.validation.errors.join(', ')}`);
         return;
       }
 
@@ -546,12 +546,12 @@ export function createEditorActions(
         get().config,
         width,
         height,
-        presetId,
+        presetId
       );
 
       if (!result.validation.valid) {
         toast.error(
-          `Invalid canvas size: ${result.validation.errors.join(", ")}`,
+          `Invalid canvas size: ${result.validation.errors.join(', ')}`
         );
         return;
       }
@@ -560,9 +560,9 @@ export function createEditorActions(
 
       // Adjust kubito-base if it exists
       if (result.bodyUpdates) {
-        const bodyItem = get().items.find((item) => item.id === "kubito-base");
+        const bodyItem = get().items.find((item) => item.id === 'kubito-base');
         if (bodyItem) {
-          get().updateItem("kubito-base", result.bodyUpdates);
+          get().updateItem('kubito-base', result.bodyUpdates);
         }
       }
 
@@ -576,7 +576,7 @@ export function createEditorActions(
     },
 
     setKubitoName: (name: string) => {
-      set({ kubitoName: name.trim() || "my-kubito" });
+      set({ kubitoName: name.trim() || 'my-kubito' });
     },
 
     // View/Zoom
@@ -640,7 +640,7 @@ export function createEditorActions(
         set({
           items: JSON.parse(JSON.stringify(items)) as KubitoItem[],
           config: { ...get().config, ...canvasConfig },
-          kubitoName: kubitoFile.name || "imported-design",
+          kubitoName: kubitoFile.name || 'imported-design',
           selectedId: null,
           selectedIds: [],
           history: [],
@@ -649,11 +649,11 @@ export function createEditorActions(
 
         get().addToHistory();
         toast.success(
-          `Diseño "${kubitoFile.name || "Importado"}" cargado correctamente`,
+          `Design "${kubitoFile.name || 'Imported'}" loaded successfully`
         );
       } catch (error) {
-        console.error("Error importing kubito:", error);
-        toast.error("Error al importar el diseño");
+        console.error('Error importing kubito:', error);
+        toast.error('Error importing design');
       }
     },
   };

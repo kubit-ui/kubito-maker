@@ -32,8 +32,6 @@
 
 <!-- Add your editing tools screenshot here -->
 
-![Editing Tools](docs/images/editing-tools.png)
-
 - **Color Customization**: Apply custom colors to any asset with an advanced color picker
 - **Gradient Editor**: Create stunning gradients with multiple color stops
 - **Filters & Effects**: Apply professional filters including:
@@ -49,8 +47,6 @@
 ### 🖼️ Canvas & Workspace
 
 <!-- Add your canvas screenshot here -->
-
-![Canvas Features](docs/images/canvas-features.png)
 
 - **Smart Guides**: Automatic alignment guides for precise positioning
 - **Ruler & Grid System**: Professional measurement tools with customizable units
@@ -72,7 +68,7 @@
 
 <!-- Add your export options screenshot here -->
 
-![Export Options](docs/images/export-options.png)
+![Export Options](assets/export.png)
 
 - **Multiple Export Formats**:
   - PNG (with transparency support)
@@ -228,8 +224,6 @@ The Layers Panel shows all items on your canvas in a hierarchical view, allowing
 
 <!-- Add your keyboard shortcuts image here -->
 
-![Keyboard Shortcuts](docs/images/shortcuts.png)
-
 | Action      | Shortcut                |
 | ----------- | ----------------------- |
 | Undo        | `Cmd/Ctrl + Z`          |
@@ -261,8 +255,6 @@ The Layers Panel shows all items on your canvas in a hierarchical view, allowing
 
 <!-- Add mask example image here -->
 
-![Mask Example](docs/images/mask-example.png)
-
 Masks allow you to clip elements to specific shapes:
 
 1. Select an item
@@ -273,8 +265,6 @@ Masks allow you to clip elements to specific shapes:
 #### Creating Gradients
 
 <!-- Add gradient example image here -->
-
-![Gradient Example](docs/images/gradient-example.png)
 
 1. Select an element
 2. Open the Gradient Editor from the Inspector
@@ -321,7 +311,7 @@ npm run validate     # Run all checks (type, lint, test)
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the APACHE 2.0 License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
