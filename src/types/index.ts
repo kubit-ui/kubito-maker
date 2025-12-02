@@ -431,12 +431,12 @@ export interface HistoryState {
  * - `scale`: Scale items
  * - `rotate`: Rotate items
  */
-export type TransformMode = 'none' | 'move' | 'scale' | 'rotate';
+export type TransformMode = "none" | "move" | "scale" | "rotate";
 
 /**
  * Supported export file formats.
  */
-export type ExportFormat = 'svg' | 'png' | 'jpeg' | 'webp';
+export type ExportFormat = "svg" | "png" | "jpeg" | "webp";
 
 /**
  * Options for exporting canvas content.
@@ -463,11 +463,11 @@ export interface ExportOptions {
  */
 export const DEFAULT_EFFECTS: VisualEffects = {
   opacity: 1,
-  color: '#000000',
+  color: "#000000",
   shadowBlur: 0,
   shadowOffsetX: 0,
   shadowOffsetY: 0,
-  shadowColor: '#000000',
+  shadowColor: "#000000",
   shadowOpacity: 0.3,
   blur: 0,
   brightness: 1,

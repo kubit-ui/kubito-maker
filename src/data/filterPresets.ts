@@ -3,7 +3,7 @@
  * Provides preset configurations for various filter styles
  */
 
-import type React from 'react';
+import type React from "react";
 import {
   Circle,
   Moon,
@@ -25,7 +25,7 @@ import {
   Sunrise,
   Droplets,
   Sunset,
-} from 'lucide-react';
+} from "lucide-react";
 
 export interface FilterPreset {
   id: string;
@@ -33,7 +33,7 @@ export interface FilterPreset {
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: React.ComponentType<any>;
-  category: 'photographic' | 'artistic' | 'color' | 'special';
+  category: "photographic" | "artistic" | "color" | "special";
   effects: {
     brightness?: number;
     contrast?: number;
@@ -49,15 +49,15 @@ export interface FilterPreset {
 /**
  * Photographic Filter Presets
  */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 export const FILTER_PRESETS: FilterPreset[] = [
   // None/Reset
   {
-    id: 'none',
-    name: 'None',
-    description: 'No filter applied',
+    id: "none",
+    name: "None",
+    description: "No filter applied",
     icon: Circle,
-    category: 'photographic',
+    category: "photographic",
     effects: {
       brightness: 1,
       contrast: 1,
@@ -72,11 +72,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Black & White
   {
-    id: 'blackwhite',
-    name: 'Black & White',
-    description: 'Classic monochrome',
+    id: "blackwhite",
+    name: "Black & White",
+    description: "Classic monochrome",
     icon: Moon,
-    category: 'photographic',
+    category: "photographic",
     effects: {
       grayscale: 1,
       contrast: 1.1,
@@ -86,11 +86,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Vintage
   {
-    id: 'vintage',
-    name: 'Vintage',
-    description: 'Old photo aesthetic',
+    id: "vintage",
+    name: "Vintage",
+    description: "Old photo aesthetic",
     icon: Camera,
-    category: 'photographic',
+    category: "photographic",
     effects: {
       sepia: 0.5,
       contrast: 1.1,
@@ -101,11 +101,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Sepia
   {
-    id: 'sepia',
-    name: 'Sepia',
-    description: 'Warm brownish tone',
+    id: "sepia",
+    name: "Sepia",
+    description: "Warm brownish tone",
     icon: Palette,
-    category: 'photographic',
+    category: "photographic",
     effects: {
       sepia: 1,
       brightness: 1.1,
@@ -114,11 +114,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Cold/Cool
   {
-    id: 'cold',
-    name: 'Cold',
-    description: 'Cool blue tones',
+    id: "cold",
+    name: "Cold",
+    description: "Cool blue tones",
     icon: Snowflake,
-    category: 'color',
+    category: "color",
     effects: {
       hueRotate: 180,
       saturate: 1.2,
@@ -128,11 +128,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Warm
   {
-    id: 'warm',
-    name: 'Warm',
-    description: 'Warm orange/red tones',
+    id: "warm",
+    name: "Warm",
+    description: "Warm orange/red tones",
     icon: Flame,
-    category: 'color',
+    category: "color",
     effects: {
       hueRotate: -20,
       saturate: 1.3,
@@ -143,11 +143,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // High Contrast
   {
-    id: 'highcontrast',
-    name: 'High Contrast',
-    description: 'Enhanced contrast',
+    id: "highcontrast",
+    name: "High Contrast",
+    description: "Enhanced contrast",
     icon: CircleDot,
-    category: 'photographic',
+    category: "photographic",
     effects: {
       contrast: 1.5,
       brightness: 1.1,
@@ -157,11 +157,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Vibrant
   {
-    id: 'vibrant',
-    name: 'Vibrant',
-    description: 'Boosted saturation',
+    id: "vibrant",
+    name: "Vibrant",
+    description: "Boosted saturation",
     icon: Rainbow,
-    category: 'color',
+    category: "color",
     effects: {
       saturate: 1.8,
       contrast: 1.2,
@@ -171,11 +171,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Fade
   {
-    id: 'fade',
-    name: 'Fade',
-    description: 'Washed out look',
+    id: "fade",
+    name: "Fade",
+    description: "Washed out look",
     icon: Cloud,
-    category: 'photographic',
+    category: "photographic",
     effects: {
       contrast: 0.7,
       saturate: 0.6,
@@ -185,11 +185,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Dramatic
   {
-    id: 'dramatic',
-    name: 'Dramatic',
-    description: 'High contrast & saturation',
+    id: "dramatic",
+    name: "Dramatic",
+    description: "High contrast & saturation",
     icon: Zap,
-    category: 'artistic',
+    category: "artistic",
     effects: {
       contrast: 1.6,
       saturate: 1.4,
@@ -199,11 +199,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Noir
   {
-    id: 'noir',
-    name: 'Noir',
-    description: 'Dark high-contrast B&W',
+    id: "noir",
+    name: "Noir",
+    description: "Dark high-contrast B&W",
     icon: Film,
-    category: 'artistic',
+    category: "artistic",
     effects: {
       grayscale: 1,
       contrast: 1.8,
@@ -213,11 +213,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Pastel
   {
-    id: 'pastel',
-    name: 'Pastel',
-    description: 'Soft pastel colors',
+    id: "pastel",
+    name: "Pastel",
+    description: "Soft pastel colors",
     icon: Paintbrush,
-    category: 'artistic',
+    category: "artistic",
     effects: {
       saturate: 0.5,
       brightness: 1.3,
@@ -227,11 +227,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Neon
   {
-    id: 'neon',
-    name: 'Neon',
-    description: 'Electric bright colors',
+    id: "neon",
+    name: "Neon",
+    description: "Electric bright colors",
     icon: Lightbulb,
-    category: 'special',
+    category: "special",
     effects: {
       saturate: 2.5,
       contrast: 1.8,
@@ -241,11 +241,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Invert
   {
-    id: 'invert',
-    name: 'Invert',
-    description: 'Negative colors',
+    id: "invert",
+    name: "Invert",
+    description: "Negative colors",
     icon: Rotate,
-    category: 'special',
+    category: "special",
     effects: {
       invert: 1,
     },
@@ -253,11 +253,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Dream
   {
-    id: 'dream',
-    name: 'Dream',
-    description: 'Soft dreamy blur',
+    id: "dream",
+    name: "Dream",
+    description: "Soft dreamy blur",
     icon: Sparkles,
-    category: 'artistic',
+    category: "artistic",
     effects: {
       blur: 2,
       brightness: 1.2,
@@ -268,11 +268,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Retro
   {
-    id: 'retro',
-    name: 'Retro',
-    description: '80s/90s aesthetic',
+    id: "retro",
+    name: "Retro",
+    description: "80s/90s aesthetic",
     icon: Clapperboard,
-    category: 'photographic',
+    category: "photographic",
     effects: {
       hueRotate: 15,
       saturate: 1.4,
@@ -283,11 +283,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Cyberpunk
   {
-    id: 'cyberpunk',
-    name: 'Cyberpunk',
-    description: 'Futuristic neon',
+    id: "cyberpunk",
+    name: "Cyberpunk",
+    description: "Futuristic neon",
     icon: CircuitBoard,
-    category: 'special',
+    category: "special",
     effects: {
       hueRotate: 270,
       saturate: 2,
@@ -298,11 +298,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Golden Hour
   {
-    id: 'goldenhour',
-    name: 'Golden Hour',
-    description: 'Warm sunset tones',
+    id: "goldenhour",
+    name: "Golden Hour",
+    description: "Warm sunset tones",
     icon: Sunrise,
-    category: 'color',
+    category: "color",
     effects: {
       hueRotate: -10,
       saturate: 1.3,
@@ -313,11 +313,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Arctic
   {
-    id: 'arctic',
-    name: 'Arctic',
-    description: 'Cool icy tones',
+    id: "arctic",
+    name: "Arctic",
+    description: "Cool icy tones",
     icon: Droplets,
-    category: 'color',
+    category: "color",
     effects: {
       hueRotate: 200,
       saturate: 0.7,
@@ -328,11 +328,11 @@ export const FILTER_PRESETS: FilterPreset[] = [
 
   // Sunset
   {
-    id: 'sunset',
-    name: 'Sunset',
-    description: 'Warm evening colors',
+    id: "sunset",
+    name: "Sunset",
+    description: "Warm evening colors",
     icon: Sunset,
-    category: 'color',
+    category: "color",
     effects: {
       hueRotate: -25,
       saturate: 1.5,
@@ -341,7 +341,6 @@ export const FILTER_PRESETS: FilterPreset[] = [
     },
   },
 ];
-/* eslint-enable @typescript-eslint/no-unsafe-assignment */
 
 /**
  * Get a filter preset by ID
@@ -354,7 +353,7 @@ export const getFilterPreset = (id: string): FilterPreset | undefined => {
  * Get filter presets by category
  */
 export const getFiltersByCategory = (
-  category: FilterPreset['category']
+  category: FilterPreset["category"],
 ): FilterPreset[] => {
   return FILTER_PRESETS.filter((preset) => preset.category === category);
 };
@@ -363,9 +362,9 @@ export const getFiltersByCategory = (
  * Apply a filter preset to an effects object
  */
 export const applyFilterPreset = (
-  currentEffects: Partial<FilterPreset['effects']>,
-  presetId: string
-): Partial<FilterPreset['effects']> => {
+  currentEffects: Partial<FilterPreset["effects"]>,
+  presetId: string,
+): Partial<FilterPreset["effects"]> => {
   const preset = getFilterPreset(presetId);
   if (!preset) return currentEffects;
 

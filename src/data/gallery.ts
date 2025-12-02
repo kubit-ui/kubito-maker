@@ -1,6 +1,6 @@
-import type { GalleryItem, KubitoFile } from '@/types';
+import type { GalleryItem, KubitoFile } from "@/types";
 
-const GALLERY_BASE_PATH = '/kubito-gallery';
+const GALLERY_BASE_PATH = "/kubito-gallery";
 const GALLERY_MANIFEST_PATH = `${GALLERY_BASE_PATH}/gallery-manifest.json`;
 
 /**
@@ -12,13 +12,13 @@ export const loadGalleryManifest = async (): Promise<GalleryItem[]> => {
     const response = await window.fetch(GALLERY_MANIFEST_PATH);
     if (!response.ok) {
       throw new Error(
-        `Failed to load gallery manifest: ${response.statusText}`
+        `Failed to load gallery manifest: ${response.statusText}`,
       );
     }
     const items = (await response.json()) as GalleryItem[];
     return items;
   } catch (error) {
-    console.error('Error loading gallery manifest:', error);
+    console.error("Error loading gallery manifest:", error);
     return [];
   }
 };
@@ -47,7 +47,7 @@ export const getGalleryKubitoUrl = (item: GalleryItem): string => {
  * @returns Promise with the kubito file content
  */
 export const loadGalleryKubito = async (
-  item: GalleryItem
+  item: GalleryItem,
 ): Promise<KubitoFile> => {
   try {
     const url = getGalleryKubitoUrl(item);
@@ -57,7 +57,7 @@ export const loadGalleryKubito = async (
     }
     return (await response.json()) as KubitoFile;
   } catch (error) {
-    console.error('Error loading kubito file:', error);
+    console.error("Error loading kubito file:", error);
     throw error;
   }
 };

@@ -1,1 +1,1 @@
-export { GalleryModal } from './GalleryModal';
+export { GalleryModal } from "./GalleryModal";

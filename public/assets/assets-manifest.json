@@ -51,6 +51,66 @@
       "file": "eye05_alone.svg"
     },
     {
+      "id": "eye09",
+      "name": "Eye 09",
+      "file": "eye09.svg"
+    },
+    {
+      "id": "eye09-2",
+      "name": "Eye 09-2",
+      "file": "eye09.2.svg"
+    },
+    {
+      "id": "eye10",
+      "name": "Eye 10",
+      "file": "eye10.svg"
+    },
+    {
+      "id": "eye11",
+      "name": "Eye 11",
+      "file": "eye11.svg"
+    },
+    {
+      "id": "eye12",
+      "name": "Eye 12",
+      "file": "eye12.svg"
+    },
+    {
+      "id": "eye12-2",
+      "name": "Eye 12-2",
+      "file": "eye12.2.svg"
+    },
+    {
+      "id": "eye13",
+      "name": "Eye 13",
+      "file": "eye13.svg"
+    },
+    {
+      "id": "eye13-2",
+      "name": "Eye 13-2",
+      "file": "eye13.2.svg"
+    },
+    {
+      "id": "eye14",
+      "name": "Eye 14",
+      "file": "eye14.svg"
+    },
+    {
+      "id": "eye15",
+      "name": "Eye 15",
+      "file": "eye15.svg"
+    },
+    {
+      "id": "eye15-1",
+      "name": "Eye 15-1",
+      "file": "eye15-1.svg"
+    },
+    {
+      "id": "eye89",
+      "name": "Eye 89",
+      "file": "eye_89.svg"
+    },
+    {
       "id": "eyes",
       "name": "Eyes",
       "file": "eyes.svg"
@@ -121,9 +181,84 @@
       "id": "mouth06-2",
       "name": "Mouth 06-2",
       "file": "mouth06-2.svg"
+    },
+    {
+      "id": "mouth09",
+      "name": "Mouth 09",
+      "file": "mouth09.svg"
+    },
+    {
+      "id": "mouth10",
+      "name": "Mouth 10",
+      "file": "mouth10.svg"
+    },
+    {
+      "id": "mouth11",
+      "name": "Mouth 11",
+      "file": "mouth11.svg"
+    },
+    {
+      "id": "mouth11-1",
+      "name": "Mouth 11-1",
+      "file": "mouth11-1.svg"
+    },
+    {
+      "id": "mouth12",
+      "name": "Mouth 12",
+      "file": "mouth12.svg"
+    },
+    {
+      "id": "mouth13",
+      "name": "Mouth 13",
+      "file": "mouth13.svg"
+    },
+    {
+      "id": "mouth15",
+      "name": "Mouth 15",
+      "file": "mouth15.svg"
     }
   ],
   "accessories": [
+    {
+      "id": "ay",
+      "name": "Ay",
+      "file": "ay.svg"
+    },
+    {
+      "id": "bowtie",
+      "name": "Bow Tie",
+      "file": "bowtie.svg"
+    },
+    {
+      "id": "cigarette",
+      "name": "Cigarette",
+      "file": "cigarrette.svg"
+    },
+    {
+      "id": "crown",
+      "name": "Crown",
+      "file": "crown.svg"
+    },
+    {
+      "id": "double-monocle",
+      "name": "Double Monocle",
+      "file": "double_monocule.svg"
+    },
+    {
+      "id": "drop",
+      "name": "Drop",
+      "file": "drop.svg"
+    },
+    {
+      "id": "ear",
+      "name": "Ear",
+      "file": "ear.svg"
+    },
+    {
+      "id": "ear-1",
+      "name": "Ear 1",
+      "file": "ear-1.svg"
+    },
     {
       "id": "hat",
       "name": "Hat",
@@ -135,19 +270,29 @@
       "file": "hat-1.svg"
     },
     {
+      "id": "mask",
+      "name": "Mask",
+      "file": "mask.svg"
+    },
+    {
+      "id": "monocle",
+      "name": "Monocle",
+      "file": "monocule.svg"
+    },
+    {
+      "id": "naruto",
+      "name": "Naruto",
+      "file": "naruto.svg"
+    },
+    {
       "id": "original-hat",
       "name": "Original Hat",
       "file": "original_hat.svg"
     },
     {
-      "id": "cigarette",
-      "name": "Cigarette",
-      "file": "cigarrette.svg"
-    },
-    {
-      "id": "monocule",
-      "name": "Monocle",
-      "file": "monocule.svg"
+      "id": "shadow",
+      "name": "Shadow",
+      "file": "shadow.svg"
     }
   ],
   "eyebrows": [],
@@ -176,9 +321,19 @@
       "file": "moustache.svg"
     },
     {
+      "id": "moustache-1",
+      "name": "Moustache 1",
+      "file": "moustache-1.svg"
+    },
+    {
       "id": "moustache-2",
       "name": "Moustache 2",
       "file": "moustache_2.svg"
+    },
+    {
+      "id": "moustache-3",
+      "name": "Moustache 3",
+      "file": "moustache_3.svg"
     }
   ],
   "backgrounds": [
@@ -248,6 +403,26 @@
       "id": "body2",
       "name": "Body 2",
       "file": "body2.svg"
+    },
+    {
+      "id": "kubito-3d-gray",
+      "name": "Kubito 3D Gray",
+      "file": "Kubito_3D_gray.svg"
+    },
+    {
+      "id": "kubito-02",
+      "name": "Kubito 02",
+      "file": "Kubito-02.svg"
+    },
+    {
+      "id": "kubito-03",
+      "name": "Kubito 03",
+      "file": "Kubito-03.svg"
+    },
+    {
+      "id": "kubito-04",
+      "name": "Kubito 04",
+      "file": "Kubito-04.svg"
     }
   ],
   "decorations": []

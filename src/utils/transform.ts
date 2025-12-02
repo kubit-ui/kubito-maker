@@ -1,4 +1,4 @@
-import type { KubitoItem } from '@/types';
+import type { KubitoItem } from "@/types";
 
 /**
  * Converts item transform properties to an SVG transform string.
@@ -52,7 +52,7 @@ export const getFilterString = (item: KubitoItem): string => {
     filters.push(`invert(${item.effects.invert})`);
   }
 
-  return filters.length > 0 ? filters.join(' ') : 'none';
+  return filters.length > 0 ? filters.join(" ") : "none";
 };
 
 /**
@@ -70,7 +70,7 @@ export const getShadowFilter = (item: KubitoItem): string => {
   } = item.effects;
 
   if (shadowBlur === 0 && shadowOffsetX === 0 && shadowOffsetY === 0) {
-    return '';
+    return "";
   }
 
   const rgba = hexToRgba(shadowColor, shadowOpacity);
@@ -139,7 +139,7 @@ export const rotatePoint = (
   y: number,
   cx: number,
   cy: number,
-  angle: number
+  angle: number,
 ): { x: number; y: number } => {
   const radians = degreesToRadians(angle);
   const cos = Math.cos(radians);
@@ -163,7 +163,7 @@ export const distance = (
   x1: number,
   y1: number,
   x2: number,
-  y2: number
+  y2: number,
 ): number => {
   return Math.hypot(x2 - x1, y2 - y1);
 };

@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Image } from 'lucide-react';
-import type { GalleryItem } from '@/types';
+import { useState, useEffect } from "react";
+import { Image } from "lucide-react";
+import type { GalleryItem } from "@/types";
 import {
   loadGalleryManifest,
   getGalleryThumbnailUrl,
   loadGalleryKubito,
-} from '@/data/gallery';
-import { useEditorActions } from '@/store/editorStore';
+} from "@/data/gallery";
+import { useEditorActions } from "@/store/editorStore";
 
 export function GalleryPanel() {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
@@ -31,8 +31,8 @@ export function GalleryPanel() {
       const kubitoFile = await loadGalleryKubito(item);
       importKubito(kubitoFile);
     } catch (error) {
-      console.error('Error loading gallery item:', error);
-      alert('Error al cargar el diseño de la galería');
+      console.error("Error loading gallery item:", error);
+      alert("Error al cargar el diseño de la galería");
     } finally {
       setSelectedItem(null);
     }
@@ -79,8 +79,8 @@ export function GalleryPanel() {
               transition-all duration-200 hover:scale-105 hover:shadow-lg
               ${
                 selectedItem === item.id
-                  ? 'cursor-wait border-blue-500 opacity-50'
-                  : 'cursor-pointer border-gray-200 hover:border-blue-400'
+                  ? "cursor-wait border-blue-500 opacity-50"
+                  : "cursor-pointer border-gray-200 hover:border-blue-400"
               }
             `}
             title={item.description}
@@ -94,7 +94,7 @@ export function GalleryPanel() {
                 onError={(e) => {
                   // Fallback si no existe la imagen
                   const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
+                  target.style.display = "none";
                   const parent = target.parentElement;
                   if (parent) {
                     parent.innerHTML = `

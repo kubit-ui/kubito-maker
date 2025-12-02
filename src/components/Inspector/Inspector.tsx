@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState } from "react";
 import {
   Lock,
   Unlock,
@@ -8,20 +8,20 @@ import {
   Sparkles,
   Layers2,
   type LucideIcon,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   useItems,
   useSelection,
   useEditorActions,
   useHistory,
-} from '@/store/editorStore';
-import { TransformPanel } from './TransformPanel';
-import { StylePanel } from './StylePanel';
-import { AlignmentPanel } from './AlignmentPanel';
-import { FiltersPanel } from '../FiltersPanel';
-import type { KubitoItem } from '@/types';
+} from "@/store/editorStore";
+import { TransformPanel } from "./TransformPanel";
+import { StylePanel } from "./StylePanel";
+import { AlignmentPanel } from "./AlignmentPanel";
+import { FiltersPanel } from "../FiltersPanel";
+import type { KubitoItem } from "@/types";
 
-type InspectorTab = 'transform' | 'style' | 'effects' | 'layer';
+type InspectorTab = "transform" | "style" | "effects" | "layer";
 
 interface TabConfig {
   id: InspectorTab;
@@ -48,7 +48,7 @@ export const Inspector = memo(() => {
     redo,
   } = useEditorActions();
 
-  const [activeTab, setActiveTab] = useState<InspectorTab>('transform');
+  const [activeTab, setActiveTab] = useState<InspectorTab>("transform");
 
   const selected = items.find((i) => i.id === selectedId);
   const selectedItems = items.filter((i) => selectedIds.includes(i.id));
@@ -64,8 +64,8 @@ export const Inspector = memo(() => {
             disabled={!canUndo}
             className={`flex-1 p-3 rounded-xl font-medium text-sm transition-colors ${
               canUndo
-                ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                : 'bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                ? "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                : "bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed"
             }`}
             title="Undo (Cmd/Ctrl+Z)"
           >
@@ -76,8 +76,8 @@ export const Inspector = memo(() => {
             disabled={!canRedo}
             className={`flex-1 p-3 rounded-xl font-medium text-sm transition-colors ${
               canRedo
-                ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                : 'bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                ? "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                : "bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed"
             }`}
             title="Redo (Cmd/Ctrl+Shift+Z)"
           >
@@ -137,42 +137,42 @@ export const Inspector = memo(() => {
             </h4>
             <div className="grid grid-cols-3 gap-2">
               <button
-                onClick={() => alignItems('left')}
+                onClick={() => alignItems("left")}
                 className="px-2 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs hover:bg-gray-200 dark:hover:bg-gray-700"
                 title="Align Left"
               >
                 ⫤
               </button>
               <button
-                onClick={() => alignItems('center')}
+                onClick={() => alignItems("center")}
                 className="px-2 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs hover:bg-gray-200 dark:hover:bg-gray-700"
                 title="Center Horizontally"
               >
                 ⬌
               </button>
               <button
-                onClick={() => alignItems('right')}
+                onClick={() => alignItems("right")}
                 className="px-2 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs hover:bg-gray-200 dark:hover:bg-gray-700"
                 title="Align Right"
               >
                 ⫥
               </button>
               <button
-                onClick={() => alignItems('top')}
+                onClick={() => alignItems("top")}
                 className="px-2 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs hover:bg-gray-200 dark:hover:bg-gray-700"
                 title="Align Top"
               >
                 ⫴
               </button>
               <button
-                onClick={() => alignItems('middle')}
+                onClick={() => alignItems("middle")}
                 className="px-2 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs hover:bg-gray-200 dark:hover:bg-gray-700"
                 title="Center Vertically"
               >
                 ⬍
               </button>
               <button
-                onClick={() => alignItems('bottom')}
+                onClick={() => alignItems("bottom")}
                 className="px-2 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded text-xs hover:bg-gray-200 dark:hover:bg-gray-700"
                 title="Align Bottom"
               >
@@ -212,8 +212,8 @@ export const Inspector = memo(() => {
             disabled={!canUndo}
             className={`flex-1 p-3 rounded-xl font-medium text-sm transition-colors ${
               canUndo
-                ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                : 'bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                ? "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                : "bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed"
             }`}
             title="Undo (Cmd/Ctrl+Z)"
           >
@@ -224,8 +224,8 @@ export const Inspector = memo(() => {
             disabled={!canRedo}
             className={`flex-1 p-3 rounded-xl font-medium text-sm transition-colors ${
               canRedo
-                ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                : 'bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                ? "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                : "bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed"
             }`}
             title="Redo (Cmd/Ctrl+Shift+Z)"
           >
@@ -260,10 +260,10 @@ export const Inspector = memo(() => {
   };
 
   const tabs: TabConfig[] = [
-    { id: 'transform', label: 'Transform', icon: Move },
-    { id: 'style', label: 'Style', icon: Palette },
-    { id: 'effects', label: 'Effects', icon: Sparkles },
-    { id: 'layer', label: 'Layer', icon: Layers2 },
+    { id: "transform", label: "Transform", icon: Move },
+    { id: "style", label: "Style", icon: Palette },
+    { id: "effects", label: "Effects", icon: Sparkles },
+    { id: "layer", label: "Layer", icon: Layers2 },
   ];
 
   return (
@@ -275,8 +275,8 @@ export const Inspector = memo(() => {
           disabled={!canUndo}
           className={`flex-1 p-3 rounded-xl font-medium text-sm transition-colors ${
             canUndo
-              ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-              : 'bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+              ? "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              : "bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed"
           }`}
           title="Undo (Cmd/Ctrl+Z)"
         >
@@ -287,8 +287,8 @@ export const Inspector = memo(() => {
           disabled={!canRedo}
           className={`flex-1 p-3 rounded-xl font-medium text-sm transition-colors ${
             canRedo
-              ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-              : 'bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+              ? "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              : "bg-gray-50 dark:bg-gray-800/50 text-gray-300 dark:text-gray-600 cursor-not-allowed"
           }`}
           title="Redo (Cmd/Ctrl+Shift+Z)"
         >
@@ -315,8 +315,8 @@ export const Inspector = memo(() => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex flex-col items-center gap-1 py-2 px-1 rounded-md transition-all ${
                 activeTab === tab.id
-                  ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                  ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm"
+                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
               }`}
               title={tab.label}
             >
@@ -329,7 +329,7 @@ export const Inspector = memo(() => {
 
       <div className="flex-1 overflow-y-auto space-y-3 pr-1">
         {/* Transform Tab */}
-        {activeTab === 'transform' && (
+        {activeTab === "transform" && (
           <>
             <TransformPanel item={selected} onUpdate={handleUpdate} />
             <AlignmentPanel
@@ -341,12 +341,12 @@ export const Inspector = memo(() => {
         )}
 
         {/* Style Tab */}
-        {activeTab === 'style' && (
+        {activeTab === "style" && (
           <StylePanel item={selected} onUpdate={handleUpdate} />
         )}
 
         {/* Effects Tab */}
-        {activeTab === 'effects' && (
+        {activeTab === "effects" && (
           <FiltersPanel
             currentEffects={{
               brightness: selected.effects.brightness,
@@ -370,7 +370,7 @@ export const Inspector = memo(() => {
         )}
 
         {/* Layer Tab */}
-        {activeTab === 'layer' && (
+        {activeTab === "layer" && (
           <>
             {/* Layer Controls */}
             <div className="space-y-2">
@@ -403,8 +403,8 @@ export const Inspector = memo(() => {
                   onClick={() => toggleItemLock(selected.id)}
                   className={`px-3 py-2 rounded-lg text-sm flex items-center justify-center gap-2 ${
                     selected.locked
-                      ? 'bg-yellow-500 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      ? "bg-yellow-500 text-white"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                   }`}
                 >
                   {selected.locked ? (
@@ -421,11 +421,11 @@ export const Inspector = memo(() => {
                   onClick={() => toggleItemVisibility(selected.id)}
                   className={`px-3 py-2 rounded-lg text-sm hover:bg-gray-200 dark:hover:bg-gray-700 ${
                     !selected.visible
-                      ? 'bg-gray-400 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                      ? "bg-gray-400 text-white"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                   }`}
                 >
-                  {selected.visible ? 'Visible' : 'Hidden'}
+                  {selected.visible ? "Visible" : "Hidden"}
                 </button>
               </div>
             </div>
@@ -458,4 +458,4 @@ export const Inspector = memo(() => {
   );
 });
 
-Inspector.displayName = 'Inspector';
+Inspector.displayName = "Inspector";

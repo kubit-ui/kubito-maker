@@ -1,13 +1,13 @@
-import { memo, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Image as ImageIcon } from 'lucide-react';
-import type { GalleryItem } from '@/types';
+import { memo, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Image as ImageIcon } from "lucide-react";
+import type { GalleryItem } from "@/types";
 import {
   loadGalleryManifest,
   getGalleryThumbnailUrl,
   loadGalleryKubito,
-} from '@/data/gallery';
-import { useEditorActions } from '@/store/editorStore';
+} from "@/data/gallery";
+import { useEditorActions } from "@/store/editorStore";
 
 interface GalleryModalProps {
   isOpen: boolean;
@@ -40,8 +40,8 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
       importKubito(kubitoFile);
       onClose(); // Cerrar el modal después de cargar el diseño
     } catch (error) {
-      console.error('Error loading gallery item:', error);
-      alert('Error al cargar el diseño de la galería');
+      console.error("Error loading gallery item:", error);
+      alert("Error al cargar el diseño de la galería");
     } finally {
       setSelectedItem(null);
     }
@@ -124,8 +124,8 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
                       transition-all duration-200 hover:scale-105 hover:shadow-xl
                       ${
                         selectedItem === item.id
-                          ? 'cursor-wait border-purple-500 opacity-50'
-                          : 'cursor-pointer border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500'
+                          ? "cursor-wait border-purple-500 opacity-50"
+                          : "cursor-pointer border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500"
                       }
                     `}
                     title={item.description}
@@ -135,10 +135,10 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
                       className="aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-700 bg-cover bg-center"
                       style={{
                         backgroundImage: `url(${getGalleryThumbnailUrl(item)})`,
-                        backgroundSize: '85%',
-                        backgroundPosition: 'center',
-                        maxWidth: '100%',
-                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: "85%",
+                        backgroundPosition: "center",
+                        maxWidth: "100%",
+                        backgroundRepeat: "no-repeat",
                       }}
                     ></div>
 
@@ -173,8 +173,8 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
           <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 p-4">
             <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
               <span>
-                {galleryItems.length}{' '}
-                {galleryItems.length === 1 ? 'diseño' : 'diseños'} disponibles
+                {galleryItems.length}{" "}
+                {galleryItems.length === 1 ? "diseño" : "diseños"} disponibles
               </span>
               <button
                 onClick={onClose}
@@ -190,4 +190,4 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
   );
 });
 
-GalleryModal.displayName = 'GalleryModal';
+GalleryModal.displayName = "GalleryModal";

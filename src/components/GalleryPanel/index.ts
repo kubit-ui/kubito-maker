@@ -1,1 +1,1 @@
-export { GalleryPanel } from './GalleryPanel';
+export { GalleryPanel } from "./GalleryPanel";

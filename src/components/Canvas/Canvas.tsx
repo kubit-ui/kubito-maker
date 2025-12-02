@@ -1,5 +1,5 @@
-import { useRef, memo, useState, useEffect, useCallback } from 'react';
-import { useDroppable, useDndMonitor } from '@dnd-kit/core';
+import { useRef, memo, useState, useEffect, useCallback } from "react";
+import { useDroppable, useDndMonitor } from "@dnd-kit/core";
 import {
   Copy,
   FileText,
@@ -9,8 +9,8 @@ import {
   ChevronDown,
   ChevronsDown,
   Trash2,
-} from 'lucide-react';
-import type { Asset, AssetCategory } from '@/types';
+} from "lucide-react";
+import type { Asset, AssetCategory } from "@/types";
 import {
   useItems,
   useSelection,
@@ -19,12 +19,12 @@ import {
   useGuides,
   useEditorActions,
   useCanvasZoom,
-} from '@/store/editorStore';
+} from "@/store/editorStore";
 import {
   useCanvasDragAndDrop,
   useCanvasTransform,
   useCanvasScale,
-} from '@/hooks';
+} from "@/hooks";
 import {
   CanvasGrid,
   CanvasItem,
@@ -32,8 +32,8 @@ import {
   CanvasMultiSelection,
   CanvasMarquee,
   ZoomControls,
-} from '.';
-import { ContextMenu, type ContextMenuItem } from '../ContextMenu';
+} from ".";
+import { ContextMenu, type ContextMenuItem } from "../ContextMenu";
 
 interface CanvasProps {
   className?: string;
@@ -87,7 +87,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
   // @dnd-kit droppable zone
   const { setNodeRef: setDroppableRef, isOver } = useDroppable({
-    id: 'canvas-droppable',
+    id: "canvas-droppable",
   });
 
   // Combine refs for container
@@ -96,7 +96,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       containerRef.current = node;
       setDroppableRef(node);
     },
-    [setDroppableRef]
+    [setDroppableRef],
   );
 
   // Global mouse tracking for precise positioning
@@ -110,9 +110,9 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       }
     };
 
-    document.addEventListener('mousemove', handleGlobalMouseMove, true);
+    document.addEventListener("mousemove", handleGlobalMouseMove, true);
     return () => {
-      document.removeEventListener('mousemove', handleGlobalMouseMove, true);
+      document.removeEventListener("mousemove", handleGlobalMouseMove, true);
     };
   }, []);
 
@@ -127,8 +127,8 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
       if (
         activatorEvent &&
-        'clientX' in activatorEvent &&
-        'clientY' in activatorEvent
+        "clientX" in activatorEvent &&
+        "clientY" in activatorEvent
       ) {
         const clientX = activatorEvent.clientX as number;
         const clientY = activatorEvent.clientY as number;
@@ -143,7 +143,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       const { active, over } = event;
 
       // Only handle drops on this canvas
-      if (over?.id !== 'canvas-droppable') {
+      if (over?.id !== "canvas-droppable") {
         return;
       }
 
@@ -209,7 +209,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     containerRef,
     canvasWidth,
     canvasHeight,
-    canvasZoom
+    canvasZoom,
   );
 
   // Close context menu on any click outside the menu itself
@@ -219,7 +219,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     const handleGlobalClick = (e: MouseEvent) => {
       // Check if the click was on the context menu itself
       const target = e.target as HTMLElement;
-      const contextMenuElement = document.querySelector('[data-context-menu]');
+      const contextMenuElement = document.querySelector("[data-context-menu]");
 
       // If clicking inside the context menu, don't close it
       if (contextMenuElement && contextMenuElement.contains(target)) {
@@ -233,14 +233,14 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     // Use capture phase to intercept before stopPropagation
     // Small delay to avoid closing immediately on the same click that opened it
     const timer = setTimeout(() => {
-      document.addEventListener('mousedown', handleGlobalClick, true);
-      document.addEventListener('click', handleGlobalClick, true);
+      document.addEventListener("mousedown", handleGlobalClick, true);
+      document.addEventListener("click", handleGlobalClick, true);
     }, 50);
 
     return () => {
       clearTimeout(timer);
-      document.removeEventListener('mousedown', handleGlobalClick, true);
-      document.removeEventListener('click', handleGlobalClick, true);
+      document.removeEventListener("mousedown", handleGlobalClick, true);
+      document.removeEventListener("click", handleGlobalClick, true);
     };
   }, [contextMenu]);
 
@@ -258,61 +258,61 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   const contextMenuItems: ContextMenuItem[] = contextMenu?.itemId
     ? [
         {
-          id: 'copy',
-          label: 'Copiar',
+          id: "copy",
+          label: "Copiar",
           icon: <Copy className="h-4 w-4" />,
-          shortcut: 'Cmd+C',
+          shortcut: "Cmd+C",
           onClick: () => copyItem(contextMenu.itemId!),
         },
         {
-          id: 'paste',
-          label: 'Pegar',
+          id: "paste",
+          label: "Pegar",
           icon: <FileText className="h-4 w-4" />,
-          shortcut: 'Cmd+V',
+          shortcut: "Cmd+V",
           onClick: () => pasteItem(),
         },
         {
-          id: 'duplicate',
-          label: 'Duplicar',
+          id: "duplicate",
+          label: "Duplicar",
           icon: <CopyPlus className="h-4 w-4" />,
-          shortcut: 'Cmd+D',
+          shortcut: "Cmd+D",
           onClick: () => duplicateItem(contextMenu.itemId!),
         },
-        { id: 'separator-1', label: '', separator: true },
+        { id: "separator-1", label: "", separator: true },
         {
-          id: 'bring-to-front',
-          label: 'Traer al frente',
+          id: "bring-to-front",
+          label: "Traer al frente",
           icon: <ChevronsUp className="h-4 w-4" />,
-          shortcut: 'Cmd+Shift+↑',
+          shortcut: "Cmd+Shift+↑",
           onClick: () => moveItemToTop(contextMenu.itemId!),
         },
         {
-          id: 'bring-forward',
-          label: 'Subir capa',
+          id: "bring-forward",
+          label: "Subir capa",
           icon: <ChevronUp className="h-4 w-4" />,
-          shortcut: 'Cmd+↑',
+          shortcut: "Cmd+↑",
           onClick: () => moveItemUp(contextMenu.itemId!),
         },
         {
-          id: 'send-backward',
-          label: 'Bajar capa',
+          id: "send-backward",
+          label: "Bajar capa",
           icon: <ChevronDown className="h-4 w-4" />,
-          shortcut: 'Cmd+↓',
+          shortcut: "Cmd+↓",
           onClick: () => moveItemDown(contextMenu.itemId!),
         },
         {
-          id: 'send-to-back',
-          label: 'Enviar al fondo',
+          id: "send-to-back",
+          label: "Enviar al fondo",
           icon: <ChevronsDown className="h-4 w-4" />,
-          shortcut: 'Cmd+Shift+↓',
+          shortcut: "Cmd+Shift+↓",
           onClick: () => moveItemToBottom(contextMenu.itemId!),
         },
-        { id: 'separator-2', label: '', separator: true },
+        { id: "separator-2", label: "", separator: true },
         {
-          id: 'delete',
-          label: 'Eliminar',
+          id: "delete",
+          label: "Eliminar",
           icon: <Trash2 className="h-4 w-4" />,
-          shortcut: 'Del',
+          shortcut: "Del",
           danger: true,
           onClick: () => removeItem(contextMenu.itemId!),
         },
@@ -325,9 +325,9 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
         ref={setContainerRef}
         className={`relative flex items-center justify-center p-4 rounded-lg transition-colors ${
           isOver
-            ? 'bg-blue-100 dark:bg-blue-900/30'
-            : 'bg-gray-100 dark:bg-gray-800'
-        } ${className || ''}`}
+            ? "bg-blue-100 dark:bg-blue-900/30"
+            : "bg-gray-100 dark:bg-gray-800"
+        } ${className || ""}`}
         onDragOver={onCanvasDragOver}
         onDrop={onCanvasDrop}
         onMouseMove={(e) => {
@@ -345,13 +345,13 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
           height={canvasHeight * scale}
           viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
           className="bg-white shadow-lg"
-          style={{ touchAction: 'none' }}
+          style={{ touchAction: "none" }}
           onContextMenu={(e) => {
             e.preventDefault();
             // Check if clicked on an item
             const target = e.target as SVGElement;
-            const itemElement = target.closest('[data-item-id]') as SVGElement;
-            const itemId = itemElement?.getAttribute('data-item-id');
+            const itemElement = target.closest("[data-item-id]") as SVGElement;
+            const itemId = itemElement?.getAttribute("data-item-id");
 
             // Only show menu if clicked on an item
             if (!itemId) {
@@ -436,4 +436,4 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   );
 });
 
-Canvas.displayName = 'Canvas';
+Canvas.displayName = "Canvas";
