@@ -325,7 +325,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
         ref={setContainerRef}
         className={`relative flex items-center justify-center p-4 rounded-lg transition-colors ${
           isOver
-            ? 'bg-blue-100 dark:bg-blue-900/30'
+            ? 'bg-kubito-secondary-bg dark:bg-kubito-primary/30'
             : 'bg-gray-100 dark:bg-gray-800'
         } ${className || ''}`}
         onDragOver={onCanvasDragOver}

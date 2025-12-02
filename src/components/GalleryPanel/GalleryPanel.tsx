@@ -76,11 +76,11 @@ export function GalleryPanel() {
             disabled={selectedItem === item.id}
             className={`
               group relative overflow-hidden rounded-lg border-2 bg-white
-              transition-all duration-200 hover:scale-105 hover:shadow-lg
+              transition-all duration-200
               ${
                 selectedItem === item.id
-                  ? 'cursor-wait border-blue-500 opacity-50'
-                  : 'cursor-pointer border-gray-200 hover:border-blue-400'
+                  ? "cursor-wait border-kubito-primary opacity-50"
+                  : "cursor-pointer border-gray-200 hover:border-gray-300"
               }
             `}
             title={item.description}
@@ -90,7 +90,7 @@ export function GalleryPanel() {
               <img
                 src={getGalleryThumbnailUrl(item)}
                 alt={item.name}
-                className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-110"
+                className="h-full w-full object-cover"
                 onError={(e) => {
                   // Fallback si no existe la imagen
                   const target = e.target as HTMLImageElement;
@@ -111,9 +111,7 @@ export function GalleryPanel() {
 
             {/* Title and Description */}
             <div className="p-3 text-left">
-              <h3 className="font-medium text-gray-800 group-hover:text-blue-600">
-                {item.name}
-              </h3>
+              <h3 className="font-medium text-gray-800">{item.name}</h3>
               <p className="mt-1 line-clamp-2 text-xs text-gray-600">
                 {item.description}
               </p>

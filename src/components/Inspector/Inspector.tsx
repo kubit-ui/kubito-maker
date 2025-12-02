@@ -98,11 +98,11 @@ export const Inspector = memo(() => {
         </div>
 
         <div className="flex-1 overflow-y-auto space-y-3 pr-1">
-          <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-            <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+          <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700">
+            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
               {selectedIds.length} items selected
             </p>
-            <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+            <p className="text-xs text-gray-700 dark:text-gray-300 mt-1">
               Use Cmd/Ctrl+C to copy, Cmd/Ctrl+V to paste, or Delete to remove
             </p>
           </div>
@@ -185,7 +185,7 @@ export const Inspector = memo(() => {
           <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-gray-700">
             <button
               onClick={() => selectedId && duplicateItem(selectedId)}
-              className="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+              className="w-full px-3 py-2 bg-kubito-primary hover:bg-kubito-primary-hover text-white rounded-lg text-sm font-medium transition-colors"
             >
               Duplicate {selectedIds.length} items
             </button>
@@ -437,7 +437,7 @@ export const Inspector = memo(() => {
               </h4>
               <button
                 onClick={() => duplicateItem(selected.id)}
-                className="w-full px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium text-sm"
+                className="w-full px-3 py-2 bg-kubito-primary text-white rounded-lg hover:bg-kubito-primary-hover font-medium text-sm"
               >
                 Duplicate
               </button>

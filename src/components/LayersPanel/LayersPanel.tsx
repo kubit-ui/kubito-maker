@@ -86,7 +86,7 @@ export const LayersPanel = memo(() => {
                   key={item.id}
                   className={`group relative rounded-lg transition-all ${
                     isSelected
-                      ? "bg-blue-50 dark:bg-blue-900/20 ring-2 ring-blue-500"
+                      ? "bg-kubito-secondary-bg dark:bg-kubito-primary/20 ring-2 ring-kubito-primary"
                       : "hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
@@ -130,7 +130,7 @@ export const LayersPanel = memo(() => {
                           onBlur={handleFinishEditing}
                           onKeyDown={handleKeyDown}
                           autoFocus
-                          className="w-full px-2 py-1 text-sm bg-white dark:bg-gray-800 border border-blue-500 rounded"
+                          className="w-full px-2 py-1 text-sm bg-white dark:bg-gray-800 border border-kubito-primary rounded"
                         />
                       ) : (
                         <button

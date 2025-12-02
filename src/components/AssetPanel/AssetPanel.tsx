@@ -68,9 +68,6 @@ const DraggableAsset = ({
           className="text-gray-800 dark:text-gray-200"
         />
       </svg>
-      <span className="text-xs text-gray-700 dark:text-gray-300 text-center line-clamp-1 w-full pointer-events-none">
-        {asset.name}
-      </span>
     </div>
   );
 };
@@ -209,7 +206,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search assets..."
-              className="w-full px-3 py-2 pl-8 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
+              className="w-full px-3 py-2 pl-8 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-kubito-primary dark:text-white"
             />
             <svg
               className="absolute left-2.5 top-2.5 w-4 h-4 text-gray-400"
@@ -326,10 +323,10 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
             <button
               key={body.id}
               onClick={() => handleBodySelect(body.id)}
-              className={`w-full border-2 rounded-lg p-3 transition-all hover:scale-105 active:scale-95 ${
+              className={`w-full border-2 rounded-lg p-3 transition-colors ${
                 selectedBodyId === body.id
-                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                  : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-300"
+                  ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
+                  : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
               }`}
             >
               <div className="flex flex-col items-center gap-2">

@@ -117,7 +117,7 @@ export const TransformPanel = memo<TransformPanelProps>(
             onClick={() => onUpdate({ flipX: !item.flipX })}
             className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
               item.flipX
-                ? "bg-blue-500 text-white"
+                ? "bg-kubito-primary text-white"
                 : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
             }`}
           >
@@ -127,7 +127,7 @@ export const TransformPanel = memo<TransformPanelProps>(
             onClick={() => onUpdate({ flipY: !item.flipY })}
             className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition ${
               item.flipY
-                ? "bg-blue-500 text-white"
+                ? "bg-kubito-primary text-white"
                 : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
             }`}
           >

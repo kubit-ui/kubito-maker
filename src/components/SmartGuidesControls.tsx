@@ -200,7 +200,7 @@ export const SmartGuidesControls = memo<SmartGuidesControlsProps>(
             onClick={onToggleRulers}
             className={`flex w-full items-center justify-center gap-2 rounded px-3 py-2 text-sm transition-colors ${
               showRulers
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
+                ? 'bg-kubito-secondary-bg text-kubito-primary dark:bg-kubito-primary/20 dark:text-kubito-primary'
                 : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600'
             }`}
           >

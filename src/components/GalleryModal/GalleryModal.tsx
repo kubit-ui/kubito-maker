@@ -119,11 +119,11 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
                     disabled={selectedItem === item.id}
                     className={`
                       group relative overflow-hidden rounded-xl border-2 bg-white dark:bg-gray-800
-                      transition-all duration-200 hover:scale-105 hover:shadow-xl
+                      transition-all duration-200
                       ${
                         selectedItem === item.id
-                          ? 'cursor-wait border-purple-500 opacity-50'
-                          : 'cursor-pointer border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500'
+                          ? "cursor-wait border-kubito-primary opacity-50"
+                          : "cursor-pointer border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                       }
                     `}
                     title={item.description}
@@ -142,7 +142,7 @@ export const GalleryModal = memo<GalleryModalProps>(({ isOpen, onClose }) => {
 
                     {/* Title and Description */}
                     <div className="p-4 text-left">
-                      <h3 className="font-semibold text-gray-800 dark:text-gray-100 group-hover:text-purple-600 dark:group-hover:text-purple-400">
+                      <h3 className="font-semibold text-gray-800 dark:text-gray-100">
                         {item.name}
                       </h3>
                       <p className="mt-1 line-clamp-2 text-xs text-gray-600 dark:text-gray-400">

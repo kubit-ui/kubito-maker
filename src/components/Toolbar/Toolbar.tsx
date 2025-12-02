@@ -197,7 +197,7 @@ export const Toolbar = memo(() => {
     <motion.div
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-3 flex items-center gap-3 flex-wrap"
+      className="relative z-50 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-3 flex items-center gap-3 flex-wrap"
     >
       {/* Title */}
       <h1 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -218,7 +218,7 @@ export const Toolbar = memo(() => {
           value={kubitoName}
           onChange={(e) => setKubitoName(e.target.value)}
           placeholder="my-kubito"
-          className="px-4 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm min-w-[150px]"
+          className="px-4 py-1.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-kubito-primary shadow-sm min-w-[150px]"
         />
       </div>
 
@@ -228,7 +228,7 @@ export const Toolbar = memo(() => {
       <div className="relative group">
         <button
           onClick={() => setShowCanvasSizeSelector(true)}
-          className="p-2.5 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+          className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         >
           <svg
             className="w-5 h-5"
@@ -257,7 +257,7 @@ export const Toolbar = memo(() => {
       <div className="relative group">
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="p-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         >
           <svg
             className="w-5 h-5"
@@ -293,7 +293,7 @@ export const Toolbar = memo(() => {
       <div className="relative group">
         <button
           onClick={() => setShowGalleryModal(true)}
-          className="p-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-colors shadow-md"
+          className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         >
           <svg
             className="w-5 h-5"
@@ -353,7 +353,7 @@ export const Toolbar = memo(() => {
       <div className="relative group">
         <button
           onClick={() => setShowTipsModal(true)}
-          className="p-2.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+          className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
         >
           <svg
             className="w-5 h-5"
@@ -379,13 +379,32 @@ export const Toolbar = memo(() => {
       </div>
 
       {/* Export Menu */}
-      <div className="relative">
+      <div className="relative group">
         <button
           onClick={() => setShowExportMenu(!showExportMenu)}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium"
+          className="p-2.5 bg-kubito-primary text-white rounded-lg hover:bg-kubito-primary-hover transition-colors"
         >
-          Export
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+            />
+          </svg>
         </button>
+        {/* Tooltip */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+          <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
+            Export
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
+          </div>
+        </div>
 
         {showExportMenu && (
           <motion.div

@@ -92,8 +92,8 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
                         onClick={() => handlePresetSelect(preset.id)}
                         className={`p-4 rounded-lg border-2 transition-all text-left hover:shadow-md ${
                           config.canvasPreset === preset.id
-                            ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                            : "border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700"
+                            ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
+                            : "border-gray-200 dark:border-gray-700 hover:border-kubito-primary dark:hover:border-kubito-primary"
                         }`}
                       >
                         <div className="flex items-start gap-3">
@@ -186,7 +186,7 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
                         </div>
                         <button
                           onClick={handleCustomSize}
-                          className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                          className="w-full px-4 py-2 bg-kubito-primary hover:bg-kubito-primary-hover text-white rounded-lg font-medium transition-colors"
                         >
                           Apply Custom Size
                         </button>

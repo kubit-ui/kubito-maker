@@ -80,7 +80,7 @@ export const FiltersPanel = memo<FiltersPanelProps>(
                 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors
                 ${
                   selectedCategory === category.id
-                    ? "bg-purple-500 text-white"
+                    ? "bg-kubito-primary text-white"
                     : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }
               `}
@@ -102,8 +102,8 @@ export const FiltersPanel = memo<FiltersPanelProps>(
                   relative group flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
                   ${
                     activeFilter === preset.id
-                      ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
-                      : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-purple-300 dark:hover:border-purple-600"
+                      ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
+                      : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-kubito-primary dark:hover:border-kubito-primary"
                   }
                 `}
                 title={preset.description}
@@ -118,11 +118,11 @@ export const FiltersPanel = memo<FiltersPanelProps>(
 
                 {/* Active indicator */}
                 {activeFilter === preset.id && (
-                  <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-purple-500" />
+                  <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-kubito-primary" />
                 )}
 
                 {/* Hover effect */}
-                <div className="absolute inset-0 rounded-xl bg-purple-500/0 group-hover:bg-purple-500/5 transition-colors" />
+                <div className="absolute inset-0 rounded-xl bg-kubito-primary/0 group-hover:bg-kubito-primary/5 transition-colors" />
               </button>
             );
           })}

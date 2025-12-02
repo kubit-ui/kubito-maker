@@ -43,7 +43,7 @@ export const UnifiedSidebar = memo(() => {
   ];
 
   return (
-    <div className="flex h-full gap-2">
+    <div className="relative z-40 flex h-full gap-2">
       {/* Tab Bar */}
       <div className="flex flex-col gap-2 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-2">
         {tabs.map((tab) => {
@@ -65,7 +65,7 @@ export const UnifiedSidebar = memo(() => {
                 p-3 rounded-xl flex items-center justify-center relative
                 ${
                   activeTab === tab.id && !isCollapsed
-                    ? "bg-blue-600 text-white shadow-lg"
+                    ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white shadow-lg"
                     : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }
               `}

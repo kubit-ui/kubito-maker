@@ -175,12 +175,12 @@ export default function KubitoEditor() {
             <UnifiedSidebar />
 
             {/* Canvas - takes all remaining space */}
-            <div className="flex-1 min-w-0 h-full">
+            <div className="relative z-10 flex-1 min-w-0 h-full overflow-auto">
               <Canvas className="h-full" />
             </div>
 
             {/* Inspector - Right Sidebar */}
-            <div className="h-full">
+            <div className="relative z-40 h-full">
               <Inspector />
             </div>
           </div>
