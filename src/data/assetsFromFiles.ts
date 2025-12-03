@@ -215,6 +215,7 @@ export const NOSES_DEFINITIONS: AssetDefinition[] = [];
  */
 export const HAIRS_DEFINITIONS: AssetDefinition[] = [
   { id: 'afro', name: 'Afro Hair', category: 'Hairs', file: 'afro.svg' },
+  { id: 'afro-2', name: 'Afro Hair 2', category: 'Hairs', file: 'afro_2.svg' },
   { id: 'hair-2', name: 'Wavy Hair', category: 'Hairs', file: 'hair_2.svg' },
   { id: 'hairs', name: 'Spiky Hair', category: 'Hairs', file: 'hairs.svg' },
   {
@@ -277,6 +278,18 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     name: 'Cigarette',
     category: 'Accessories',
     file: 'cigarrette.svg',
+  },
+  {
+    id: 'cloud',
+    name: 'Cloud',
+    category: 'Accessories',
+    file: 'cloud.svg',
+  },
+  {
+    id: 'cloud2',
+    name: 'Cloud 2',
+    category: 'Accessories',
+    file: 'cloud2.svg',
   },
   {
     id: 'cross',
