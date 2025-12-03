@@ -1,12 +1,4 @@
-import {
-  Circle,
-  Square,
-  Pen,
-  Pencil,
-  Trash2,
-  Eraser,
-  MousePointer2,
-} from 'lucide-react';
+import { Circle, Trash2, Eraser, MousePointer2 } from 'lucide-react';
 import {
   useBrushSettings,
   useEditorActions,
@@ -19,12 +11,7 @@ const BRUSH_TYPES: Array<{
   type: BrushType;
   icon: React.ReactNode;
   label: string;
-}> = [
-  { type: 'round', icon: <Circle size={18} />, label: 'Round' },
-  { type: 'square', icon: <Square size={18} />, label: 'Square' },
-  { type: 'marker', icon: <Pen size={18} />, label: 'Marker' },
-  { type: 'pencil', icon: <Pencil size={18} />, label: 'Pencil' },
-];
+}> = [{ type: 'round', icon: <Circle size={18} />, label: 'Pencil Round' }];
 
 const PRESET_SIZES = [1, 2, 5, 10, 20, 30, 50];
 const PRESET_COLORS = [
@@ -84,12 +71,6 @@ export function BrushPanel() {
 
   const handleSmoothingChange = (smoothing: number) => {
     updateBrushSettings({ smoothing });
-  };
-
-  const handlePressureSensitiveToggle = () => {
-    updateBrushSettings({
-      pressureSensitive: !brushSettings.pressureSensitive,
-    });
   };
 
   return (
@@ -251,24 +232,6 @@ export function BrushPanel() {
           onChange={(e) => handleSmoothingChange(Number(e.target.value))}
           className="w-full"
         />
-      </div>
-
-      {/* Presión Sensible */}
-      <div className="mb-4">
-        <label className="flex items-center justify-between">
-          <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-            Pressure Sensitivity
-          </span>
-          <input
-            type="checkbox"
-            checked={brushSettings.pressureSensitive}
-            onChange={handlePressureSensitiveToggle}
-            className="h-4 w-4 rounded border-gray-300 text-kubito-primary focus:ring-kubito-primary"
-          />
-        </label>
-        <p className="mt-0.5 text-[10px] text-gray-500 dark:text-gray-400">
-          Requires compatible device
-        </p>
       </div>
 
       {/* Acciones */}

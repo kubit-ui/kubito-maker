@@ -20,8 +20,10 @@ import type {
   BrushStroke,
   BrushMode,
   BrushPoint,
+  TextSettings,
+  TextItem,
 } from '@/types';
-import { DEFAULT_BRUSH_SETTINGS } from '@/types';
+import { DEFAULT_BRUSH_SETTINGS, DEFAULT_TEXT_SETTINGS } from '@/types';
 import type { Guide, SnapConfig } from '@/utils/smartGuides';
 import { DEFAULT_SNAP_CONFIG } from '@/utils/smartGuides';
 import type { CombinedEditorState } from '@/domain/models/EditorStates';
@@ -117,6 +119,13 @@ export interface EditorActions {
     transform: { scale?: number; rotate?: number }
   ) => void;
 
+  // Text
+  updateTextSettings: (updates: Partial<TextSettings>) => void;
+  addText: () => void;
+  updateText: (id: string, content: string) => void;
+  updateTextStyle: (id: string, settings: Partial<TextSettings>) => void;
+  toggleTextEditing: (id: string, isEditing: boolean) => void;
+
   // Utility
   clearAll: () => void;
   loadProject: (
@@ -191,6 +200,9 @@ export function createInitialState(
     brushStrokes: [],
     currentStroke: null,
     selectedStrokeId: null,
+
+    // Text
+    textSettings: DEFAULT_TEXT_SETTINGS,
   };
 }
 
@@ -212,11 +224,12 @@ export function createEditorActions(
         // If kubito-base exists, update its assetId
         if (bodyItem) {
           const updatedItems = state.items.map((item) =>
-            item.id === 'kubito-base' ? { ...item, assetId: id } : item
+            item.id === 'kubito-base' ? ({ ...item, assetId: id } as any) : item
           );
           return {
             selectedBodyId: id,
             items: updatedItems,
+            brushStrokes: [], // Clear brush strokes when body changes
           };
         }
 
@@ -230,6 +243,7 @@ export function createEditorActions(
           selectedBodyId: id,
           selectedId: 'kubito-base',
           items: [newBodyItem, ...state.items], // ✅ Mantener items existentes
+          brushStrokes: [], // Clear brush strokes when body changes
         };
       });
       get().addToHistory();
@@ -337,7 +351,9 @@ export function createEditorActions(
 
     updateItem: (id: string, updates: Partial<KubitoItem>) => {
       set((state) => ({
-        items: ItemService.updateItem(state.items, id, updates),
+        items: state.items.map((item) =>
+          item.id === id ? { ...item, ...updates } : item
+        ) as any,
       }));
       get().addToHistory();
     },
@@ -352,7 +368,7 @@ export function createEditorActions(
         return;
       }
 
-      const result = ItemService.removeItems(state.items, idsToRemove);
+      const result = ItemService.removeItems(state.items as any, idsToRemove);
       set({
         items: result.items,
         ...SelectionManager.deselectAll(),
@@ -371,7 +387,7 @@ export function createEditorActions(
       }
 
       const result = ItemService.duplicateItems(
-        state.items,
+        state.items as any,
         idsToDuplicate,
         20
       );
@@ -395,11 +411,11 @@ export function createEditorActions(
         return;
       }
 
-      ItemService.copyToClipboard(state.items, idsToCopy);
+      ItemService.copyToClipboard(state.items as any, idsToCopy);
     },
 
     pasteItem: () => {
-      const result = ItemService.pasteFromClipboard(get().items, 20);
+      const result = ItemService.pasteFromClipboard(get().items as any, 20);
 
       if (result) {
         set((state) => ({
@@ -425,7 +441,7 @@ export function createEditorActions(
 
     selectAll: () => {
       const items = get().items;
-      set(SelectionManager.selectAll(items));
+      set(SelectionManager.selectAll(items as any));
       toast.success(`${items.length} items selected`, {
         duration: 1500,
       });
@@ -496,14 +512,14 @@ export function createEditorActions(
 
     toggleItemVisibility: (id: string) => {
       set((state) => ({
-        items: ItemService.toggleVisibility(state.items, id),
+        items: ItemService.toggleVisibility(state.items as any, id),
       }));
       get().addToHistory();
     },
 
     toggleItemLock: (id: string) => {
       set((state) => ({
-        items: ItemService.toggleLock(state.items, id),
+        items: ItemService.toggleLock(state.items as any, id),
       }));
       get().addToHistory();
     },
@@ -514,7 +530,7 @@ export function createEditorActions(
       if (selectedIds.length === 0) return;
 
       const alignedItems = AlignmentService.align(
-        items,
+        items as any,
         selectedIds,
         alignmentType,
         config.canvasWidth,
@@ -531,7 +547,7 @@ export function createEditorActions(
       const result = HistoryService.addToHistory(
         state.history,
         state.historyIndex,
-        state.items
+        state.items as any
       );
 
       set({
@@ -756,6 +772,76 @@ export function createEditorActions(
       }));
     },
 
+    // Text actions
+    updateTextSettings: (updates: Partial<TextSettings>) => {
+      set((state) => ({
+        textSettings: { ...state.textSettings, ...updates },
+      }));
+    },
+
+    addText: () => {
+      const state = get();
+      const newText: TextItem = {
+        id: crypto.randomUUID(),
+        type: 'text',
+        name: 'Text',
+        content: 'Double click to edit',
+        settings: { ...state.textSettings },
+        width: 300,
+        x: state.config.canvasWidth / 2 - 150,
+        y: state.config.canvasHeight / 2 - 50,
+        scale: 1,
+        rotate: 0,
+        flipX: false,
+        flipY: false,
+        z: state.items.length,
+        locked: false,
+        visible: true,
+        isEditing: false,
+      };
+
+      set((state) => ({
+        items: [...state.items, newText as any],
+        selectedId: newText.id,
+      }));
+      get().addToHistory();
+    },
+
+    updateText: (id: string, content: string) => {
+      set((state) => ({
+        items: state.items.map((item) =>
+          item.id === id && 'type' in item && (item as any).type === 'text'
+            ? { ...item, content }
+            : item
+        ),
+      }));
+      get().addToHistory();
+    },
+
+    updateTextStyle: (id: string, settings: Partial<TextSettings>) => {
+      set((state) => ({
+        items: state.items.map((item) =>
+          item.id === id && 'type' in item && (item as any).type === 'text'
+            ? {
+                ...item,
+                settings: { ...(item as any).settings, ...settings },
+              }
+            : item
+        ),
+      }));
+      get().addToHistory();
+    },
+
+    toggleTextEditing: (id: string, isEditing: boolean) => {
+      set((state) => ({
+        items: state.items.map((item) =>
+          item.id === id && 'type' in item && (item as any).type === 'text'
+            ? { ...item, isEditing }
+            : item
+        ),
+      }));
+    },
+
     // Utility
     clearAll: () => {
       set({
@@ -764,6 +850,7 @@ export function createEditorActions(
         selectedIds: [],
         history: [],
         historyIndex: -1,
+        brushStrokes: [], // Clear brush strokes when clearing all
       });
     },
 

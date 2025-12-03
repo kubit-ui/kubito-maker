@@ -106,18 +106,20 @@ export const LayersPanel = memo(() => {
                         }
                       }}
                     >
-                      {item.category === 'Eyes' && <Eye className="h-4 w-4" />}
-                      {item.category === 'Mouths' && (
+                      {(item as any).category === 'Eyes' && (
+                        <Eye className="h-4 w-4" />
+                      )}
+                      {(item as any).category === 'Mouths' && (
                         <Smile className="h-4 w-4" />
                       )}
-                      {item.category === 'Accessories' && (
+                      {(item as any).category === 'Accessories' && (
                         <Crown className="h-4 w-4" />
                       )}
-                      {item.category === 'Noses' && '▪'}
-                      {item.category === 'Hairs' && (
+                      {(item as any).category === 'Noses' && '▪'}
+                      {(item as any).category === 'Hairs' && (
                         <Sparkles className="h-4 w-4" />
                       )}
-                      {item.category === 'Backgrounds' && '▪'}
+                      {(item as any).category === 'Backgrounds' && '▪'}
                     </div>
 
                     {/* Layer Name */}
@@ -142,7 +144,7 @@ export const LayersPanel = memo(() => {
                             }
                           }}
                           onDoubleClick={() =>
-                            handleStartEditing(item.id, item.name)
+                            handleStartEditing(item.id, item.name || 'Text')
                           }
                           className="w-full text-left"
                         >
@@ -150,7 +152,7 @@ export const LayersPanel = memo(() => {
                             {item.name}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400">
-                            {item.category}
+                            {(item as any).category || 'Text'}
                           </div>
                         </button>
                       )}

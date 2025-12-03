@@ -39,6 +39,7 @@ import {
   CanvasStrokeTransformControls,
 } from '.';
 import { CanvasBrushStrokes } from './CanvasBrushStrokes';
+import { CanvasText } from './CanvasText';
 import { ContextMenu, type ContextMenuItem } from '../ContextMenu';
 
 interface CanvasProps {
@@ -223,7 +224,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
   const { marquee } = useCanvasTransform({
     svgRef,
-    items,
+    items: items as any,
     selectedId,
     selectedIds,
     toSvgPoint,
@@ -606,7 +607,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
             .map((item) => (
               <CanvasItem
                 key={item.id}
-                item={item}
+                item={item as any}
                 isSelected={
                   brushMode === 'none' &&
                   (selectedId === item.id || selectedIds.includes(item.id))
@@ -621,6 +622,21 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
             currentStroke={currentStroke}
             selectedStrokeId={selectedStrokeId}
           />
+
+          {/* Text elements layer */}
+          {items
+            .filter((item) => 'type' in item && (item as any).type === 'text')
+            .map((textItem) => (
+              <CanvasText
+                key={textItem.id}
+                textItem={textItem as any}
+                isSelected={
+                  brushMode === 'none' &&
+                  (selectedId === textItem.id ||
+                    selectedIds.includes(textItem.id))
+                }
+              />
+            ))}
 
           {/* Transform controls for selected stroke */}
           {selectedStrokeId &&
@@ -646,7 +662,10 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
           {/* Multi-selection bounding box - oculto en modo pincel */}
           {brushMode === 'none' && (
-            <CanvasMultiSelection items={items} selectedIds={selectedIds} />
+            <CanvasMultiSelection
+              items={items as any}
+              selectedIds={selectedIds}
+            />
           )}
 
           {/* Marquee selection - visual feedback while dragging - oculto en modo pincel */}

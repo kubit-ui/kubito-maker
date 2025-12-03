@@ -4,6 +4,7 @@ import {
   Layers,
   Ruler,
   Paintbrush,
+  Type,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
@@ -11,19 +12,22 @@ import { AssetPanel } from '../AssetPanel';
 import { LayersPanel } from '../LayersPanel';
 import { SmartGuidesControls } from '../SmartGuidesControls';
 import { BrushPanel } from '../BrushPanel';
+import { TextPanel } from '../TextPanel';
 import {
   useSnapConfig,
   useGuides,
   useEditorActions,
+  useTextSettings,
 } from '@/store/editorStore';
 
-type SidebarTab = 'assets' | 'layers' | 'guides' | 'brush';
+type SidebarTab = 'assets' | 'layers' | 'guides' | 'brush' | 'text';
 
 const TAB_ICONS = {
   assets: Palette,
   layers: Layers,
   guides: Ruler,
   brush: Paintbrush,
+  text: Type,
 } as const;
 
 /**
@@ -37,12 +41,20 @@ export const UnifiedSidebar = memo(() => {
   // Smart Guides state and actions
   const snapConfig = useSnapConfig();
   const { showRulers } = useGuides();
-  const { updateSnapConfig, toggleRulers, setBrushMode } = useEditorActions();
+  const textSettings = useTextSettings();
+  const {
+    updateSnapConfig,
+    toggleRulers,
+    setBrushMode,
+    updateTextSettings,
+    addText,
+  } = useEditorActions();
 
   const tabs: Array<{ id: SidebarTab; label: string }> = [
     { id: 'assets', label: 'Assets' },
     { id: 'layers', label: 'Layers' },
     { id: 'brush', label: 'Brush' },
+    { id: 'text', label: 'Text' },
     { id: 'guides', label: 'Guides' },
   ];
 
@@ -153,6 +165,15 @@ export const UnifiedSidebar = memo(() => {
           {activeTab === 'brush' && (
             <div className="h-full">
               <BrushPanel />
+            </div>
+          )}
+          {activeTab === 'text' && (
+            <div className="h-full">
+              <TextPanel
+                textSettings={textSettings}
+                onSettingsChange={updateTextSettings}
+                onAddText={addText}
+              />
             </div>
           )}
           {activeTab === 'guides' && (

@@ -53,22 +53,10 @@ function pointsToPath(points: BrushPoint[], smoothing: number): string {
 }
 
 /**
- * Obtiene el estilo de trazo según el tipo de pincel
+ * Obtiene el estilo de trazo (siempre round/pencil)
  */
-function getStrokeStyle(type: string) {
-  switch (type) {
-    case 'square':
-      return { lineCap: 'square' as const, lineJoin: 'miter' as const };
-    case 'marker':
-      return { lineCap: 'square' as const, lineJoin: 'round' as const };
-    case 'pencil':
-      return { lineCap: 'round' as const, lineJoin: 'round' as const };
-    case 'calligraphy':
-      return { lineCap: 'butt' as const, lineJoin: 'bevel' as const };
-    case 'round':
-    default:
-      return { lineCap: 'round' as const, lineJoin: 'round' as const };
-  }
+function getStrokeStyle() {
+  return { lineCap: 'round' as const, lineJoin: 'round' as const };
 }
 
 /**
@@ -108,7 +96,7 @@ function BrushStrokePath({
     };
   }, [stroke.points]);
 
-  const style = getStrokeStyle(stroke.settings.type);
+  const style = getStrokeStyle();
 
   if (!stroke.visible) return null;
 

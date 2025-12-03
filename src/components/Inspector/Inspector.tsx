@@ -53,6 +53,10 @@ export const Inspector = memo(() => {
   const selected = items.find((i) => i.id === selectedId);
   const selectedItems = items.filter((i) => selectedIds.includes(i.id));
 
+  // Type guard para saber si es un TextItem
+  const isTextItem =
+    selected && 'type' in selected && (selected as any).type === 'text';
+
   // Multiple selection view
   if (selectedIds.length > 1) {
     return (
@@ -331,9 +335,9 @@ export const Inspector = memo(() => {
         {/* Transform Tab */}
         {activeTab === 'transform' && (
           <>
-            <TransformPanel item={selected} onUpdate={handleUpdate} />
+            <TransformPanel item={selected as any} onUpdate={handleUpdate} />
             <AlignmentPanel
-              item={selected}
+              item={selected as any}
               onUpdate={handleUpdate}
               onAlign={alignItems}
             />
@@ -342,26 +346,26 @@ export const Inspector = memo(() => {
 
         {/* Style Tab */}
         {activeTab === 'style' && (
-          <StylePanel item={selected} onUpdate={handleUpdate} />
+          <StylePanel item={selected as any} onUpdate={handleUpdate} />
         )}
 
         {/* Effects Tab */}
-        {activeTab === 'effects' && (
+        {activeTab === 'effects' && !isTextItem && (
           <FiltersPanel
             currentEffects={{
-              brightness: selected.effects.brightness,
-              contrast: selected.effects.contrast,
-              saturate: selected.effects.saturate,
-              hueRotate: selected.effects.hueRotate,
-              grayscale: selected.effects.grayscale,
-              sepia: selected.effects.sepia,
-              invert: selected.effects.invert,
-              blur: selected.effects.blur,
+              brightness: (selected as any).effects?.brightness,
+              contrast: (selected as any).effects?.contrast,
+              saturate: (selected as any).effects?.saturate,
+              hueRotate: (selected as any).effects?.hueRotate,
+              grayscale: (selected as any).effects?.grayscale,
+              sepia: (selected as any).effects?.sepia,
+              invert: (selected as any).effects?.invert,
+              blur: (selected as any).effects?.blur,
             }}
             onApplyFilter={(filterEffects) => {
               handleUpdate({
                 effects: {
-                  ...selected.effects,
+                  ...(selected as any).effects,
                   ...filterEffects,
                 },
               });

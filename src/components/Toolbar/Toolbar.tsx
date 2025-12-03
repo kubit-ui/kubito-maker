@@ -71,7 +71,9 @@ export const Toolbar = memo(() => {
     if (!svg) return;
 
     // Check if there's a background item
-    const hasBackground = items.some((item) => item.category === 'Backgrounds');
+    const hasBackground = items.some(
+      (item) => (item as any).category === 'Backgrounds'
+    );
 
     // Create options for export
     const options = ExportService.createDefaultOptions(
@@ -143,7 +145,9 @@ export const Toolbar = memo(() => {
     if (!svg) return;
 
     // Check if there's a background item
-    const hasBackground = items.some((item) => item.category === 'Backgrounds');
+    const hasBackground = items.some(
+      (item) => (item as any).category === 'Backgrounds'
+    );
 
     // Create options for export
     const options = ExportService.createDefaultOptions(
@@ -172,7 +176,7 @@ export const Toolbar = memo(() => {
   };
 
   const handleExportProject = () => {
-    exportProject(items, brushStrokes, config, selectedBodyId);
+    exportProject(items as any, brushStrokes, config, selectedBodyId);
 
     // Track project save
     trackProjectSaved();

@@ -491,14 +491,9 @@ export const DEFAULT_TRANSFORM: Transform = {
 // ==================== BRUSH SYSTEM ====================
 
 /**
- * Types of brush tips available for drawing.
+ * Brush type: Only pencil round is available
  */
-export type BrushType =
-  | 'round'
-  | 'square'
-  | 'marker'
-  | 'pencil'
-  | 'calligraphy';
+export type BrushType = 'round';
 
 /**
  * Drawing tool modes.
@@ -516,8 +511,6 @@ export interface BrushPoint {
   x: number;
   /** Y coordinate relative to canvas */
   y: number;
-  /** Pressure value (0-1) for pressure-sensitive devices */
-  pressure?: number;
 }
 
 /**
@@ -534,8 +527,6 @@ export interface BrushSettings {
   opacity: number;
   /** Smoothing factor for stroke rendering (0 = no smoothing, 1 = maximum) */
   smoothing: number;
-  /** Whether to use pressure sensitivity (if available) */
-  pressureSensitive: boolean;
 }
 
 /**
@@ -575,5 +566,116 @@ export const DEFAULT_BRUSH_SETTINGS: BrushSettings = {
   color: '#000000',
   opacity: 1,
   smoothing: 0.5,
-  pressureSensitive: false,
+};
+
+// ==================== TEXT SYSTEM ====================
+
+/**
+ * Available font families for text elements.
+ */
+export type FontFamily =
+  | 'Inter'
+  | 'Roboto'
+  | 'Open Sans'
+  | 'Lato'
+  | 'Montserrat'
+  | 'Poppins'
+  | 'Raleway'
+  | 'Playfair Display'
+  | 'Merriweather'
+  | 'Bebas Neue'
+  | 'Pacifico'
+  | 'Lobster'
+  | 'Dancing Script'
+  | 'Caveat'
+  | 'Permanent Marker'
+  | 'Indie Flower'
+  | 'Comic Neue'
+  | 'Courier Prime';
+
+/**
+ * Text alignment options.
+ */
+export type TextAlign = 'left' | 'center' | 'right';
+
+/**
+ * Font weight options.
+ */
+export type FontWeight = 300 | 400 | 500 | 600 | 700 | 800 | 900;
+
+/**
+ * Text decoration options.
+ */
+export type TextDecoration = 'none' | 'underline' | 'line-through';
+
+/**
+ * Configuration for text styling.
+ */
+export interface TextSettings {
+  /** Font family */
+  fontFamily: FontFamily;
+  /** Font size in pixels */
+  fontSize: number;
+  /** Font weight */
+  fontWeight: FontWeight;
+  /** Text color */
+  color: string;
+  /** Text alignment */
+  textAlign: TextAlign;
+  /** Text decoration */
+  textDecoration: TextDecoration;
+  /** Line height multiplier */
+  lineHeight: number;
+  /** Letter spacing in pixels */
+  letterSpacing: number;
+  /** Text opacity (0-1) */
+  opacity: number;
+  /** Italic style */
+  italic: boolean;
+}
+
+/**
+ * A text element on the canvas.
+ */
+export interface TextItem extends Transform {
+  /** Unique identifier */
+  id: string;
+  /** Type identifier for text items */
+  type: 'text';
+  /** The text content */
+  content: string;
+  /** Text styling settings */
+  settings: TextSettings;
+  /** Width of the text box (for wrapping) */
+  width: number;
+  /** Z-index for layer ordering */
+  z: number;
+  /** When true, item cannot be edited or moved */
+  locked: boolean;
+  /** Controls visibility on canvas */
+  visible: boolean;
+  /** Whether the text is being edited */
+  isEditing?: boolean;
+
+  // Optional KubitoItem properties for compatibility
+  category?: never;
+  assetId?: never;
+  name?: string;
+  effects?: never;
+}
+
+/**
+ * Default text settings.
+ */
+export const DEFAULT_TEXT_SETTINGS: TextSettings = {
+  fontFamily: 'Inter',
+  fontSize: 24,
+  fontWeight: 400,
+  color: '#000000',
+  textAlign: 'left',
+  textDecoration: 'none',
+  lineHeight: 1.5,
+  letterSpacing: 0,
+  opacity: 1,
+  italic: false,
 };

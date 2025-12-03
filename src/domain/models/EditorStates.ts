@@ -13,6 +13,8 @@ import type {
   BrushSettings,
   BrushStroke,
   BrushMode,
+  TextSettings,
+  TextItem,
 } from '@/types';
 import type { Guide, SnapConfig } from '@/utils/smartGuides';
 
@@ -20,8 +22,8 @@ import type { Guide, SnapConfig } from '@/utils/smartGuides';
  * State interface for managing canvas items
  */
 export interface ItemsState {
-  /** All items currently on the canvas */
-  items: KubitoItem[];
+  /** All items currently on the canvas (includes both KubitoItem and TextItem) */
+  items: (KubitoItem | TextItem)[];
 }
 
 /**
@@ -109,6 +111,14 @@ export interface BrushState {
 }
 
 /**
+ * State interface for managing text elements
+ */
+export interface TextState {
+  /** Current text settings/styling */
+  textSettings: TextSettings;
+}
+
+/**
  * Combined editor state
  * This is the complete state interface that combines all state slices
  */
@@ -121,4 +131,5 @@ export interface CombinedEditorState
     HistoryStateContainer,
     ConfigState,
     ViewState,
-    BrushState {}
+    BrushState,
+    TextState {}

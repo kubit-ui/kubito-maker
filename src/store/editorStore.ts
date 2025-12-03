@@ -128,6 +128,16 @@ export const useCurrentStroke = () =>
 export const useSelectedStrokeId = () =>
   useEditorStore((state) => state.selectedStrokeId);
 
+// Text selectors
+export const useTextSettings = () =>
+  useEditorStore((state) => state.textSettings);
+export const useTextItems = () =>
+  useEditorStore((state) =>
+    state.items.filter(
+      (item) => 'type' in item && (item as any).type === 'text'
+    )
+  );
+
 // Action selectors (for callbacks) - OPTIMIZED with useShallow
 export const useEditorActions = () =>
   useEditorStore(
@@ -199,6 +209,13 @@ export const useEditorActions = () =>
       selectStroke: state.selectStroke,
       moveStroke: state.moveStroke,
       updateStrokeTransform: state.updateStrokeTransform,
+
+      // Text
+      updateTextSettings: state.updateTextSettings,
+      addText: state.addText,
+      updateText: state.updateText,
+      updateTextStyle: state.updateTextStyle,
+      toggleTextEditing: state.toggleTextEditing,
 
       // Utility
       clearAll: state.clearAll,
