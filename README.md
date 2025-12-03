@@ -19,7 +19,7 @@
 ### 🎭 Character Customization
 
 - **Rich Asset Library**: Choose from a vast collection of customizable components
-  - Eyes, eyebrows, noses, mouths
+  - Eyes, eyebrows, mouths
   - Hairstyles and facial hair
   - Accessories and decorations
   - Multiple body styles
@@ -208,7 +208,7 @@ kubito-maker/
 Assets are the building blocks of your Kubito character. They're organized into categories:
 
 - **Bodies**: The base character shape
-- **Eyes, Eyebrows, Noses, Mouths**: Facial features
+- **Eyes, Eyebrows, Mouths**: Facial features
 - **Hairs, Moustache**: Hairstyles and facial hair
 - **Accessories, Decorations**: Additional elements
 - **Backgrounds**: Scene backgrounds
@@ -248,6 +248,7 @@ Kubito Maker uses a JSON-based format to save complete project states. Each `.ku
 ```
 
 **Why is this important?**
+
 - **Complete Preservation**: Every aspect of your design is saved
 - **Cross-Session Work**: Continue editing exactly where you left off
 - **Sharing**: Share full editable projects with others
@@ -302,6 +303,7 @@ The Layers Panel shows all items on your canvas in a hierarchical view, allowing
 3. **Choose a Location**: Save the `.kubito` file to your computer
 
 **What Gets Saved:**
+
 - ✅ All canvas items (bodies, eyes, accessories, etc.)
 - ✅ Brush strokes and custom drawings
 - ✅ Canvas size and background color
@@ -387,6 +389,7 @@ The Brush Tool allows you to draw freehand on your Kubito:
 5. **Disable Brush Mode**: Click the brush icon again or press `Esc`
 
 **Tips:**
+
 - Brush strokes are saved as separate layers
 - Use lower opacity for subtle effects
 - Combine with other elements for unique designs

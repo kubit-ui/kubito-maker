@@ -108,11 +108,11 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
     setExpandedCategories(newExpanded);
   };
 
-  // Filter assets based on search term (excluding Bodies)
+  // Filter assets based on search term (excluding Bodies and Noses)
   const filteredAssets = useMemo(() => {
-    // Exclude Bodies category from assets library
+    // Exclude Bodies and Noses categories from assets library
     const assetsWithoutBodies = Object.entries(ASSETS_LIBRARY)
-      .filter(([category]) => category !== 'Bodies')
+      .filter(([category]) => category !== 'Bodies' && category !== 'Noses')
       .reduce(
         (acc, [category, assets]) => {
           acc[category] = assets;
