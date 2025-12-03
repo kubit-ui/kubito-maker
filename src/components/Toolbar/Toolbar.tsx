@@ -475,4 +475,4 @@ export const Toolbar = memo(() => {
   );
 });
 
-Toolbar.displayName = "Toolbar";
+Toolbar.displayName = 'Toolbar';

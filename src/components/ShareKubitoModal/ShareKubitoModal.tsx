@@ -66,6 +66,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
         }
 
         // Get state data to save as .kubito
+        // Data will be stored minified (without spaces) to save space
         const kubitoData = {
           items: editorStore.items,
           brushStrokes: editorStore.brushStrokes,
@@ -286,7 +287,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isUploading || uploadStatus === "success"}
+                disabled={isUploading || uploadStatus === 'success'}
                 className="w-full py-3 px-4 bg-kubito-primary 
                          hover:bg-kubito-primary-hover
                          text-white font-medium rounded-lg

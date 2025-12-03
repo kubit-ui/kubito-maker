@@ -214,6 +214,7 @@ export const NOSES_DEFINITIONS: AssetDefinition[] = [];
  * Hairs assets (includes hair, eyebrows, and moustache)
  */
 export const HAIRS_DEFINITIONS: AssetDefinition[] = [
+  { id: 'afro', name: 'Afro Hair', category: 'Hairs', file: 'afro.svg' },
   { id: 'hair-2', name: 'Wavy Hair', category: 'Hairs', file: 'hair_2.svg' },
   { id: 'hairs', name: 'Spiky Hair', category: 'Hairs', file: 'hairs.svg' },
   {
@@ -276,6 +277,12 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     name: 'Cigarette',
     category: 'Accessories',
     file: 'cigarrette.svg',
+  },
+  {
+    id: 'cross',
+    name: 'Cross',
+    category: 'Accessories',
+    file: 'cross.svg',
   },
   {
     id: 'crown',
@@ -388,6 +395,12 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     name: 'Vector Accessory',
     category: 'Accessories',
     file: 'Vector 824.svg',
+  },
+  {
+    id: 'vector-845',
+    name: 'Vector Accessory 845',
+    category: 'Accessories',
+    file: 'Vector 845.svg',
   },
 ];
 

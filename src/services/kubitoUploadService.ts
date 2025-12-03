@@ -56,11 +56,13 @@ export async function uploadKubito(
     // 3. Get public URL of the image
     const {
       data: { publicUrl },
-    } = supabase.storage.from('kubitos').getPublicUrl(fileName);
+    } = supabase.storage.from("kubitos").getPublicUrl(fileName);
 
     // 4. Save metadata to database
+    // Note: kubitoData is stored as JSONB in PostgreSQL, which automatically
+    // compresses and stores JSON efficiently (no extra spaces/formatting)
     const { data: submissionData, error: dbError } = await supabase
-      .from('kubito_submissions')
+      .from("kubito_submissions")
       .insert([
         {
           author_name: authorName,
@@ -68,7 +70,7 @@ export async function uploadKubito(
           title: title,
           description: description || null,
           image_url: publicUrl,
-          kubito_data: kubitoData || null,
+          kubito_data: kubitoData || null, // Stored as minified JSONB
           likes: 0,
           views: 0,
         },
@@ -77,7 +79,7 @@ export async function uploadKubito(
       .single();
 
     if (dbError) {
-      console.error('Error saving to database:', dbError);
+      console.error("Error saving to database:", dbError);
       // Try to delete image if database save fails
       await supabase.storage.from('kubitos').remove([fileName]);
       return {
