@@ -22,6 +22,7 @@ import {
   importProject,
 } from '@/utils/export';
 import { ExportService } from '@/domain';
+import { useAnalytics } from '@/hooks';
 
 export const Toolbar = memo(() => {
   const [showExportMenu, setShowExportMenu] = useState(false);
@@ -37,6 +38,7 @@ export const Toolbar = memo(() => {
   const { clearAll, loadProject, setKubitoName, deselectAll } =
     useEditorActions();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { trackExport, trackProjectSaved, trackProjectLoaded } = useAnalytics();
 
   const handleExportSVG = async () => {
     // Deselect all items to hide selection UI
@@ -51,6 +53,10 @@ export const Toolbar = memo(() => {
     // Generate filename with kubito name
     const filename = `kubito_${kubitoName}.svg`;
     await exportSVG(svg, filename);
+
+    // Track export
+    trackExport('SVG', config.canvasWidth, config.canvasHeight);
+
     setShowExportMenu(false);
   };
 
@@ -85,6 +91,10 @@ export const Toolbar = memo(() => {
 
     const filename = `kubito_${kubitoName}.png`;
     await exportPNG(svg, { ...options, filename });
+
+    // Track export
+    trackExport('PNG', config.canvasWidth, config.canvasHeight);
+
     setShowExportMenu(false);
   };
 
@@ -115,6 +125,10 @@ export const Toolbar = memo(() => {
 
     const filename = `kubito_${kubitoName}.jpeg`;
     await exportJPEG(svg, { ...options, filename });
+
+    // Track export
+    trackExport('JPEG', config.canvasWidth, config.canvasHeight);
+
     setShowExportMenu(false);
   };
 
@@ -150,11 +164,19 @@ export const Toolbar = memo(() => {
 
     const filename = `kubito_${kubitoName}.webp`;
     await exportWebP(svg, { ...options, filename });
+
+    // Track export
+    trackExport('WebP', config.canvasWidth, config.canvasHeight);
+
     setShowExportMenu(false);
   };
 
   const handleExportProject = () => {
     exportProject(items, brushStrokes, config, selectedBodyId);
+
+    // Track project save
+    trackProjectSaved();
+
     setShowExportMenu(false);
   };
 
@@ -172,6 +194,9 @@ export const Toolbar = memo(() => {
         projectData.brushStrokes || [],
         projectData.selectedBodyId
       );
+
+      // Track project load
+      trackProjectLoaded();
     } catch (error) {
       alert('Failed to load project: ' + (error as Error).message);
     }

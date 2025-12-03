@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Settings } from 'lucide-react';
 import { CANVAS_PRESETS } from '@/data';
 import { useConfig, useEditorActions } from '@/store/editorStore';
+import { useAnalytics } from '@/hooks';
 
 interface CanvasSizeSelectorProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
   ({ isOpen, onClose }) => {
     const config = useConfig();
     const { setCanvasSize } = useEditorActions();
+    const { trackCanvasSizeChanged } = useAnalytics();
     const [customWidth, setCustomWidth] = useState(720);
     const [customHeight, setCustomHeight] = useState(720);
     const [showCustom, setShowCustom] = useState(false);
@@ -21,12 +23,20 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
       const preset = CANVAS_PRESETS.find((p) => p.id === presetId);
       if (preset) {
         setCanvasSize(preset.width, preset.height, preset.id);
+
+        // Track canvas size change
+        trackCanvasSizeChanged(preset.width, preset.height, preset.id);
+
         onClose();
       }
     };
 
     const handleCustomSize = () => {
       setCanvasSize(customWidth, customHeight, 'custom');
+
+      // Track canvas size change
+      trackCanvasSizeChanged(customWidth, customHeight, 'custom');
+
       onClose();
     };
 

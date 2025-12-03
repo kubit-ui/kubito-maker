@@ -7,6 +7,7 @@ import {
   useSelectedBodyId,
   useEditorActions,
 } from '@/store/editorStore';
+import { useAnalytics } from '@/hooks';
 import { AssetRenderer } from '../AssetRenderer';
 import { BodyRenderer } from '../BodyRenderer';
 
@@ -76,6 +77,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
   const config = useConfig();
   const selectedBodyId = useSelectedBodyId();
   const { addItem, setSelectedBodyId, clearAll } = useEditorActions();
+  const { trackAssetAdded, trackBodyChanged } = useAnalytics();
   const [activeTab, setActiveTab] = useState<Tab>('assets');
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
@@ -96,6 +98,9 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
       flipX: false,
       flipY: false,
     });
+
+    // Track analytics
+    trackAssetAdded(category, asset.id);
   };
 
   const toggleCategory = (category: string) => {
@@ -153,6 +158,9 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
     ) {
       clearAll();
       setSelectedBodyId(bodyId);
+
+      // Track analytics
+      trackBodyChanged(bodyId);
     }
   };
 

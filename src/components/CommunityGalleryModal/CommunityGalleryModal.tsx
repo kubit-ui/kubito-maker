@@ -18,6 +18,7 @@ import {
 } from '@/services/kubitoUploadService';
 import type { KubitoSubmission } from '@/lib/supabase';
 import { useEditorStore } from '@/store/editorStore';
+import { useAnalytics } from '@/hooks';
 
 interface CommunityGalleryModalProps {
   isOpen: boolean;
@@ -32,10 +33,20 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
       useState<KubitoSubmission | null>(null);
     const [likedKubitos, setLikedKubitos] = useState<Set<string>>(new Set());
     const editorStore = useEditorStore();
+    const {
+      trackGalleryOpened,
+      trackKubitoLoaded,
+      trackKubitoLiked,
+      trackKubitoDownloaded,
+    } = useAnalytics();
 
     useEffect(() => {
       if (isOpen) {
         void loadKubitos();
+
+        // Track gallery opened
+        trackGalleryOpened();
+
         // Load likes from localStorage
         const stored = localStorage.getItem('kubito-likes');
         if (stored) {
@@ -91,6 +102,9 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
               : undefined
           );
 
+          // Track kubito loaded
+          trackKubitoLoaded(kubito.id, 'gallery');
+
           // Close modal and show confirmation
           onClose();
           setSelectedKubito(null);
@@ -128,6 +142,9 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
 
         // Clean up the URL
         URL.revokeObjectURL(url);
+
+        // Track kubito download
+        trackKubitoDownloaded(kubito.id);
       } catch (error) {
         console.error('Error downloading kubito:', error);
         alert('Error downloading .kubito file');
@@ -162,6 +179,9 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
 
       // Increment in database
       void incrementLikes(kubito.id);
+
+      // Track like
+      trackKubitoLiked(kubito.id);
 
       // Update counter locally
       setKubitos((prev) =>

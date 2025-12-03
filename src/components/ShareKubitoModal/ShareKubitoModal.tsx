@@ -4,6 +4,7 @@ import { X, Upload, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { uploadKubito } from '@/services/kubitoUploadService';
 import { exportToWebPBlob } from '@/utils/export';
 import { useEditorStore } from '@/store/editorStore';
+import { useAnalytics } from '@/hooks';
 
 interface ShareKubitoModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
     const [errorMessage, setErrorMessage] = useState('');
 
     const editorStore = useEditorStore();
+    const { trackKubitoShared } = useAnalytics();
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -66,7 +68,6 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
         }
 
         // Get state data to save as .kubito
-        // Data will be stored minified (without spaces) to save space
         const kubitoData = {
           items: editorStore.items,
           brushStrokes: editorStore.brushStrokes,
@@ -86,6 +87,10 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
 
         if (result.success) {
           setUploadStatus('success');
+
+          // Track successful share
+          trackKubitoShared(title.trim(), !!authorEmail.trim());
+
           // Clear form
           setTimeout(() => {
             setAuthorName('');

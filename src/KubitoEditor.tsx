@@ -14,12 +14,20 @@ import { Toolbar } from './components/Toolbar';
 import { UnifiedSidebar } from './components/UnifiedSidebar';
 import { Inspector } from './components/Inspector';
 import { useEditorStore } from './store/editorStore';
-import { useKeyboardShortcuts } from './hooks';
+import { useKeyboardShortcuts, useAnalytics } from './hooks';
 import { AssetRenderer } from './components/AssetRenderer';
 import type { Asset, AssetCategory } from './types';
 import { useState } from 'react';
 
 export default function KubitoEditor() {
+  // Analytics
+  const { trackSessionStart } = useAnalytics();
+
+  // Initialize analytics on mount
+  useEffect(() => {
+    trackSessionStart();
+  }, [trackSessionStart]);
+
   // Drag and drop state
   const [activeAsset, setActiveAsset] = useState<{
     asset: Asset;
