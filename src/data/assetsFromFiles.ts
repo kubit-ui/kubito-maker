@@ -264,6 +264,7 @@ export const EYEBROWS_DEFINITIONS: AssetDefinition[] = [];
  */
 export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
   { id: 'ay', name: 'Speech Bubble', category: 'Accessories', file: 'ay.svg' },
+  { id: 'beer', name: 'Beer Glass', category: 'Accessories', file: 'beer.svg' },
   {
     id: 'bowtie',
     name: 'Bow Tie',
@@ -301,6 +302,18 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     category: 'Accessories',
     file: 'ear-1.svg',
   },
+  {
+    id: 'ear-devil',
+    name: 'Devil Ear',
+    category: 'Accessories',
+    file: 'ear_devil.svg',
+  },
+  {
+    id: 'ellipse-693',
+    name: 'Circle Accessory',
+    category: 'Accessories',
+    file: 'Ellipse 693.svg',
+  },
   { id: 'hat', name: 'Top Hat', category: 'Accessories', file: 'hat.svg' },
   {
     id: 'hat-1',
@@ -308,6 +321,7 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     category: 'Accessories',
     file: 'hat-1.svg',
   },
+  { id: 'leaf', name: 'Leaf', category: 'Accessories', file: 'leaf.svg' },
   { id: 'mask', name: 'Face Mask', category: 'Accessories', file: 'mask.svg' },
   {
     id: 'monocle',
@@ -328,10 +342,52 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     file: 'original_hat.svg',
   },
   {
+    id: 'pluma',
+    name: 'Feather',
+    category: 'Accessories',
+    file: 'pluma.svg',
+  },
+  {
     id: 'shadow',
     name: 'Floor Shadow',
     category: 'Accessories',
     file: 'shadow.svg',
+  },
+  {
+    id: 'tail',
+    name: 'Tail',
+    category: 'Accessories',
+    file: 'tail.svg',
+  },
+  {
+    id: 'tattoo',
+    name: 'Tattoo',
+    category: 'Accessories',
+    file: 'tattoo.svg',
+  },
+  {
+    id: 'tattoo-1',
+    name: 'Tattoo 1',
+    category: 'Accessories',
+    file: 'tattoo-1.svg',
+  },
+  {
+    id: 'tattoo-2',
+    name: 'Tattoo 2',
+    category: 'Accessories',
+    file: 'tattoo-2.svg',
+  },
+  {
+    id: 'tattoo-3',
+    name: 'Tattoo 3',
+    category: 'Accessories',
+    file: 'tattoo-3.svg',
+  },
+  {
+    id: 'vector-824',
+    name: 'Vector Accessory',
+    category: 'Accessories',
+    file: 'Vector 824.svg',
   },
 ];
 

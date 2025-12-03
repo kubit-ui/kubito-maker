@@ -72,11 +72,16 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
       }
 
       try {
-        const data = kubito.kubito_data as any;
+        const data = kubito.kubito_data as {
+          items?: unknown[];
+          brushStrokes?: unknown[];
+          selectedBodyId?: string;
+          config?: unknown;
+        };
 
         // Restore editor state
         if (data.items) {
-          // Clear current state
+          // Clear current state (this also clears brush strokes)
           editorStore.clearAll?.();
 
           // Load items
@@ -86,9 +91,7 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
 
           // Restore brush strokes if they exist
           if (data.brushStrokes && Array.isArray(data.brushStrokes)) {
-            data.brushStrokes.forEach((stroke: any) => {
-              editorStore.addBrushStroke?.(stroke);
-            });
+            editorStore.restoreBrushStrokes?.(data.brushStrokes as any[]);
           }
 
           // Restore selected body

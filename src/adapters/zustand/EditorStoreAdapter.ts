@@ -107,6 +107,7 @@ export interface EditorActions {
   finishStroke: () => void;
   removeStroke: (id: string) => void;
   clearAllStrokes: () => void;
+  restoreBrushStrokes: (strokes: BrushStroke[]) => void; // For loading saved kubito files
   toggleStrokeVisibility: (id: string) => void;
   toggleStrokeLock: (id: string) => void;
   selectStroke: (id: string | null) => void;
@@ -703,6 +704,11 @@ export function createEditorActions(
 
     clearAllStrokes: () => {
       set({ brushStrokes: [], currentStroke: null });
+      get().addToHistory();
+    },
+
+    restoreBrushStrokes: (strokes: BrushStroke[]) => {
+      set({ brushStrokes: strokes });
       get().addToHistory();
     },
 
