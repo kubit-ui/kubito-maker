@@ -81,20 +81,14 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
 
         // Restore editor state
         if (data.items) {
-          // Clear current state (this also clears brush strokes)
-          editorStore.clearAll?.();
+          // Use loadProject to restore everything properly
+          editorStore.loadProject?.(
+            data.items as any[],
+            data.config as any,
+            data.brushStrokes as any[]
+          );
 
-          // Load items
-          data.items.forEach((item: any) => {
-            editorStore.addItem(item);
-          });
-
-          // Restore brush strokes if they exist
-          if (data.brushStrokes && Array.isArray(data.brushStrokes)) {
-            editorStore.restoreBrushStrokes?.(data.brushStrokes as any[]);
-          }
-
-          // Restore selected body
+          // Restore selected body if exists
           if (data.selectedBodyId) {
             editorStore.setSelectedBodyId?.(data.selectedBodyId);
           }

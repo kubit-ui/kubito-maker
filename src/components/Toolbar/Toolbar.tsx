@@ -152,7 +152,7 @@ export const Toolbar = memo(() => {
   };
 
   const handleExportProject = () => {
-    exportProject(items, brushStrokes);
+    exportProject(items, brushStrokes, config);
     setShowExportMenu(false);
   };
 
@@ -164,7 +164,11 @@ export const Toolbar = memo(() => {
 
     try {
       const projectData = await importProject(file);
-      loadProject(projectData.items, undefined, projectData.brushStrokes || []);
+      loadProject(
+        projectData.items,
+        projectData.config,
+        projectData.brushStrokes || []
+      );
     } catch (error) {
       alert('Failed to load project: ' + (error as Error).message);
     }

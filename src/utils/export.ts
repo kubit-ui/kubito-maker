@@ -1,5 +1,10 @@
 import { toPng, toJpeg, toSvg } from 'html-to-image';
-import type { ExportOptions, KubitoItem, BrushStroke } from '@/types';
+import type {
+  ExportOptions,
+  KubitoItem,
+  BrushStroke,
+  EditorConfig,
+} from '@/types';
 
 const downloadDataUrl = (dataUrl: string, filename: string) => {
   const a = document.createElement('a');
@@ -259,6 +264,7 @@ export const exportSVG = async (
 export const exportProject = (
   items: KubitoItem[],
   brushStrokes: BrushStroke[] = [],
+  config?: EditorConfig,
   projectName = 'kubito-project'
 ): void => {
   const projectData = {
@@ -266,6 +272,7 @@ export const exportProject = (
     name: projectName,
     items,
     brushStrokes,
+    config,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
@@ -277,7 +284,11 @@ export const exportProject = (
 
 export const importProject = async (
   file: File
-): Promise<{ items: KubitoItem[]; brushStrokes?: BrushStroke[] }> => {
+): Promise<{
+  items: KubitoItem[];
+  brushStrokes?: BrushStroke[];
+  config?: EditorConfig;
+}> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -287,6 +298,7 @@ export const importProject = async (
         const projectData = JSON.parse(json) as {
           items?: unknown;
           brushStrokes?: unknown;
+          config?: unknown;
           [key: string]: unknown;
         };
 
@@ -298,6 +310,9 @@ export const importProject = async (
               Array.isArray(projectData.brushStrokes)
                 ? (projectData.brushStrokes as BrushStroke[])
                 : undefined,
+            config: projectData.config
+              ? (projectData.config as EditorConfig)
+              : undefined,
           });
         } else {
           reject(new Error('Invalid project file format'));
