@@ -76,8 +76,21 @@
   - SVG (vector format)
   - WebP
 - **Quality Settings**: Control export quality and file size
-- **Project Files**: Save and load `.kubito` project files
-- **Gallery System**: Browse and load pre-made examples
+- **Project Files (.kubito)**: Complete workspace preservation
+  - **Full State Saving**: Saves all canvas elements, brush strokes, canvas configuration, and selected body model
+  - **Perfect Restoration**: Load projects exactly as they were saved, including:
+    - All canvas items with their positions, colors, and effects
+    - Brush strokes and drawings
+    - Canvas size and background settings
+    - Selected body model (body1, body2, body3, etc.)
+    - Layer order and visibility states
+  - **Cross-Platform**: Works with both local files and online gallery
+- **Online Gallery System**:
+  - Share your creations with the community
+  - Browse and load designs from other users
+  - Like and download community Kubitos
+  - All shared projects preserve complete state
+- **Local Gallery**: Browse and load pre-made example projects
 
 ### 🚀 Performance & UX
 
@@ -210,6 +223,37 @@ When you place an asset on the canvas, it becomes an "item" with properties:
 - Layer order (z-index)
 - Lock and visibility states
 
+#### Project Files (.kubito)
+
+Kubito Maker uses a JSON-based format to save complete project states. Each `.kubito` file contains:
+
+```json
+{
+  "version": "1.0.0",
+  "name": "my-kubito-project",
+  "items": [...],           // All canvas elements
+  "brushStrokes": [...],    // Freehand drawings
+  "config": {               // Canvas configuration
+    "canvasWidth": 720,
+    "canvasHeight": 720,
+    "canvasBackground": "#ffffff",
+    "gridSize": 20,
+    "snapToGrid": false,
+    // ... more settings
+  },
+  "selectedBodyId": "body2", // Active body model
+  "createdAt": 1701648000000,
+  "updatedAt": 1701648000000
+}
+```
+
+**Why is this important?**
+- **Complete Preservation**: Every aspect of your design is saved
+- **Cross-Session Work**: Continue editing exactly where you left off
+- **Sharing**: Share full editable projects with others
+- **Version Control**: Track changes over time with git-friendly JSON format
+- **Portability**: Works across different devices and browsers
+
 #### Layers
 
 The Layers Panel shows all items on your canvas in a hierarchical view, allowing you to:
@@ -249,6 +293,50 @@ The Layers Panel shows all items on your canvas in a hierarchical view, allowing
 5. **Apply Effects**: Use filters to add depth and style
 6. **Export**: Click the export button and choose your format
 
+### Saving and Loading Projects
+
+#### Saving Your Work Locally
+
+1. **Click the Export Menu**: Located in the top toolbar
+2. **Select "Save Project (.kubito)"**: Downloads a complete project file
+3. **Choose a Location**: Save the `.kubito` file to your computer
+
+**What Gets Saved:**
+- ✅ All canvas items (bodies, eyes, accessories, etc.)
+- ✅ Brush strokes and custom drawings
+- ✅ Canvas size and background color
+- ✅ Selected body model
+- ✅ Layer order and visibility
+- ✅ All colors, filters, and effects
+
+#### Loading a Saved Project
+
+1. **Click the File Menu**: In the top toolbar
+2. **Select "Load Project"**: Opens file picker
+3. **Choose Your .kubito File**: Select the project to load
+4. **Everything Restores**: All settings and elements are restored exactly
+
+#### Sharing to Online Gallery
+
+1. **Click "Share" Button**: Located in the top-right toolbar
+2. **Fill in Details**:
+   - Author name (required)
+   - Email (optional)
+   - Title (required)
+   - Description (optional)
+3. **Click "Share to Gallery"**: Uploads your Kubito to the community
+4. **Share Complete State**: Everything is preserved for others to view and load
+
+#### Loading from Online Gallery
+
+1. **Click "Gallery" Button**: Opens community gallery modal
+2. **Browse Creations**: View designs from other users
+3. **Click on a Kubito**: Opens detail view
+4. **Choose Action**:
+   - **Load**: Imports the complete editable project into your workspace
+   - **Download .kubito**: Saves the project file to your computer
+5. **Full Restoration**: The loaded project includes all settings, brush strokes, and the exact body model used
+
 ### Advanced Techniques
 
 #### Using Masks
@@ -280,6 +368,29 @@ Smart Guides automatically appear when dragging items, showing:
 - Equal spacing between elements
 - Center alignment with the canvas
 - Snap-to-guide functionality
+
+#### Using the Brush Tool
+
+The Brush Tool allows you to draw freehand on your Kubito:
+
+1. **Enable Brush Mode**: Click the brush icon in the toolbar
+2. **Adjust Brush Settings**:
+   - **Size**: Control brush thickness (1-50px)
+   - **Color**: Choose from color picker or use hex values
+   - **Opacity**: Set transparency (0-100%)
+3. **Draw on Canvas**: Click and drag to create strokes
+4. **Brush Strokes Features**:
+   - Fully preserved in `.kubito` files
+   - Can be moved, scaled, and rotated
+   - Individual visibility and lock controls
+   - Included when sharing to gallery
+5. **Disable Brush Mode**: Click the brush icon again or press `Esc`
+
+**Tips:**
+- Brush strokes are saved as separate layers
+- Use lower opacity for subtle effects
+- Combine with other elements for unique designs
+- All brush work is preserved when saving/sharing projects
 
 ---
 
