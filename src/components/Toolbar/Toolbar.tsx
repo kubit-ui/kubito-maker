@@ -8,7 +8,6 @@ import {
   useEditorActions,
 } from '@/store/editorStore';
 import { TipsModal } from '../TipsModal';
-import { GalleryModal } from '../GalleryModal';
 import { ShareKubitoModal } from '../ShareKubitoModal';
 import { CommunityGalleryModal } from '../CommunityGalleryModal';
 import { CanvasSizeSelector } from '../CanvasSizeSelector';
@@ -25,7 +24,6 @@ import { ExportService } from '@/domain';
 export const Toolbar = memo(() => {
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
-  const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCommunityGallery, setShowCommunityGallery] = useState(false);
   const [showCanvasSizeSelector, setShowCanvasSizeSelector] = useState(false);
@@ -293,69 +291,6 @@ export const Toolbar = memo(() => {
         className="hidden"
       />
 
-      {/* Gallery - Icon only */}
-      <div className="relative group">
-        <button
-          onClick={() => setShowGalleryModal(true)}
-          className="p-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-        </button>
-        {/* Tooltip */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-          <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
-            Gallery
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
-          </div>
-        </div>
-      </div>
-
-      {/* Share to Community - Icon only */}
-      <div className="relative group">
-        <button
-          onClick={() => setShowShareModal(true)}
-          className="p-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
-        >
-          <Share2 className="w-5 h-5" />
-        </button>
-        {/* Tooltip */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-          <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
-            Share to Community
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
-          </div>
-        </div>
-      </div>
-
-      {/* Community Gallery - Icon only */}
-      <div className="relative group">
-        <button
-          onClick={() => setShowCommunityGallery(true)}
-          className="p-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg"
-        >
-          <Users className="w-5 h-5" />
-        </button>
-        {/* Tooltip */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-          <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
-            Community Gallery
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
-          </div>
-        </div>
-      </div>
-
       {/* Clear Canvas - Icon only */}
       <div className="relative group">
         <button
@@ -487,6 +422,24 @@ export const Toolbar = memo(() => {
         )}
       </div>
 
+      {/* Share to Community - Secondary style with primary color hover */}
+      <button
+        onClick={() => setShowShareModal(true)}
+        className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-kubito-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 font-medium"
+      >
+        <Share2 className="w-4 h-4" />
+        <span className="text-sm">Share</span>
+      </button>
+
+      {/* Community Gallery - Secondary style with primary color hover */}
+      <button
+        onClick={() => setShowCommunityGallery(true)}
+        className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-kubito-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md flex items-center gap-2 font-medium"
+      >
+        <Users className="w-4 h-4" />
+        <span className="text-sm">Gallery</span>
+      </button>
+
       {/* Close export menu when clicking outside */}
       {showExportMenu && (
         <div
@@ -499,12 +452,6 @@ export const Toolbar = memo(() => {
       <TipsModal
         isOpen={showTipsModal}
         onClose={() => setShowTipsModal(false)}
-      />
-
-      {/* Gallery Modal */}
-      <GalleryModal
-        isOpen={showGalleryModal}
-        onClose={() => setShowGalleryModal(false)}
       />
 
       {/* Share Kubito Modal */}
@@ -528,4 +475,4 @@ export const Toolbar = memo(() => {
   );
 });
 
-Toolbar.displayName = 'Toolbar';
+Toolbar.displayName = "Toolbar";
