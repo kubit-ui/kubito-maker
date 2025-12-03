@@ -104,6 +104,8 @@ export interface BrushState {
   brushStrokes: BrushStroke[];
   /** Currently active stroke being drawn (null when not drawing) */
   currentStroke: BrushStroke | null;
+  /** ID of the currently selected stroke for moving/editing */
+  selectedStrokeId: string | null;
 }
 
 /**

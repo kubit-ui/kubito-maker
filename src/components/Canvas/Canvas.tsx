@@ -22,6 +22,7 @@ import {
   useBrushMode,
   useBrushStrokes,
   useCurrentStroke,
+  useSelectedStrokeId,
 } from '@/store/editorStore';
 import {
   useCanvasDragAndDrop,
@@ -35,6 +36,7 @@ import {
   CanvasMultiSelection,
   CanvasMarquee,
   ZoomControls,
+  CanvasStrokeTransformControls,
 } from '.';
 import { CanvasBrushStrokes } from './CanvasBrushStrokes';
 import { ContextMenu, type ContextMenuItem } from '../ContextMenu';
@@ -68,7 +70,15 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   const brushMode = useBrushMode();
   const brushStrokes = useBrushStrokes();
   const currentStroke = useCurrentStroke();
+  const selectedStrokeId = useSelectedStrokeId();
   const isDrawing = useRef(false);
+
+  // Refs para el arrastre de trazos en modo selección
+  const dragStartPoint = useRef<{ x: number; y: number } | null>(null);
+  const draggedStrokeId = useRef<string | null>(null);
+  const draggedStrokeInitialOffset = useRef<{ x: number; y: number } | null>(
+    null
+  );
 
   // Store actions - Using new actions hook
   const {
@@ -91,6 +101,9 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     addPointToStroke,
     finishStroke,
     removeStroke,
+    selectStroke,
+    moveStroke,
+    updateStrokeTransform,
   } = useEditorActions();
 
   // DEBUG: Log brushMode value
@@ -372,6 +385,37 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
         }
       }
 
+      // Modo selección: seleccionar trazo y preparar para arrastrar
+      if (brushMode === 'select') {
+        const target = e.target as Element;
+        const strokeId = target.getAttribute('data-stroke-id');
+
+        if (strokeId) {
+          console.warn('✅ Selecting stroke:', strokeId);
+          selectStroke(strokeId);
+
+          // Preparar para arrastre
+          const point = toSvgPoint(e);
+          if (point) {
+            dragStartPoint.current = { x: point.x, y: point.y };
+            draggedStrokeId.current = strokeId;
+
+            // Obtener el offset actual del trazo
+            const stroke = brushStrokes.find((s) => s.id === strokeId);
+            if (stroke) {
+              draggedStrokeInitialOffset.current = {
+                x: stroke.offsetX || 0,
+                y: stroke.offsetY || 0,
+              };
+            }
+          }
+
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+      }
+
       // Modo dibujo normal
       if (brushMode === 'brush') {
         const point = toSvgPoint(e);
@@ -391,6 +435,30 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     };
 
     const handlePointerMove = (e: PointerEvent) => {
+      // Modo selección: arrastrar trazo seleccionado
+      if (
+        brushMode === 'select' &&
+        dragStartPoint.current &&
+        draggedStrokeId.current &&
+        draggedStrokeInitialOffset.current
+      ) {
+        const point = toSvgPoint(e);
+        if (!point) return;
+
+        const deltaX = point.x - dragStartPoint.current.x;
+        const deltaY = point.y - dragStartPoint.current.y;
+
+        moveStroke(
+          draggedStrokeId.current,
+          draggedStrokeInitialOffset.current.x + deltaX,
+          draggedStrokeInitialOffset.current.y + deltaY
+        );
+
+        e.preventDefault();
+        return;
+      }
+
+      // Modo dibujo: añadir puntos al trazo
       if (brushMode !== 'brush' || !isDrawing.current) return;
 
       const point = toSvgPoint(e);
@@ -402,6 +470,15 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     };
 
     const handlePointerUp = () => {
+      // Modo selección: terminar arrastre
+      if (brushMode === 'select') {
+        dragStartPoint.current = null;
+        draggedStrokeId.current = null;
+        draggedStrokeInitialOffset.current = null;
+        return;
+      }
+
+      // Modo dibujo: finalizar trazo
       if (brushMode !== 'brush' || !isDrawing.current) return;
 
       console.warn('Finishing stroke');
@@ -429,6 +506,9 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     addPointToStroke,
     finishStroke,
     removeStroke,
+    selectStroke,
+    moveStroke,
+    brushStrokes,
   ]);
 
   return (
@@ -462,9 +542,11 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
             cursor:
               brushMode === 'eraser'
                 ? 'not-allowed'
-                : brushMode !== 'none'
-                  ? 'crosshair'
-                  : 'default',
+                : brushMode === 'select'
+                  ? 'default'
+                  : brushMode !== 'none'
+                    ? 'crosshair'
+                    : 'default',
           }}
           onContextMenu={(e) => {
             // Desactivar menú contextual en modo pincel
@@ -537,7 +619,30 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
           <CanvasBrushStrokes
             strokes={brushStrokes}
             currentStroke={currentStroke}
+            selectedStrokeId={selectedStrokeId}
           />
+
+          {/* Transform controls for selected stroke */}
+          {selectedStrokeId &&
+            brushMode === 'select' &&
+            (() => {
+              const selectedStroke = brushStrokes.find(
+                (s) => s.id === selectedStrokeId
+              );
+              if (!selectedStroke) return null;
+              return (
+                <CanvasStrokeTransformControls
+                  stroke={selectedStroke}
+                  toSvgPoint={toSvgPoint}
+                  onUpdateTransform={(transform) => {
+                    updateStrokeTransform(selectedStrokeId, transform);
+                  }}
+                  onMove={(offsetX, offsetY) => {
+                    moveStroke(selectedStrokeId, offsetX, offsetY);
+                  }}
+                />
+              );
+            })()}
 
           {/* Multi-selection bounding box - oculto en modo pincel */}
           {brushMode === 'none' && (

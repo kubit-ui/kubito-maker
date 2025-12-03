@@ -37,7 +37,7 @@ export const UnifiedSidebar = memo(() => {
   // Smart Guides state and actions
   const snapConfig = useSnapConfig();
   const { showRulers } = useGuides();
-  const { updateSnapConfig, toggleRulers } = useEditorActions();
+  const { updateSnapConfig, toggleRulers, setBrushMode } = useEditorActions();
 
   const tabs: Array<{ id: SidebarTab; label: string }> = [
     { id: 'assets', label: 'Assets' },
@@ -58,9 +58,20 @@ export const UnifiedSidebar = memo(() => {
                 onClick={() => {
                   if (activeTab === tab.id && !isCollapsed) {
                     setIsCollapsed(true);
+                    // Al colapsar la tab de brush, desactivar el modo brush
+                    if (tab.id === 'brush') {
+                      setBrushMode('none');
+                    }
                   } else {
                     setActiveTab(tab.id);
                     setIsCollapsed(false);
+                    // Al activar la tab de brush, activar automáticamente el modo brush
+                    if (tab.id === 'brush') {
+                      setBrushMode('brush');
+                    } else {
+                      // Al cambiar a otra tab, desactivar el modo brush
+                      setBrushMode('none');
+                    }
                   }
                 }}
                 onMouseEnter={() => setHoveredTab(tab.id)}
@@ -94,7 +105,14 @@ export const UnifiedSidebar = memo(() => {
         <div className="mt-auto pt-2 border-t border-gray-200 dark:border-gray-700">
           <div className="relative">
             <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
+              onClick={() => {
+                const newCollapsed = !isCollapsed;
+                setIsCollapsed(newCollapsed);
+                // Al colapsar el sidebar, desactivar el modo brush si estaba activo
+                if (newCollapsed && activeTab === 'brush') {
+                  setBrushMode('none');
+                }
+              }}
               onMouseEnter={() => setHoveredTab('collapse')}
               onMouseLeave={() => setHoveredTab(null)}
               className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"

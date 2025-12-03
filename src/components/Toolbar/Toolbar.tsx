@@ -1,12 +1,11 @@
 import { memo, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Image, Briefcase, Paintbrush } from 'lucide-react';
+import { FileText, Image, Briefcase } from 'lucide-react';
 import {
   useItems,
   useConfig,
   useKubitoName,
   useEditorActions,
-  useBrushMode,
 } from '@/store/editorStore';
 import { TipsModal } from '../TipsModal';
 import { GalleryModal } from '../GalleryModal';
@@ -29,21 +28,9 @@ export const Toolbar = memo(() => {
   const items = useItems();
   const config = useConfig();
   const kubitoName = useKubitoName();
-  const brushMode = useBrushMode();
-  const { clearAll, loadProject, setKubitoName, deselectAll, setBrushMode } =
+  const { clearAll, loadProject, setKubitoName, deselectAll } =
     useEditorActions();
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const toggleBrushMode = () => {
-    console.warn('🖌️ toggleBrushMode called. Current brushMode:', brushMode);
-    if (brushMode === 'none') {
-      console.warn("Setting brushMode to 'brush'");
-      setBrushMode('brush');
-    } else {
-      console.warn("Setting brushMode to 'none'");
-      setBrushMode('none');
-    }
-  };
 
   const handleExportSVG = async () => {
     // Deselect all items to hide selection UI
@@ -217,14 +204,6 @@ export const Toolbar = memo(() => {
         Kubito Maker
       </h1>
 
-      {/* Brush Mode Indicator */}
-      {brushMode !== 'none' && (
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-kubito-primary text-white rounded-full text-sm font-medium shadow-md">
-          <Paintbrush className="w-4 h-4" />
-          <span>{brushMode === 'eraser' ? 'Eraser Mode' : 'Brush Mode'}</span>
-        </div>
-      )}
-
       {/* Kubito Name Input */}
       <div className="flex items-center gap-2">
         <label
@@ -334,30 +313,6 @@ export const Toolbar = memo(() => {
         <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
           <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
             Gallery
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
-          </div>
-        </div>
-      </div>
-
-      {/* Brush Tool - Icon only */}
-      <div className="relative group">
-        <button
-          onClick={() => {
-            console.warn('🖱️ BUTTON CLICKED!');
-            toggleBrushMode();
-          }}
-          className={`p-2.5 rounded-lg transition-colors ${
-            brushMode !== 'none'
-              ? 'bg-kubito-primary text-white'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-          }`}
-        >
-          <Paintbrush className="w-5 h-5" />
-        </button>
-        {/* Tooltip */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-          <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
-            {brushMode !== 'none' ? 'Disable Brush' : 'Enable Brush'}
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
           </div>
         </div>

@@ -109,6 +109,12 @@ export interface EditorActions {
   clearAllStrokes: () => void;
   toggleStrokeVisibility: (id: string) => void;
   toggleStrokeLock: (id: string) => void;
+  selectStroke: (id: string | null) => void;
+  moveStroke: (id: string, offsetX: number, offsetY: number) => void;
+  updateStrokeTransform: (
+    id: string,
+    transform: { scale?: number; rotate?: number }
+  ) => void;
 
   // Utility
   clearAll: () => void;
@@ -178,6 +184,7 @@ export function createInitialState(
     brushSettings: DEFAULT_BRUSH_SETTINGS,
     brushStrokes: [],
     currentStroke: null,
+    selectedStrokeId: null,
   };
 }
 
@@ -650,6 +657,10 @@ export function createEditorActions(
         locked: false,
         visible: true,
         createdAt: Date.now(),
+        offsetX: 0,
+        offsetY: 0,
+        scale: 1,
+        rotate: 0,
       };
       set({ currentStroke: newStroke });
     },
@@ -707,6 +718,29 @@ export function createEditorActions(
       set((state) => ({
         brushStrokes: state.brushStrokes.map((stroke) =>
           stroke.id === id ? { ...stroke, locked: !stroke.locked } : stroke
+        ),
+      }));
+    },
+
+    selectStroke: (id: string | null) => {
+      set({ selectedStrokeId: id });
+    },
+
+    moveStroke: (id: string, offsetX: number, offsetY: number) => {
+      set((state) => ({
+        brushStrokes: state.brushStrokes.map((stroke) =>
+          stroke.id === id ? { ...stroke, offsetX, offsetY } : stroke
+        ),
+      }));
+    },
+
+    updateStrokeTransform: (
+      id: string,
+      transform: { scale?: number; rotate?: number }
+    ) => {
+      set((state) => ({
+        brushStrokes: state.brushStrokes.map((stroke) =>
+          stroke.id === id ? { ...stroke, ...transform } : stroke
         ),
       }));
     },

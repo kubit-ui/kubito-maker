@@ -125,6 +125,8 @@ export const useBrushStrokes = () =>
   useEditorStore((state) => state.brushStrokes);
 export const useCurrentStroke = () =>
   useEditorStore((state) => state.currentStroke);
+export const useSelectedStrokeId = () =>
+  useEditorStore((state) => state.selectedStrokeId);
 
 // Action selectors (for callbacks) - OPTIMIZED with useShallow
 export const useEditorActions = () =>
@@ -194,6 +196,9 @@ export const useEditorActions = () =>
       clearAllStrokes: state.clearAllStrokes,
       toggleStrokeVisibility: state.toggleStrokeVisibility,
       toggleStrokeLock: state.toggleStrokeLock,
+      selectStroke: state.selectStroke,
+      moveStroke: state.moveStroke,
+      updateStrokeTransform: state.updateStrokeTransform,
 
       // Utility
       clearAll: state.clearAll,

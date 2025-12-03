@@ -506,7 +506,7 @@ export type BrushType =
  * - `eraser`: Erases existing strokes
  * - `none`: No drawing tool active
  */
-export type BrushMode = 'brush' | 'eraser' | 'none';
+export type BrushMode = 'brush' | 'eraser' | 'select' | 'none';
 
 /**
  * A single point in a brush stroke.
@@ -556,6 +556,14 @@ export interface BrushStroke {
   visible: boolean;
   /** Timestamp when stroke was created */
   createdAt: number;
+  /** X offset for positioning the stroke */
+  offsetX: number;
+  /** Y offset for positioning the stroke */
+  offsetY: number;
+  /** Scale factor (1.0 = 100%, 2.0 = 200%, etc.) */
+  scale: number;
+  /** Rotation angle in degrees (0-360) */
+  rotate: number;
 }
 
 /**

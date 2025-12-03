@@ -1,4 +1,12 @@
-import { Circle, Square, Pen, Pencil, Trash2, Eraser } from 'lucide-react';
+import {
+  Circle,
+  Square,
+  Pen,
+  Pencil,
+  Trash2,
+  Eraser,
+  MousePointer2,
+} from 'lucide-react';
 import {
   useBrushSettings,
   useEditorActions,
@@ -38,7 +46,7 @@ export function BrushPanel() {
   const brushSettings = useBrushSettings();
   const brushStrokes = useBrushStrokes();
   const brushMode = useBrushMode();
-  const { updateBrushSettings, clearAllStrokes, setBrushMode } =
+  const { updateBrushSettings, clearAllStrokes, setBrushMode, selectStroke } =
     useEditorActions();
 
   const handleTypeChange = (type: BrushType) => {
@@ -51,6 +59,15 @@ export function BrushPanel() {
 
   const handleEraserMode = () => {
     setBrushMode(brushMode === 'eraser' ? 'none' : 'eraser');
+  };
+
+  const handleSelectMode = () => {
+    const newMode = brushMode === 'select' ? 'none' : 'select';
+    setBrushMode(newMode);
+    // Deseleccionar trazo cuando se desactiva el modo de selección
+    if (newMode === 'none') {
+      selectStroke(null);
+    }
   };
 
   const handleSizeChange = (size: number) => {
@@ -117,6 +134,21 @@ export function BrushPanel() {
         >
           <Eraser size={18} />
           <span className="text-xs font-medium">Eraser Mode</span>
+        </button>
+      </div>
+
+      {/* Select Mode */}
+      <div className="mb-4">
+        <button
+          onClick={handleSelectMode}
+          className={`flex w-full items-center justify-center gap-2 rounded-md border-2 p-2 transition-colors ${
+            brushMode === 'select'
+              ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+              : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
+          }`}
+        >
+          <MousePointer2 size={18} />
+          <span className="text-xs font-medium">Select Mode</span>
         </button>
       </div>
 
