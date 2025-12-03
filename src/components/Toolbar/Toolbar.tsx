@@ -1,6 +1,6 @@
 import { memo, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Image, Briefcase } from 'lucide-react';
+import { FileText, Image, Briefcase, Share2, Users } from 'lucide-react';
 import {
   useItems,
   useConfig,
@@ -9,6 +9,8 @@ import {
 } from '@/store/editorStore';
 import { TipsModal } from '../TipsModal';
 import { GalleryModal } from '../GalleryModal';
+import { ShareKubitoModal } from '../ShareKubitoModal';
+import { CommunityGalleryModal } from '../CommunityGalleryModal';
 import { CanvasSizeSelector } from '../CanvasSizeSelector';
 import {
   exportSVG,
@@ -24,6 +26,8 @@ export const Toolbar = memo(() => {
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
   const [showGalleryModal, setShowGalleryModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showCommunityGallery, setShowCommunityGallery] = useState(false);
   const [showCanvasSizeSelector, setShowCanvasSizeSelector] = useState(false);
   const items = useItems();
   const config = useConfig();
@@ -318,6 +322,40 @@ export const Toolbar = memo(() => {
         </div>
       </div>
 
+      {/* Share to Community - Icon only */}
+      <div className="relative group">
+        <button
+          onClick={() => setShowShareModal(true)}
+          className="p-2.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
+        >
+          <Share2 className="w-5 h-5" />
+        </button>
+        {/* Tooltip */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+          <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
+            Share to Community
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
+          </div>
+        </div>
+      </div>
+
+      {/* Community Gallery - Icon only */}
+      <div className="relative group">
+        <button
+          onClick={() => setShowCommunityGallery(true)}
+          className="p-2.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg"
+        >
+          <Users className="w-5 h-5" />
+        </button>
+        {/* Tooltip */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+          <div className="bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap border border-gray-200 dark:border-gray-600">
+            Community Gallery
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-white dark:border-b-gray-700" />
+          </div>
+        </div>
+      </div>
+
       {/* Clear Canvas - Icon only */}
       <div className="relative group">
         <button
@@ -467,6 +505,18 @@ export const Toolbar = memo(() => {
       <GalleryModal
         isOpen={showGalleryModal}
         onClose={() => setShowGalleryModal(false)}
+      />
+
+      {/* Share Kubito Modal */}
+      <ShareKubitoModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
+
+      {/* Community Gallery Modal */}
+      <CommunityGalleryModal
+        isOpen={showCommunityGallery}
+        onClose={() => setShowCommunityGallery(false)}
       />
 
       {/* Canvas Size Selector */}
