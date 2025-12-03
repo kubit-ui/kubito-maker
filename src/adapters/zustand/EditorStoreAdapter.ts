@@ -119,7 +119,11 @@ export interface EditorActions {
 
   // Utility
   clearAll: () => void;
-  loadProject: (items: KubitoItem[], config?: Partial<EditorConfig>) => void;
+  loadProject: (
+    items: KubitoItem[],
+    config?: Partial<EditorConfig>,
+    brushStrokes?: BrushStroke[]
+  ) => void;
   importKubito: (kubitoFile: KubitoFile) => void;
 }
 
@@ -762,9 +766,16 @@ export function createEditorActions(
       });
     },
 
-    loadProject: (items: KubitoItem[], config?: Partial<EditorConfig>) => {
+    loadProject: (
+      items: KubitoItem[],
+      config?: Partial<EditorConfig>,
+      brushStrokes?: BrushStroke[]
+    ) => {
       set({
         items: JSON.parse(JSON.stringify(items)) as KubitoItem[],
+        brushStrokes: brushStrokes
+          ? (JSON.parse(JSON.stringify(brushStrokes)) as BrushStroke[])
+          : [],
         config: config ? { ...get().config, ...config } : get().config,
         selectedId: null,
         selectedIds: [],
