@@ -7,6 +7,7 @@ import {
   useKubitoName,
   useEditorActions,
   useBrushStrokes,
+  useSelectedBodyId,
 } from '@/store/editorStore';
 import { TipsModal } from '../TipsModal';
 import { ShareKubitoModal } from '../ShareKubitoModal';
@@ -32,6 +33,7 @@ export const Toolbar = memo(() => {
   const config = useConfig();
   const kubitoName = useKubitoName();
   const brushStrokes = useBrushStrokes();
+  const selectedBodyId = useSelectedBodyId();
   const { clearAll, loadProject, setKubitoName, deselectAll } =
     useEditorActions();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -152,7 +154,7 @@ export const Toolbar = memo(() => {
   };
 
   const handleExportProject = () => {
-    exportProject(items, brushStrokes, config);
+    exportProject(items, brushStrokes, config, selectedBodyId);
     setShowExportMenu(false);
   };
 
@@ -167,7 +169,8 @@ export const Toolbar = memo(() => {
       loadProject(
         projectData.items,
         projectData.config,
-        projectData.brushStrokes || []
+        projectData.brushStrokes || [],
+        projectData.selectedBodyId
       );
     } catch (error) {
       alert('Failed to load project: ' + (error as Error).message);

@@ -122,7 +122,8 @@ export interface EditorActions {
   loadProject: (
     items: KubitoItem[],
     config?: Partial<EditorConfig>,
-    brushStrokes?: BrushStroke[]
+    brushStrokes?: BrushStroke[],
+    selectedBodyId?: string
   ) => void;
   importKubito: (kubitoFile: KubitoFile) => void;
 }
@@ -769,7 +770,8 @@ export function createEditorActions(
     loadProject: (
       items: KubitoItem[],
       config?: Partial<EditorConfig>,
-      brushStrokes?: BrushStroke[]
+      brushStrokes?: BrushStroke[],
+      selectedBodyId?: string
     ) => {
       set({
         items: JSON.parse(JSON.stringify(items)) as KubitoItem[],
@@ -777,6 +779,7 @@ export function createEditorActions(
           ? (JSON.parse(JSON.stringify(brushStrokes)) as BrushStroke[])
           : [],
         config: config ? { ...get().config, ...config } : get().config,
+        selectedBodyId: selectedBodyId || get().selectedBodyId,
         selectedId: null,
         selectedIds: [],
         history: [],

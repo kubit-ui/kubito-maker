@@ -265,6 +265,7 @@ export const exportProject = (
   items: KubitoItem[],
   brushStrokes: BrushStroke[] = [],
   config?: EditorConfig,
+  selectedBodyId?: string,
   projectName = 'kubito-project'
 ): void => {
   const projectData = {
@@ -273,6 +274,7 @@ export const exportProject = (
     items,
     brushStrokes,
     config,
+    selectedBodyId,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
@@ -288,6 +290,7 @@ export const importProject = async (
   items: KubitoItem[];
   brushStrokes?: BrushStroke[];
   config?: EditorConfig;
+  selectedBodyId?: string;
 }> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -299,6 +302,7 @@ export const importProject = async (
           items?: unknown;
           brushStrokes?: unknown;
           config?: unknown;
+          selectedBodyId?: unknown;
           [key: string]: unknown;
         };
 
@@ -313,6 +317,10 @@ export const importProject = async (
             config: projectData.config
               ? (projectData.config as EditorConfig)
               : undefined,
+            selectedBodyId:
+              typeof projectData.selectedBodyId === 'string'
+                ? projectData.selectedBodyId
+                : undefined,
           });
         } else {
           reject(new Error('Invalid project file format'));

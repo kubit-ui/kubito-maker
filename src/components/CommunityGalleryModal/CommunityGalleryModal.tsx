@@ -85,13 +85,11 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
           editorStore.loadProject?.(
             data.items as any[],
             data.config as any,
-            data.brushStrokes as any[]
+            data.brushStrokes as any[],
+            typeof data.selectedBodyId === 'string'
+              ? data.selectedBodyId
+              : undefined
           );
-
-          // Restore selected body if exists
-          if (data.selectedBodyId) {
-            editorStore.setSelectedBodyId?.(data.selectedBodyId);
-          }
 
           // Close modal and show confirmation
           onClose();
