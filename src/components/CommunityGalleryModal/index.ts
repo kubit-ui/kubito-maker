@@ -1,1 +1,1 @@
-export { CommunityGalleryModal } from './CommunityGalleryModal';
+export { CommunityGalleryModal } from "./CommunityGalleryModal";

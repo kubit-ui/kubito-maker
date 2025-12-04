@@ -1,9 +1,9 @@
-import { memo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Settings } from 'lucide-react';
-import { CANVAS_PRESETS } from '@/data';
-import { useConfig, useEditorActions } from '@/store/editorStore';
-import { useAnalytics } from '@/hooks';
+import { memo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Settings } from "lucide-react";
+import { CANVAS_PRESETS } from "@/data";
+import { useConfig, useEditorActions } from "@/store/editorStore";
+import { useAnalytics } from "@/hooks";
 
 interface CanvasSizeSelectorProps {
   isOpen: boolean;
@@ -32,10 +32,10 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
     };
 
     const handleCustomSize = () => {
-      setCanvasSize(customWidth, customHeight, 'custom');
+      setCanvasSize(customWidth, customHeight, "custom");
 
       // Track canvas size change
-      trackCanvasSizeChanged(customWidth, customHeight, 'custom');
+      trackCanvasSizeChanged(customWidth, customHeight, "custom");
 
       onClose();
     };
@@ -102,8 +102,8 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
                         onClick={() => handlePresetSelect(preset.id)}
                         className={`p-4 rounded-lg border-2 transition-all text-left hover:shadow-md ${
                           config.canvasPreset === preset.id
-                            ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
-                            : 'border-gray-200 dark:border-gray-700 hover:border-kubito-primary dark:hover:border-kubito-primary'
+                            ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
+                            : "border-gray-200 dark:border-gray-700 hover:border-kubito-primary dark:hover:border-kubito-primary"
                         }`}
                       >
                         <div className="flex items-start gap-3">
@@ -140,7 +140,7 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
                       </div>
                       <svg
                         className={`w-5 h-5 text-gray-500 transition-transform ${
-                          showCustom ? 'rotate-180' : ''
+                          showCustom ? "rotate-180" : ""
                         }`}
                         fill="none"
                         stroke="currentColor"
@@ -158,7 +158,7 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
                     {showCustom && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
+                        animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         className="mt-4 space-y-4"
                       >
@@ -210,7 +210,7 @@ export const CanvasSizeSelector = memo<CanvasSizeSelectorProps>(
         )}
       </AnimatePresence>
     );
-  }
+  },
 );
 
-CanvasSizeSelector.displayName = 'CanvasSizeSelector';
+CanvasSizeSelector.displayName = "CanvasSizeSelector";

@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo } from "react";
 import {
   Palette,
   Layers,
@@ -7,20 +7,20 @@ import {
   Type,
   ChevronLeft,
   ChevronRight,
-} from 'lucide-react';
-import { AssetPanel } from '../AssetPanel';
-import { LayersPanel } from '../LayersPanel';
-import { SmartGuidesControls } from '../SmartGuidesControls';
-import { BrushPanel } from '../BrushPanel';
-import { TextPanel } from '../TextPanel';
+} from "lucide-react";
+import { AssetPanel } from "../AssetPanel";
+import { LayersPanel } from "../LayersPanel";
+import { SmartGuidesControls } from "../SmartGuidesControls";
+import { BrushPanel } from "../BrushPanel";
+import { TextPanel } from "../TextPanel";
 import {
   useSnapConfig,
   useGuides,
   useEditorActions,
   useTextSettings,
-} from '@/store/editorStore';
+} from "@/store/editorStore";
 
-type SidebarTab = 'assets' | 'layers' | 'guides' | 'brush' | 'text';
+type SidebarTab = "assets" | "layers" | "guides" | "brush" | "text";
 
 const TAB_ICONS = {
   assets: Palette,
@@ -34,7 +34,7 @@ const TAB_ICONS = {
  * Unified left sidebar with tabs for assets and layers
  */
 export const UnifiedSidebar = memo(() => {
-  const [activeTab, setActiveTab] = useState<SidebarTab>('assets');
+  const [activeTab, setActiveTab] = useState<SidebarTab>("assets");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
 
@@ -51,11 +51,11 @@ export const UnifiedSidebar = memo(() => {
   } = useEditorActions();
 
   const tabs: Array<{ id: SidebarTab; label: string }> = [
-    { id: 'assets', label: 'Assets' },
-    { id: 'layers', label: 'Layers' },
-    { id: 'brush', label: 'Brush' },
-    { id: 'text', label: 'Text' },
-    { id: 'guides', label: 'Guides' },
+    { id: "assets", label: "Assets" },
+    { id: "layers", label: "Layers" },
+    { id: "brush", label: "Brush" },
+    { id: "text", label: "Text" },
+    { id: "guides", label: "Guides" },
   ];
 
   return (
@@ -71,18 +71,18 @@ export const UnifiedSidebar = memo(() => {
                   if (activeTab === tab.id && !isCollapsed) {
                     setIsCollapsed(true);
                     // Al colapsar la tab de brush, desactivar el modo brush
-                    if (tab.id === 'brush') {
-                      setBrushMode('none');
+                    if (tab.id === "brush") {
+                      setBrushMode("none");
                     }
                   } else {
                     setActiveTab(tab.id);
                     setIsCollapsed(false);
                     // Al activar la tab de brush, activar automáticamente el modo brush
-                    if (tab.id === 'brush') {
-                      setBrushMode('brush');
+                    if (tab.id === "brush") {
+                      setBrushMode("brush");
                     } else {
                       // Al cambiar a otra tab, desactivar el modo brush
-                      setBrushMode('none');
+                      setBrushMode("none");
                     }
                   }
                 }}
@@ -92,8 +92,8 @@ export const UnifiedSidebar = memo(() => {
                 p-3 rounded-xl flex items-center justify-center relative
                 ${
                   activeTab === tab.id && !isCollapsed
-                    ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white shadow-lg'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white shadow-lg"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }
               `}
               >
@@ -121,11 +121,11 @@ export const UnifiedSidebar = memo(() => {
                 const newCollapsed = !isCollapsed;
                 setIsCollapsed(newCollapsed);
                 // Al colapsar el sidebar, desactivar el modo brush si estaba activo
-                if (newCollapsed && activeTab === 'brush') {
-                  setBrushMode('none');
+                if (newCollapsed && activeTab === "brush") {
+                  setBrushMode("none");
                 }
               }}
-              onMouseEnter={() => setHoveredTab('collapse')}
+              onMouseEnter={() => setHoveredTab("collapse")}
               onMouseLeave={() => setHoveredTab(null)}
               className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
@@ -137,10 +137,10 @@ export const UnifiedSidebar = memo(() => {
             </button>
 
             {/* Tooltip for collapse button */}
-            {hoveredTab === 'collapse' && (
+            {hoveredTab === "collapse" && (
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 pointer-events-none">
                 <div className="bg-gray-900 dark:bg-gray-700 text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap">
-                  {isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                  {isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
                   <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900 dark:border-r-gray-700" />
                 </div>
               </div>
@@ -152,22 +152,22 @@ export const UnifiedSidebar = memo(() => {
       {/* Panel Content - No animations */}
       {!isCollapsed && (
         <div className="h-full">
-          {activeTab === 'assets' && (
+          {activeTab === "assets" && (
             <div className="h-full">
               <AssetPanel />
             </div>
           )}
-          {activeTab === 'layers' && (
+          {activeTab === "layers" && (
             <div className="h-full">
               <LayersPanel />
             </div>
           )}
-          {activeTab === 'brush' && (
+          {activeTab === "brush" && (
             <div className="h-full">
               <BrushPanel />
             </div>
           )}
-          {activeTab === 'text' && (
+          {activeTab === "text" && (
             <div className="h-full">
               <TextPanel
                 textSettings={textSettings}
@@ -176,7 +176,7 @@ export const UnifiedSidebar = memo(() => {
               />
             </div>
           )}
-          {activeTab === 'guides' && (
+          {activeTab === "guides" && (
             <div className="h-full">
               <SmartGuidesControls
                 config={snapConfig}
@@ -192,4 +192,4 @@ export const UnifiedSidebar = memo(() => {
   );
 });
 
-UnifiedSidebar.displayName = 'UnifiedSidebar';
+UnifiedSidebar.displayName = "UnifiedSidebar";

@@ -1,1 +1,1 @@
-export { ShareKubitoModal } from './ShareKubitoModal';
+export { ShareKubitoModal } from "./ShareKubitoModal";

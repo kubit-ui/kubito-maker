@@ -1,5 +1,5 @@
-import { useRef, memo, useState, useEffect, useCallback } from 'react';
-import { useDroppable, useDndMonitor } from '@dnd-kit/core';
+import { useRef, memo, useState, useEffect, useCallback } from "react";
+import { useDroppable, useDndMonitor } from "@dnd-kit/core";
 import {
   Copy,
   FileText,
@@ -9,8 +9,8 @@ import {
   ChevronDown,
   ChevronsDown,
   Trash2,
-} from 'lucide-react';
-import type { Asset, AssetCategory } from '@/types';
+} from "lucide-react";
+import type { Asset, AssetCategory } from "@/types";
 import {
   useItems,
   useSelection,
@@ -23,12 +23,12 @@ import {
   useBrushStrokes,
   useCurrentStroke,
   useSelectedStrokeId,
-} from '@/store/editorStore';
+} from "@/store/editorStore";
 import {
   useCanvasDragAndDrop,
   useCanvasTransform,
   useCanvasScale,
-} from '@/hooks';
+} from "@/hooks";
 import {
   CanvasGrid,
   CanvasItem,
@@ -37,10 +37,10 @@ import {
   CanvasMarquee,
   ZoomControls,
   CanvasStrokeTransformControls,
-} from '.';
-import { CanvasBrushStrokes } from './CanvasBrushStrokes';
-import { CanvasText } from './CanvasText';
-import { ContextMenu, type ContextMenuItem } from '../ContextMenu';
+} from ".";
+import { CanvasBrushStrokes } from "./CanvasBrushStrokes";
+import { CanvasText } from "./CanvasText";
+import { ContextMenu, type ContextMenuItem } from "../ContextMenu";
 
 interface CanvasProps {
   className?: string;
@@ -78,7 +78,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   const dragStartPoint = useRef<{ x: number; y: number } | null>(null);
   const draggedStrokeId = useRef<string | null>(null);
   const draggedStrokeInitialOffset = useRef<{ x: number; y: number } | null>(
-    null
+    null,
   );
 
   // Store actions - Using new actions hook
@@ -108,7 +108,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   } = useEditorActions();
 
   // DEBUG: Log brushMode value
-  console.warn('🔍 Canvas render - brushMode:', brushMode);
+  console.warn("🔍 Canvas render - brushMode:", brushMode);
 
   // Custom hooks
   const { toSvgPoint, onCanvasDragOver, onCanvasDrop } = useCanvasDragAndDrop({
@@ -118,7 +118,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
   // @dnd-kit droppable zone
   const { setNodeRef: setDroppableRef, isOver } = useDroppable({
-    id: 'canvas-droppable',
+    id: "canvas-droppable",
   });
 
   // Combine refs for container
@@ -127,7 +127,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       containerRef.current = node;
       setDroppableRef(node);
     },
-    [setDroppableRef]
+    [setDroppableRef],
   );
 
   // Global mouse tracking for precise positioning
@@ -141,9 +141,9 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       }
     };
 
-    document.addEventListener('mousemove', handleGlobalMouseMove, true);
+    document.addEventListener("mousemove", handleGlobalMouseMove, true);
     return () => {
-      document.removeEventListener('mousemove', handleGlobalMouseMove, true);
+      document.removeEventListener("mousemove", handleGlobalMouseMove, true);
     };
   }, []);
 
@@ -158,8 +158,8 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
       if (
         activatorEvent &&
-        'clientX' in activatorEvent &&
-        'clientY' in activatorEvent
+        "clientX" in activatorEvent &&
+        "clientY" in activatorEvent
       ) {
         const clientX = activatorEvent.clientX as number;
         const clientY = activatorEvent.clientY as number;
@@ -174,7 +174,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       const { active, over } = event;
 
       // Only handle drops on this canvas
-      if (over?.id !== 'canvas-droppable') {
+      if (over?.id !== "canvas-droppable") {
         return;
       }
 
@@ -241,7 +241,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     containerRef,
     canvasWidth,
     canvasHeight,
-    canvasZoom
+    canvasZoom,
   );
 
   // Close context menu on any click outside the menu itself
@@ -251,7 +251,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     const handleGlobalClick = (e: MouseEvent) => {
       // Check if the click was on the context menu itself
       const target = e.target as HTMLElement;
-      const contextMenuElement = document.querySelector('[data-context-menu]');
+      const contextMenuElement = document.querySelector("[data-context-menu]");
 
       // If clicking inside the context menu, don't close it
       if (contextMenuElement && contextMenuElement.contains(target)) {
@@ -265,14 +265,14 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     // Use capture phase to intercept before stopPropagation
     // Small delay to avoid closing immediately on the same click that opened it
     const timer = setTimeout(() => {
-      document.addEventListener('mousedown', handleGlobalClick, true);
-      document.addEventListener('click', handleGlobalClick, true);
+      document.addEventListener("mousedown", handleGlobalClick, true);
+      document.addEventListener("click", handleGlobalClick, true);
     }, 50);
 
     return () => {
       clearTimeout(timer);
-      document.removeEventListener('mousedown', handleGlobalClick, true);
-      document.removeEventListener('click', handleGlobalClick, true);
+      document.removeEventListener("mousedown", handleGlobalClick, true);
+      document.removeEventListener("click", handleGlobalClick, true);
     };
   }, [contextMenu]);
 
@@ -290,61 +290,61 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   const contextMenuItems: ContextMenuItem[] = contextMenu?.itemId
     ? [
         {
-          id: 'copy',
-          label: 'Copy',
+          id: "copy",
+          label: "Copy",
           icon: <Copy className="h-4 w-4" />,
-          shortcut: 'Cmd+C',
+          shortcut: "Cmd+C",
           onClick: () => copyItem(contextMenu.itemId!),
         },
         {
-          id: 'paste',
-          label: 'Paste',
+          id: "paste",
+          label: "Paste",
           icon: <FileText className="h-4 w-4" />,
-          shortcut: 'Cmd+V',
+          shortcut: "Cmd+V",
           onClick: () => pasteItem(),
         },
         {
-          id: 'duplicate',
-          label: 'Duplicate',
+          id: "duplicate",
+          label: "Duplicate",
           icon: <CopyPlus className="h-4 w-4" />,
-          shortcut: 'Cmd+D',
+          shortcut: "Cmd+D",
           onClick: () => duplicateItem(contextMenu.itemId!),
         },
-        { id: 'separator-1', label: '', separator: true },
+        { id: "separator-1", label: "", separator: true },
         {
-          id: 'bring-to-front',
-          label: 'Bring to Front',
+          id: "bring-to-front",
+          label: "Bring to Front",
           icon: <ChevronsUp className="h-4 w-4" />,
-          shortcut: 'Cmd+Shift+↑',
+          shortcut: "Cmd+Shift+↑",
           onClick: () => moveItemToTop(contextMenu.itemId!),
         },
         {
-          id: 'bring-forward',
-          label: 'Bring Forward',
+          id: "bring-forward",
+          label: "Bring Forward",
           icon: <ChevronUp className="h-4 w-4" />,
-          shortcut: 'Cmd+↑',
+          shortcut: "Cmd+↑",
           onClick: () => moveItemUp(contextMenu.itemId!),
         },
         {
-          id: 'send-backward',
-          label: 'Send Backward',
+          id: "send-backward",
+          label: "Send Backward",
           icon: <ChevronDown className="h-4 w-4" />,
-          shortcut: 'Cmd+↓',
+          shortcut: "Cmd+↓",
           onClick: () => moveItemDown(contextMenu.itemId!),
         },
         {
-          id: 'send-to-back',
-          label: 'Send to Back',
+          id: "send-to-back",
+          label: "Send to Back",
           icon: <ChevronsDown className="h-4 w-4" />,
-          shortcut: 'Cmd+Shift+↓',
+          shortcut: "Cmd+Shift+↓",
           onClick: () => moveItemToBottom(contextMenu.itemId!),
         },
-        { id: 'separator-2', label: '', separator: true },
+        { id: "separator-2", label: "", separator: true },
         {
-          id: 'delete',
-          label: 'Delete',
+          id: "delete",
+          label: "Delete",
           icon: <Trash2 className="h-4 w-4" />,
-          shortcut: 'Del',
+          shortcut: "Del",
           danger: true,
           onClick: () => removeItem(contextMenu.itemId!),
         },
@@ -353,32 +353,32 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
   // Brush drawing with addEventListener for capture phase
   useEffect(() => {
-    console.warn('Brush effect running. brushMode:', brushMode);
+    console.warn("Brush effect running. brushMode:", brushMode);
 
-    if (brushMode === 'none') {
-      console.warn('Brush mode is none, skipping listeners');
+    if (brushMode === "none") {
+      console.warn("Brush mode is none, skipping listeners");
       return;
     }
 
     const svg = svgRef.current;
     if (!svg) {
-      console.error('SVG ref is null!');
+      console.error("SVG ref is null!");
       return;
     }
 
-    console.warn('Adding brush listeners to SVG');
+    console.warn("Adding brush listeners to SVG");
 
     // Usar addEventListener para tener control total sobre los eventos
     const handlePointerDown = (e: PointerEvent) => {
-      console.warn('🎨 Brush pointer down (capture)', brushMode, e);
+      console.warn("🎨 Brush pointer down (capture)", brushMode, e);
 
       // Modo borrador: detectar si se hizo click en un trazo
-      if (brushMode === 'eraser') {
+      if (brushMode === "eraser") {
         const target = e.target as Element;
-        const strokeId = target.getAttribute('data-stroke-id');
+        const strokeId = target.getAttribute("data-stroke-id");
 
         if (strokeId) {
-          console.warn('🗑️ Erasing stroke:', strokeId);
+          console.warn("🗑️ Erasing stroke:", strokeId);
           removeStroke(strokeId);
           e.preventDefault();
           e.stopPropagation();
@@ -387,12 +387,12 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       }
 
       // Modo selección: seleccionar trazo y preparar para arrastrar
-      if (brushMode === 'select') {
+      if (brushMode === "select") {
         const target = e.target as Element;
-        const strokeId = target.getAttribute('data-stroke-id');
+        const strokeId = target.getAttribute("data-stroke-id");
 
         if (strokeId) {
-          console.warn('✅ Selecting stroke:', strokeId);
+          console.warn("✅ Selecting stroke:", strokeId);
           selectStroke(strokeId);
 
           // Preparar para arrastre
@@ -418,15 +418,15 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       }
 
       // Modo dibujo normal
-      if (brushMode === 'brush') {
+      if (brushMode === "brush") {
         const point = toSvgPoint(e);
-        console.warn('Point from toSvgPoint:', point);
+        console.warn("Point from toSvgPoint:", point);
         if (!point) {
-          console.error('toSvgPoint returned null!');
+          console.error("toSvgPoint returned null!");
           return;
         }
 
-        console.warn('Starting stroke at', point);
+        console.warn("Starting stroke at", point);
 
         isDrawing.current = true;
         startStroke({ x: point.x, y: point.y });
@@ -438,7 +438,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
     const handlePointerMove = (e: PointerEvent) => {
       // Modo selección: arrastrar trazo seleccionado
       if (
-        brushMode === 'select' &&
+        brushMode === "select" &&
         dragStartPoint.current &&
         draggedStrokeId.current &&
         draggedStrokeInitialOffset.current
@@ -452,7 +452,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
         moveStroke(
           draggedStrokeId.current,
           draggedStrokeInitialOffset.current.x + deltaX,
-          draggedStrokeInitialOffset.current.y + deltaY
+          draggedStrokeInitialOffset.current.y + deltaY,
         );
 
         e.preventDefault();
@@ -460,19 +460,19 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       }
 
       // Modo dibujo: añadir puntos al trazo
-      if (brushMode !== 'brush' || !isDrawing.current) return;
+      if (brushMode !== "brush" || !isDrawing.current) return;
 
       const point = toSvgPoint(e);
       if (!point) return;
 
-      console.warn('Adding point', point);
+      console.warn("Adding point", point);
       addPointToStroke({ x: point.x, y: point.y });
       e.preventDefault();
     };
 
     const handlePointerUp = () => {
       // Modo selección: terminar arrastre
-      if (brushMode === 'select') {
+      if (brushMode === "select") {
         dragStartPoint.current = null;
         draggedStrokeId.current = null;
         draggedStrokeInitialOffset.current = null;
@@ -480,25 +480,25 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
       }
 
       // Modo dibujo: finalizar trazo
-      if (brushMode !== 'brush' || !isDrawing.current) return;
+      if (brushMode !== "brush" || !isDrawing.current) return;
 
-      console.warn('Finishing stroke');
+      console.warn("Finishing stroke");
       isDrawing.current = false;
       finishStroke();
     };
 
     // Usar capture phase (true) para capturar eventos ANTES que el hook useCanvasTransform
-    svg.addEventListener('pointerdown', handlePointerDown, true);
-    svg.addEventListener('pointermove', handlePointerMove, true);
-    document.addEventListener('pointerup', handlePointerUp, true);
+    svg.addEventListener("pointerdown", handlePointerDown, true);
+    svg.addEventListener("pointermove", handlePointerMove, true);
+    document.addEventListener("pointerup", handlePointerUp, true);
 
-    console.warn('✅ Brush listeners added successfully');
+    console.warn("✅ Brush listeners added successfully");
 
     return () => {
-      console.warn('Removing brush listeners');
-      svg.removeEventListener('pointerdown', handlePointerDown, true);
-      svg.removeEventListener('pointermove', handlePointerMove, true);
-      document.removeEventListener('pointerup', handlePointerUp, true);
+      console.warn("Removing brush listeners");
+      svg.removeEventListener("pointerdown", handlePointerDown, true);
+      svg.removeEventListener("pointermove", handlePointerMove, true);
+      document.removeEventListener("pointerup", handlePointerUp, true);
     };
   }, [
     brushMode,
@@ -518,9 +518,9 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
         ref={setContainerRef}
         className={`relative flex items-center justify-center p-4 rounded-lg transition-colors ${
           isOver
-            ? 'bg-kubito-secondary-bg dark:bg-kubito-primary/30'
-            : 'bg-gray-100 dark:bg-gray-800'
-        } ${className || ''}`}
+            ? "bg-kubito-secondary-bg dark:bg-kubito-primary/30"
+            : "bg-gray-100 dark:bg-gray-800"
+        } ${className || ""}`}
         onDragOver={onCanvasDragOver}
         onDrop={onCanvasDrop}
         onMouseMove={(e) => {
@@ -539,19 +539,19 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
           viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
           className="bg-white shadow-lg"
           style={{
-            touchAction: 'none',
+            touchAction: "none",
             cursor:
-              brushMode === 'eraser'
-                ? 'not-allowed'
-                : brushMode === 'select'
-                  ? 'default'
-                  : brushMode !== 'none'
-                    ? 'crosshair'
-                    : 'default',
+              brushMode === "eraser"
+                ? "not-allowed"
+                : brushMode === "select"
+                  ? "default"
+                  : brushMode !== "none"
+                    ? "crosshair"
+                    : "default",
           }}
           onContextMenu={(e) => {
             // Desactivar menú contextual en modo pincel
-            if (brushMode !== 'none') {
+            if (brushMode !== "none") {
               e.preventDefault();
               return;
             }
@@ -559,8 +559,8 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
             e.preventDefault();
             // Check if clicked on an item
             const target = e.target as SVGElement;
-            const itemElement = target.closest('[data-item-id]') as SVGElement;
-            const itemId = itemElement?.getAttribute('data-item-id');
+            const itemElement = target.closest("[data-item-id]") as SVGElement;
+            const itemId = itemElement?.getAttribute("data-item-id");
 
             // Only show menu if clicked on an item
             if (!itemId) {
@@ -609,7 +609,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
                 key={item.id}
                 item={item as any}
                 isSelected={
-                  brushMode === 'none' &&
+                  brushMode === "none" &&
                   (selectedId === item.id || selectedIds.includes(item.id))
                 }
                 selectedId={selectedId}
@@ -625,13 +625,13 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
           {/* Text elements layer */}
           {items
-            .filter((item) => 'type' in item && (item as any).type === 'text')
+            .filter((item) => "type" in item && (item as any).type === "text")
             .map((textItem) => (
               <CanvasText
                 key={textItem.id}
                 textItem={textItem as any}
                 isSelected={
-                  brushMode === 'none' &&
+                  brushMode === "none" &&
                   (selectedId === textItem.id ||
                     selectedIds.includes(textItem.id))
                 }
@@ -640,10 +640,10 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
 
           {/* Transform controls for selected stroke */}
           {selectedStrokeId &&
-            brushMode === 'select' &&
+            brushMode === "select" &&
             (() => {
               const selectedStroke = brushStrokes.find(
-                (s) => s.id === selectedStrokeId
+                (s) => s.id === selectedStrokeId,
               );
               if (!selectedStroke) return null;
               return (
@@ -661,7 +661,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
             })()}
 
           {/* Multi-selection bounding box - oculto en modo pincel */}
-          {brushMode === 'none' && (
+          {brushMode === "none" && (
             <CanvasMultiSelection
               items={items as any}
               selectedIds={selectedIds}
@@ -669,7 +669,7 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
           )}
 
           {/* Marquee selection - visual feedback while dragging - oculto en modo pincel */}
-          {brushMode === 'none' && marquee && (
+          {brushMode === "none" && marquee && (
             <CanvasMarquee start={marquee.start} end={marquee.end} />
           )}
 
@@ -697,4 +697,4 @@ export const Canvas = memo<CanvasProps>(({ className }) => {
   );
 });
 
-Canvas.displayName = 'Canvas';
+Canvas.displayName = "Canvas";

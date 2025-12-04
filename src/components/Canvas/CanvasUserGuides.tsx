@@ -1,5 +1,5 @@
-import { memo } from 'react';
-import type { UserGuide } from './CanvasRulers';
+import { memo } from "react";
+import type { UserGuide } from "./CanvasRulers";
 
 interface CanvasUserGuidesProps {
   guides: UserGuide[];
@@ -26,10 +26,10 @@ export const CanvasUserGuides = memo<CanvasUserGuidesProps>(
         {guides.map((guide) => (
           <g key={guide.id} data-ui="user-guide">
             <line
-              x1={guide.type === 'vertical' ? guide.position : 0}
-              y1={guide.type === 'vertical' ? 0 : guide.position}
-              x2={guide.type === 'vertical' ? guide.position : canvasWidth}
-              y2={guide.type === 'vertical' ? canvasHeight : guide.position}
+              x1={guide.type === "vertical" ? guide.position : 0}
+              y1={guide.type === "vertical" ? 0 : guide.position}
+              x2={guide.type === "vertical" ? guide.position : canvasWidth}
+              y2={guide.type === "vertical" ? canvasHeight : guide.position}
               stroke="#3b82f6"
               strokeWidth="1"
               strokeDasharray="8,4"
@@ -42,7 +42,7 @@ export const CanvasUserGuides = memo<CanvasUserGuidesProps>(
         ))}
       </>
     );
-  }
+  },
 );
 
-CanvasUserGuides.displayName = 'CanvasUserGuides';
+CanvasUserGuides.displayName = "CanvasUserGuides";

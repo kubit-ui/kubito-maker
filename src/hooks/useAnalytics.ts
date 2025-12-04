@@ -1,4 +1,4 @@
-import { track } from '@vercel/analytics';
+import { track } from "@vercel/analytics";
 
 /**
  * Custom analytics hook for tracking user interactions
@@ -7,7 +7,7 @@ import { track } from '@vercel/analytics';
 export const useAnalytics = () => {
   // Asset interactions
   const trackAssetAdded = (category: string, assetId: string) => {
-    track('asset_added', {
+    track("asset_added", {
       category,
       assetId,
       timestamp: new Date().toISOString(),
@@ -15,7 +15,7 @@ export const useAnalytics = () => {
   };
 
   const trackAssetRemoved = (category: string, assetId: string) => {
-    track('asset_removed', {
+    track("asset_removed", {
       category,
       assetId,
       timestamp: new Date().toISOString(),
@@ -24,7 +24,7 @@ export const useAnalytics = () => {
 
   // Body selection
   const trackBodyChanged = (bodyId: string) => {
-    track('body_changed', {
+    track("body_changed", {
       bodyId,
       timestamp: new Date().toISOString(),
     });
@@ -32,7 +32,7 @@ export const useAnalytics = () => {
 
   // Export actions
   const trackExport = (format: string, width: number, height: number) => {
-    track('export', {
+    track("export", {
       format,
       width,
       height,
@@ -41,34 +41,34 @@ export const useAnalytics = () => {
   };
 
   const trackProjectSaved = () => {
-    track('project_saved', {
+    track("project_saved", {
       timestamp: new Date().toISOString(),
     });
   };
 
   const trackProjectLoaded = () => {
-    track('project_loaded', {
+    track("project_loaded", {
       timestamp: new Date().toISOString(),
     });
   };
 
   // Gallery interactions
   const trackGalleryOpened = () => {
-    track('gallery_opened', {
+    track("gallery_opened", {
       timestamp: new Date().toISOString(),
     });
   };
 
   const trackKubitoShared = (title: string, hasEmail: boolean) => {
-    track('kubito_shared', {
+    track("kubito_shared", {
       title,
       hasEmail,
       timestamp: new Date().toISOString(),
     });
   };
 
-  const trackKubitoLoaded = (kubitoId: string, source: 'gallery' | 'local') => {
-    track('kubito_loaded', {
+  const trackKubitoLoaded = (kubitoId: string, source: "gallery" | "local") => {
+    track("kubito_loaded", {
       kubitoId,
       source,
       timestamp: new Date().toISOString(),
@@ -76,14 +76,14 @@ export const useAnalytics = () => {
   };
 
   const trackKubitoLiked = (kubitoId: string) => {
-    track('kubito_liked', {
+    track("kubito_liked", {
       kubitoId,
       timestamp: new Date().toISOString(),
     });
   };
 
   const trackKubitoDownloaded = (kubitoId: string) => {
-    track('kubito_downloaded', {
+    track("kubito_downloaded", {
       kubitoId,
       timestamp: new Date().toISOString(),
     });
@@ -93,12 +93,12 @@ export const useAnalytics = () => {
   const trackCanvasSizeChanged = (
     width: number,
     height: number,
-    presetId?: string
+    presetId?: string,
   ) => {
-    track('canvas_size_changed', {
+    track("canvas_size_changed", {
       width,
       height,
-      presetId: presetId || 'custom',
+      presetId: presetId || "custom",
       timestamp: new Date().toISOString(),
     });
   };
@@ -107,9 +107,9 @@ export const useAnalytics = () => {
   const trackBrushUsed = (
     brushSize: number,
     color: string,
-    opacity: number
+    opacity: number,
   ) => {
-    track('brush_used', {
+    track("brush_used", {
       brushSize,
       color,
       opacity,
@@ -118,7 +118,7 @@ export const useAnalytics = () => {
   };
 
   const trackBrushStrokeFinished = (pointsCount: number) => {
-    track('brush_stroke_finished', {
+    track("brush_stroke_finished", {
       pointsCount,
       timestamp: new Date().toISOString(),
     });
@@ -126,7 +126,7 @@ export const useAnalytics = () => {
 
   // Color and effects
   const trackColorChanged = (itemCategory: string, color: string) => {
-    track('color_changed', {
+    track("color_changed", {
       itemCategory,
       color,
       timestamp: new Date().toISOString(),
@@ -134,7 +134,7 @@ export const useAnalytics = () => {
   };
 
   const trackFilterApplied = (filterType: string, itemCategory: string) => {
-    track('filter_applied', {
+    track("filter_applied", {
       filterType,
       itemCategory,
       timestamp: new Date().toISOString(),
@@ -143,26 +143,26 @@ export const useAnalytics = () => {
 
   // User actions
   const trackUndo = () => {
-    track('undo', {
+    track("undo", {
       timestamp: new Date().toISOString(),
     });
   };
 
   const trackRedo = () => {
-    track('redo', {
+    track("redo", {
       timestamp: new Date().toISOString(),
     });
   };
 
   const trackDuplicate = (itemsCount: number) => {
-    track('duplicate', {
+    track("duplicate", {
       itemsCount,
       timestamp: new Date().toISOString(),
     });
   };
 
   const trackDelete = (itemsCount: number) => {
-    track('delete', {
+    track("delete", {
       itemsCount,
       timestamp: new Date().toISOString(),
     });
@@ -170,7 +170,7 @@ export const useAnalytics = () => {
 
   // Session metrics
   const trackSessionStart = () => {
-    track('session_start', {
+    track("session_start", {
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       screenWidth: window.screen.width,
@@ -180,7 +180,7 @@ export const useAnalytics = () => {
   };
 
   const trackFeatureUsed = (featureName: string) => {
-    track('feature_used', {
+    track("feature_used", {
       featureName,
       timestamp: new Date().toISOString(),
     });
@@ -188,7 +188,7 @@ export const useAnalytics = () => {
 
   // Error tracking
   const trackError = (errorType: string, errorMessage: string) => {
-    track('error', {
+    track("error", {
       errorType,
       errorMessage,
       timestamp: new Date().toISOString(),

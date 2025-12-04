@@ -15,8 +15,8 @@ import type {
   BrushMode,
   TextSettings,
   TextItem,
-} from '@/types';
-import type { Guide, SnapConfig } from '@/utils/smartGuides';
+} from "@/types";
+import type { Guide, SnapConfig } from "@/utils/smartGuides";
 
 /**
  * State interface for managing canvas items
@@ -55,7 +55,7 @@ export interface GuidesState {
   /** User-created guide lines */
   userGuides: Array<{
     id: string;
-    type: 'horizontal' | 'vertical';
+    type: "horizontal" | "vertical";
     position: number;
   }>;
   /** Shows/hides rulers */

@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import type { BrushStroke, BrushPoint } from '@/types';
+import { useMemo } from "react";
+import type { BrushStroke, BrushPoint } from "@/types";
 
 interface CanvasBrushStrokesProps {
   strokes: BrushStroke[];
@@ -11,10 +11,10 @@ interface CanvasBrushStrokesProps {
  * Convierte un array de puntos en un path SVG usando interpolación
  */
 function pointsToPath(points: BrushPoint[], smoothing: number): string {
-  if (points.length === 0) return '';
+  if (points.length === 0) return "";
 
   const firstPoint = points[0];
-  if (!firstPoint) return '';
+  if (!firstPoint) return "";
 
   if (points.length === 1) {
     // Para un solo punto, dibuja un pequeño círculo
@@ -24,7 +24,7 @@ function pointsToPath(points: BrushPoint[], smoothing: number): string {
   if (smoothing === 0) {
     // Sin suavizado: línea recta entre puntos
     const rest = points.slice(1);
-    return `M ${firstPoint.x} ${firstPoint.y} L ${rest.map((p) => `${p.x} ${p.y}`).join(' L ')}`;
+    return `M ${firstPoint.x} ${firstPoint.y} L ${rest.map((p) => `${p.x} ${p.y}`).join(" L ")}`;
   }
 
   // Con suavizado: curva Catmull-Rom
@@ -49,14 +49,14 @@ function pointsToPath(points: BrushPoint[], smoothing: number): string {
     path.push(`C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`);
   }
 
-  return path.join(' ');
+  return path.join(" ");
 }
 
 /**
  * Obtiene el estilo de trazo (siempre round/pencil)
  */
 function getStrokeStyle() {
-  return { lineCap: 'round' as const, lineJoin: 'round' as const };
+  return { lineCap: "round" as const, lineJoin: "round" as const };
 }
 
 /**
@@ -71,7 +71,7 @@ function BrushStrokePath({
 }) {
   const pathData = useMemo(
     () => pointsToPath(stroke.points, stroke.settings.smoothing),
-    [stroke.points, stroke.settings.smoothing]
+    [stroke.points, stroke.settings.smoothing],
   );
 
   // Calcular el centro del trazo para las transformaciones
@@ -135,7 +135,7 @@ function BrushStrokePath({
         strokeLinejoin={style.lineJoin}
         pointerEvents="stroke"
         data-stroke-id={stroke.id}
-        className={`cursor-pointer hover:stroke-opacity-75 transition-opacity ${isSelected ? 'stroke-opacity-100' : ''}`}
+        className={`cursor-pointer hover:stroke-opacity-75 transition-opacity ${isSelected ? "stroke-opacity-100" : ""}`}
       />
     </g>
   );
@@ -152,7 +152,7 @@ export function CanvasBrushStrokes({
   // Ordenar trazos por z-index
   const sortedStrokes = useMemo(
     () => [...strokes].sort((a, b) => a.z - b.z),
-    [strokes]
+    [strokes],
   );
 
   return (

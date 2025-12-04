@@ -1,12 +1,12 @@
-import { memo } from 'react';
-import type { KubitoItem } from '@/types';
-import { TransformService } from '@/domain/services/TransformService';
+import { memo } from "react";
+import type { KubitoItem } from "@/types";
+import { TransformService } from "@/domain/services/TransformService";
 
 interface AlignmentPanelProps {
   item: KubitoItem;
   onUpdate: (updates: Partial<KubitoItem>) => void;
   onAlign: (
-    type: 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom'
+    type: "left" | "center" | "right" | "top" | "middle" | "bottom",
   ) => void;
 }
 
@@ -24,7 +24,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
         {/* Align Horizontal */}
         <div className="grid grid-cols-3 gap-1">
           <button
-            onClick={() => onAlign('left')}
+            onClick={() => onAlign("left")}
             className="p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-xs flex flex-col items-center gap-1"
             title="Align left"
           >
@@ -34,7 +34,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
             <span className="text-[10px]">Left</span>
           </button>
           <button
-            onClick={() => onAlign('center')}
+            onClick={() => onAlign("center")}
             className="p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-xs flex flex-col items-center gap-1"
             title="Center horizontal"
           >
@@ -44,7 +44,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
             <span className="text-[10px]">Center</span>
           </button>
           <button
-            onClick={() => onAlign('right')}
+            onClick={() => onAlign("right")}
             className="p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-xs flex flex-col items-center gap-1"
             title="Align right"
           >
@@ -58,7 +58,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
         {/* Align Vertical */}
         <div className="grid grid-cols-3 gap-1">
           <button
-            onClick={() => onAlign('top')}
+            onClick={() => onAlign("top")}
             className="p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-xs flex flex-col items-center gap-1"
             title="Align top"
           >
@@ -68,7 +68,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
             <span className="text-[10px]">Top</span>
           </button>
           <button
-            onClick={() => onAlign('middle')}
+            onClick={() => onAlign("middle")}
             className="p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-xs flex flex-col items-center gap-1"
             title="Center vertical"
           >
@@ -78,7 +78,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
             <span className="text-[10px]">Middle</span>
           </button>
           <button
-            onClick={() => onAlign('bottom')}
+            onClick={() => onAlign("bottom")}
             className="p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-xs flex flex-col items-center gap-1"
             title="Align bottom"
           >
@@ -95,7 +95,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
             const snappedPoint = TransformService.snapPointToGrid(
               item.x,
               item.y,
-              10
+              10,
             );
             onUpdate(snappedPoint);
           }}
@@ -119,7 +119,7 @@ export const AlignmentPanel = memo<AlignmentPanelProps>(
         </button>
       </div>
     );
-  }
+  },
 );
 
-AlignmentPanel.displayName = 'AlignmentPanel';
+AlignmentPanel.displayName = "AlignmentPanel";

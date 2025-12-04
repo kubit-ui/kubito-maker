@@ -1,7 +1,7 @@
-import { memo, useState } from 'react';
-import { Sparkles, RotateCcw } from 'lucide-react';
-import { FILTER_PRESETS, applyFilterPreset } from '@/data/filterPresets';
-import type { FilterPreset } from '@/data/filterPresets';
+import { memo, useState } from "react";
+import { Sparkles, RotateCcw } from "lucide-react";
+import { FILTER_PRESETS, applyFilterPreset } from "@/data/filterPresets";
+import type { FilterPreset } from "@/data/filterPresets";
 
 interface FiltersPanelProps {
   currentEffects: {
@@ -14,27 +14,27 @@ interface FiltersPanelProps {
     invert?: number;
     blur?: number;
   };
-  onApplyFilter: (effects: Partial<FilterPreset['effects']>) => void;
+  onApplyFilter: (effects: Partial<FilterPreset["effects"]>) => void;
 }
 
 const CATEGORIES: Array<{
-  id: FilterPreset['category'];
+  id: FilterPreset["category"];
   label: string;
 }> = [
-  { id: 'photographic', label: 'Photo' },
-  { id: 'color', label: 'Color' },
-  { id: 'artistic', label: 'Artistic' },
-  { id: 'special', label: 'Special' },
+  { id: "photographic", label: "Photo" },
+  { id: "color", label: "Color" },
+  { id: "artistic", label: "Artistic" },
+  { id: "special", label: "Special" },
 ];
 
 export const FiltersPanel = memo<FiltersPanelProps>(
   ({ currentEffects, onApplyFilter }) => {
     const [selectedCategory, setSelectedCategory] =
-      useState<FilterPreset['category']>('photographic');
+      useState<FilterPreset["category"]>("photographic");
     const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
     const filteredPresets = FILTER_PRESETS.filter(
-      (preset) => preset.category === selectedCategory
+      (preset) => preset.category === selectedCategory,
     );
 
     const handleFilterClick = (preset: FilterPreset) => {
@@ -44,10 +44,10 @@ export const FiltersPanel = memo<FiltersPanelProps>(
     };
 
     const handleReset = () => {
-      const resetPreset = FILTER_PRESETS.find((p) => p.id === 'none');
+      const resetPreset = FILTER_PRESETS.find((p) => p.id === "none");
       if (resetPreset) {
         onApplyFilter(resetPreset.effects);
-        setActiveFilter('none');
+        setActiveFilter("none");
       }
     };
 
@@ -80,8 +80,8 @@ export const FiltersPanel = memo<FiltersPanelProps>(
                 px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors
                 ${
                   selectedCategory === category.id
-                    ? 'bg-kubito-primary text-white'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    ? "bg-kubito-primary text-white"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 }
               `}
             >
@@ -102,8 +102,8 @@ export const FiltersPanel = memo<FiltersPanelProps>(
                   relative group flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
                   ${
                     activeFilter === preset.id
-                      ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
-                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-kubito-primary dark:hover:border-kubito-primary'
+                      ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
+                      : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-kubito-primary dark:hover:border-kubito-primary"
                   }
                 `}
                 title={preset.description}
@@ -264,7 +264,7 @@ export const FiltersPanel = memo<FiltersPanelProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
-FiltersPanel.displayName = 'FiltersPanel';
+FiltersPanel.displayName = "FiltersPanel";

@@ -1,19 +1,19 @@
-import { memo, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Heart, Eye, User, Calendar } from 'lucide-react';
+import { memo, useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Heart, Eye, User, Calendar } from "lucide-react";
 import {
   getCommunityKubitos,
   incrementViews,
   incrementLikes,
-} from '@/services/kubitoUploadService';
-import type { KubitoSubmission } from '@/lib/supabase';
+} from "@/services/kubitoUploadService";
+import type { KubitoSubmission } from "@/lib/supabase";
 
 export const CommunityGallery = memo(() => {
   const [kubitos, setKubitos] = useState<KubitoSubmission[]>([]);
   const [loading, setLoading] = useState(true);
   const [likedKubitos, setLikedKubitos] = useState<Set<string>>(() => {
     // Initialize from localStorage
-    const stored = localStorage.getItem('liked-kubitos');
+    const stored = localStorage.getItem("liked-kubitos");
     if (stored) {
       try {
         const parsed = JSON.parse(stored) as string[];
@@ -39,7 +39,7 @@ export const CommunityGallery = memo(() => {
     await incrementViews(kubito.id);
     // Update local state
     setKubitos((prev) =>
-      prev.map((k) => (k.id === kubito.id ? { ...k, views: k.views + 1 } : k))
+      prev.map((k) => (k.id === kubito.id ? { ...k, views: k.views + 1 } : k)),
     );
   };
 
@@ -55,7 +55,7 @@ export const CommunityGallery = memo(() => {
 
     // Update local state
     setKubitos((prev) =>
-      prev.map((k) => (k.id === kubito.id ? { ...k, likes: k.likes + 1 } : k))
+      prev.map((k) => (k.id === kubito.id ? { ...k, likes: k.likes + 1 } : k)),
     );
 
     // Mark as liked
@@ -63,17 +63,17 @@ export const CommunityGallery = memo(() => {
 
     // Save to localStorage
     localStorage.setItem(
-      'liked-kubitos',
-      JSON.stringify([...likedKubitos, kubito.id])
+      "liked-kubitos",
+      JSON.stringify([...likedKubitos, kubito.id]),
     );
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('es-ES', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
+    return new Intl.DateTimeFormat("es-ES", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     }).format(date);
   };
 
@@ -155,12 +155,12 @@ export const CommunityGallery = memo(() => {
                 disabled={likedKubitos.has(kubito.id)}
                 className={`flex items-center gap-1 px-3 py-1 rounded-full transition-colors ${
                   likedKubitos.has(kubito.id)
-                    ? 'bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10'
+                    ? "bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/10"
                 }`}
               >
                 <Heart
-                  className={`w-4 h-4 ${likedKubitos.has(kubito.id) ? 'fill-current' : ''}`}
+                  className={`w-4 h-4 ${likedKubitos.has(kubito.id) ? "fill-current" : ""}`}
                 />
                 <span className="text-sm font-medium">{kubito.likes}</span>
               </button>
@@ -177,4 +177,4 @@ export const CommunityGallery = memo(() => {
   );
 });
 
-CommunityGallery.displayName = 'CommunityGallery';
+CommunityGallery.displayName = "CommunityGallery";

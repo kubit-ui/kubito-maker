@@ -1,5 +1,5 @@
-import { memo, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { memo, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   Heart,
@@ -10,15 +10,15 @@ import {
   Mail,
   Loader2,
   Image as ImageIcon,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   getCommunityKubitos,
   incrementViews,
   incrementLikes,
-} from '@/services/kubitoUploadService';
-import type { KubitoSubmission } from '@/lib/supabase';
-import { useEditorStore } from '@/store/editorStore';
-import { useAnalytics } from '@/hooks';
+} from "@/services/kubitoUploadService";
+import type { KubitoSubmission } from "@/lib/supabase";
+import { useEditorStore } from "@/store/editorStore";
+import { useAnalytics } from "@/hooks";
 
 interface CommunityGalleryModalProps {
   isOpen: boolean;
@@ -48,7 +48,7 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
         trackGalleryOpened();
 
         // Load likes from localStorage
-        const stored = localStorage.getItem('kubito-likes');
+        const stored = localStorage.getItem("kubito-likes");
         if (stored) {
           setLikedKubitos(new Set(JSON.parse(stored)));
         }
@@ -61,7 +61,7 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
         const data = await getCommunityKubitos(100);
         setKubitos(data);
       } catch (error) {
-        console.error('Error loading kubitos:', error);
+        console.error("Error loading kubitos:", error);
       } finally {
         setIsLoading(false);
       }
@@ -69,16 +69,16 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
 
     const formatDate = (dateString: string) => {
       const date = new Date(dateString);
-      return new Intl.DateTimeFormat('es-ES', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
+      return new Intl.DateTimeFormat("es-ES", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
       }).format(date);
     };
 
     const handleLoadKubito = (kubito: KubitoSubmission) => {
       if (!kubito.kubito_data) {
-        alert('This Kubito has no data to load');
+        alert("This Kubito has no data to load");
         return;
       }
 
@@ -97,13 +97,13 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
             data.items as any[],
             data.config as any,
             data.brushStrokes as any[],
-            typeof data.selectedBodyId === 'string'
+            typeof data.selectedBodyId === "string"
               ? data.selectedBodyId
-              : undefined
+              : undefined,
           );
 
           // Track kubito loaded
-          trackKubitoLoaded(kubito.id, 'gallery');
+          trackKubitoLoaded(kubito.id, "gallery");
 
           // Close modal and show confirmation
           onClose();
@@ -115,27 +115,27 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
           }, 300);
         }
       } catch (error) {
-        console.error('Error loading kubito data:', error);
-        alert('Error loading Kubito. The data format may be invalid.');
+        console.error("Error loading kubito data:", error);
+        alert("Error loading Kubito. The data format may be invalid.");
       }
     };
 
     const handleDownloadKubito = (kubito: KubitoSubmission) => {
       if (!kubito.kubito_data) {
-        alert('This Kubito has no data to download');
+        alert("This Kubito has no data to download");
         return;
       }
 
       try {
         // Create a blob with the data
         const dataStr = JSON.stringify(kubito.kubito_data, null, 2);
-        const blob = new Blob([dataStr], { type: 'application/json' });
+        const blob = new Blob([dataStr], { type: "application/json" });
         const url = URL.createObjectURL(blob);
 
         // Create a download link
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = url;
-        link.download = `${kubito.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.kubito`;
+        link.download = `${kubito.title.replace(/[^a-z0-9]/gi, "_").toLowerCase()}.kubito`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -146,8 +146,8 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
         // Track kubito download
         trackKubitoDownloaded(kubito.id);
       } catch (error) {
-        console.error('Error downloading kubito:', error);
-        alert('Error downloading .kubito file');
+        console.error("Error downloading kubito:", error);
+        alert("Error downloading .kubito file");
       }
     };
 
@@ -157,7 +157,9 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
       void incrementViews(kubito.id);
       // Update counter locally
       setKubitos((prev) =>
-        prev.map((k) => (k.id === kubito.id ? { ...k, views: k.views + 1 } : k))
+        prev.map((k) =>
+          k.id === kubito.id ? { ...k, views: k.views + 1 } : k,
+        ),
       );
     };
 
@@ -175,7 +177,7 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
       setLikedKubitos(newLiked);
 
       // Save to localStorage
-      localStorage.setItem('kubito-likes', JSON.stringify([...newLiked]));
+      localStorage.setItem("kubito-likes", JSON.stringify([...newLiked]));
 
       // Increment in database
       void incrementLikes(kubito.id);
@@ -185,7 +187,9 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
 
       // Update counter locally
       setKubitos((prev) =>
-        prev.map((k) => (k.id === kubito.id ? { ...k, likes: k.likes + 1 } : k))
+        prev.map((k) =>
+          k.id === kubito.id ? { ...k, likes: k.likes + 1 } : k,
+        ),
       );
     };
 
@@ -279,16 +283,16 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
                             }}
                             className={`flex items-center gap-1 transition-colors ${
                               likedKubitos.has(kubito.id)
-                                ? 'text-red-500'
-                                : 'hover:text-red-500'
+                                ? "text-red-500"
+                                : "hover:text-red-500"
                             }`}
                             disabled={likedKubitos.has(kubito.id)}
                           >
                             <Heart
                               className={`w-3 h-3 ${
                                 likedKubitos.has(kubito.id)
-                                  ? 'fill-current'
-                                  : ''
+                                  ? "fill-current"
+                                  : ""
                               }`}
                             />
                             {kubito.likes}
@@ -398,15 +402,15 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
                           disabled={likedKubitos.has(selectedKubito.id)}
                           className={`flex items-center gap-2 transition-all ${
                             likedKubitos.has(selectedKubito.id)
-                              ? 'text-red-500'
-                              : 'hover:text-red-500 cursor-pointer'
+                              ? "text-red-500"
+                              : "hover:text-red-500 cursor-pointer"
                           }`}
                         >
                           <Heart
                             className={`w-5 h-5 ${
                               likedKubitos.has(selectedKubito.id)
-                                ? 'fill-current'
-                                : ''
+                                ? "fill-current"
+                                : ""
                             }`}
                           />
                           <span className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -414,8 +418,8 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
                           </span>
                           <span className="text-sm text-gray-500">
                             {likedKubitos.has(selectedKubito.id)
-                              ? 'You like this'
-                              : 'Like'}
+                              ? "You like this"
+                              : "Like"}
                           </span>
                         </button>
                         <div className="flex items-center gap-2">
@@ -469,7 +473,7 @@ export const CommunityGalleryModal = memo<CommunityGalleryModalProps>(
         </div>
       </AnimatePresence>
     );
-  }
+  },
 );
 
-CommunityGalleryModal.displayName = 'CommunityGalleryModal';
+CommunityGalleryModal.displayName = "CommunityGalleryModal";

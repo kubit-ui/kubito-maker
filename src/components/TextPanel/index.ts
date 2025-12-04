@@ -1,1 +1,1 @@
-export { TextPanel } from './TextPanel';
+export { TextPanel } from "./TextPanel";

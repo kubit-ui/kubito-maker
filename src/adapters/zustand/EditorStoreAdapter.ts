@@ -9,7 +9,7 @@
  * - React components consume through hooks
  */
 
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import type {
   KubitoItem,
   EditorConfig,
@@ -22,11 +22,11 @@ import type {
   BrushPoint,
   TextSettings,
   TextItem,
-} from '@/types';
-import { DEFAULT_BRUSH_SETTINGS, DEFAULT_TEXT_SETTINGS } from '@/types';
-import type { Guide, SnapConfig } from '@/utils/smartGuides';
-import { DEFAULT_SNAP_CONFIG } from '@/utils/smartGuides';
-import type { CombinedEditorState } from '@/domain/models/EditorStates';
+} from "@/types";
+import { DEFAULT_BRUSH_SETTINGS, DEFAULT_TEXT_SETTINGS } from "@/types";
+import type { Guide, SnapConfig } from "@/utils/smartGuides";
+import { DEFAULT_SNAP_CONFIG } from "@/utils/smartGuides";
+import type { CombinedEditorState } from "@/domain/models/EditorStates";
 import {
   ItemService,
   HistoryService,
@@ -35,7 +35,7 @@ import {
   GuidesManager,
   ConfigManager,
   type AlignmentType,
-} from '@/domain';
+} from "@/domain";
 
 /**
  * Actions interface for editor state mutations
@@ -49,7 +49,7 @@ export interface EditorActions {
   setActiveGuides: (guides: Guide[]) => void;
 
   // User Guides
-  addGuide: (type: 'horizontal' | 'vertical', position: number) => void;
+  addGuide: (type: "horizontal" | "vertical", position: number) => void;
   removeGuide: (id: string) => void;
   moveGuide: (id: string, position: number) => void;
   toggleRulers: () => void;
@@ -57,7 +57,7 @@ export interface EditorActions {
 
   // Item CRUD
   addItem: (
-    item: Omit<KubitoItem, 'id' | 'z' | 'locked' | 'visible' | 'effects'>
+    item: Omit<KubitoItem, "id" | "z" | "locked" | "visible" | "effects">,
   ) => void;
   updateItem: (id: string, updates: Partial<KubitoItem>) => void;
   removeItem: (id: string) => void;
@@ -116,7 +116,7 @@ export interface EditorActions {
   moveStroke: (id: string, offsetX: number, offsetY: number) => void;
   updateStrokeTransform: (
     id: string,
-    transform: { scale?: number; rotate?: number }
+    transform: { scale?: number; rotate?: number },
   ) => void;
 
   // Text
@@ -132,7 +132,7 @@ export interface EditorActions {
     items: KubitoItem[],
     config?: Partial<EditorConfig>,
     brushStrokes?: BrushStroke[],
-    selectedBodyId?: string
+    selectedBodyId?: string,
   ) => void;
   importKubito: (kubitoFile: KubitoFile) => void;
 }
@@ -148,7 +148,7 @@ export type EditorStore = CombinedEditorState & EditorActions;
 type SetState = (
   partial:
     | Partial<CombinedEditorState>
-    | ((state: CombinedEditorState) => Partial<CombinedEditorState>)
+    | ((state: CombinedEditorState) => Partial<CombinedEditorState>),
 ) => void;
 
 /**
@@ -160,7 +160,7 @@ type GetState = () => CombinedEditorState & EditorActions;
  * Creates the initial editor state using domain services
  */
 export function createInitialState(
-  config: EditorConfig = ConfigManager.getDefaultConfig()
+  config: EditorConfig = ConfigManager.getDefaultConfig(),
 ): CombinedEditorState {
   const initialBodyItem = ConfigManager.createInitialBodyItem(config);
 
@@ -169,12 +169,12 @@ export function createInitialState(
     items: [initialBodyItem],
 
     // Selection
-    selectedId: 'kubito-base',
+    selectedId: "kubito-base",
     selectedIds: [],
-    mode: 'none',
+    mode: "none",
 
     // Body
-    selectedBodyId: 'body1',
+    selectedBodyId: "body1",
 
     // Guides
     activeGuides: [],
@@ -189,13 +189,13 @@ export function createInitialState(
     // Config
     config,
     theme: ConfigManager.getDefaultTheme(),
-    kubitoName: 'my-kubito',
+    kubitoName: "my-kubito",
 
     // View
     canvasZoom: 1,
 
     // Brush
-    brushMode: 'none',
+    brushMode: "none",
     brushSettings: DEFAULT_BRUSH_SETTINGS,
     brushStrokes: [],
     currentStroke: null,
@@ -213,18 +213,20 @@ export function createInitialState(
  */
 export function createEditorActions(
   set: SetState,
-  get: GetState
+  get: GetState,
 ): EditorActions {
   return {
     // Body selection
     setSelectedBodyId: (id: string) => {
       set((state) => {
-        const bodyItem = state.items.find((item) => item.id === 'kubito-base');
+        const bodyItem = state.items.find((item) => item.id === "kubito-base");
 
         // If kubito-base exists, update its assetId
         if (bodyItem) {
           const updatedItems = state.items.map((item) =>
-            item.id === 'kubito-base' ? ({ ...item, assetId: id } as any) : item
+            item.id === "kubito-base"
+              ? ({ ...item, assetId: id } as any)
+              : item,
           );
           return {
             selectedBodyId: id,
@@ -236,12 +238,12 @@ export function createEditorActions(
         // If kubito-base doesn't exist, recreate it and ADD it to existing items
         const newBodyItem = ConfigManager.createInitialBodyItem(
           state.config,
-          id
+          id,
         );
 
         return {
           selectedBodyId: id,
-          selectedId: 'kubito-base',
+          selectedId: "kubito-base",
           items: [newBodyItem, ...state.items], // ✅ Mantener items existentes
           brushStrokes: [], // Clear brush strokes when body changes
         };
@@ -256,12 +258,12 @@ export function createEditorActions(
     },
 
     // User Guides
-    addGuide: (type: 'horizontal' | 'vertical', position: number) => {
+    addGuide: (type: "horizontal" | "vertical", position: number) => {
       set((state) => ({
         userGuides: GuidesManager.addUserGuide(
           state.userGuides,
           type,
-          position
+          position,
         ),
       }));
     },
@@ -292,8 +294,8 @@ export function createEditorActions(
 
     // Item CRUD using ItemService
     addItem: (itemData) => {
-      const isBackground = itemData.category === 'Backgrounds';
-      const isBody = itemData.category === 'Bodies';
+      const isBackground = itemData.category === "Backgrounds";
+      const isBody = itemData.category === "Bodies";
       const config = get().config;
 
       // Prevent adding Bodies from AssetPanel
@@ -306,7 +308,7 @@ export function createEditorActions(
       const scaleToFillCanvas = isBackground
         ? Math.max(
             config.canvasWidth / baseAssetSize,
-            config.canvasHeight / baseAssetSize
+            config.canvasHeight / baseAssetSize,
           )
         : itemData.scale;
 
@@ -322,7 +324,7 @@ export function createEditorActions(
 
       const newItem = ItemService.createItem(
         itemDataAdjusted,
-        get().items.length
+        get().items.length,
       );
 
       // Handle backgrounds specially
@@ -332,7 +334,7 @@ export function createEditorActions(
 
         set((state) => {
           const itemsWithoutBackgrounds = state.items.filter(
-            (item) => item.category !== 'Backgrounds'
+            (item) => item.category !== "Backgrounds",
           );
           return {
             items: [...itemsWithoutBackgrounds, newItem],
@@ -352,7 +354,7 @@ export function createEditorActions(
     updateItem: (id: string, updates: Partial<KubitoItem>) => {
       set((state) => ({
         items: state.items.map((item) =>
-          item.id === id ? { ...item, ...updates } : item
+          item.id === id ? { ...item, ...updates } : item,
         ) as any,
       }));
       get().addToHistory();
@@ -361,7 +363,7 @@ export function createEditorActions(
     removeItem: (_id: string) => {
       const state = get();
       const idsToRemove = SelectionManager.getFilteredSelectedIds(state, [
-        'kubito-base',
+        "kubito-base",
       ]);
 
       if (idsToRemove.length === 0) {
@@ -379,7 +381,7 @@ export function createEditorActions(
     duplicateItem: (_id: string) => {
       const state = get();
       const idsToDuplicate = SelectionManager.getFilteredSelectedIds(state, [
-        'kubito-base',
+        "kubito-base",
       ]);
 
       if (idsToDuplicate.length === 0) {
@@ -389,7 +391,7 @@ export function createEditorActions(
       const result = ItemService.duplicateItems(
         state.items as any,
         idsToDuplicate,
-        20
+        20,
       );
 
       if (result.newItems.length > 0) {
@@ -404,7 +406,7 @@ export function createEditorActions(
     copyItem: (_id: string) => {
       const state = get();
       const idsToCopy = SelectionManager.getFilteredSelectedIds(state, [
-        'kubito-base',
+        "kubito-base",
       ]);
 
       if (idsToCopy.length === 0) {
@@ -534,7 +536,7 @@ export function createEditorActions(
         selectedIds,
         alignmentType,
         config.canvasWidth,
-        config.canvasHeight
+        config.canvasHeight,
       );
 
       set({ items: alignedItems });
@@ -547,7 +549,7 @@ export function createEditorActions(
       const result = HistoryService.addToHistory(
         state.history,
         state.historyIndex,
-        state.items as any
+        state.items as any,
       );
 
       set({
@@ -585,7 +587,7 @@ export function createEditorActions(
       const result = ConfigManager.updateConfig(get().config, updates);
 
       if (!result.valid) {
-        toast.error(`Invalid config: ${result.validation.errors.join(', ')}`);
+        toast.error(`Invalid config: ${result.validation.errors.join(", ")}`);
         return;
       }
 
@@ -597,12 +599,12 @@ export function createEditorActions(
         get().config,
         width,
         height,
-        presetId
+        presetId,
       );
 
       if (!result.validation.valid) {
         toast.error(
-          `Invalid canvas size: ${result.validation.errors.join(', ')}`
+          `Invalid canvas size: ${result.validation.errors.join(", ")}`,
         );
         return;
       }
@@ -611,9 +613,9 @@ export function createEditorActions(
 
       // Adjust kubito-base if it exists
       if (result.bodyUpdates) {
-        const bodyItem = get().items.find((item) => item.id === 'kubito-base');
+        const bodyItem = get().items.find((item) => item.id === "kubito-base");
         if (bodyItem) {
-          get().updateItem('kubito-base', result.bodyUpdates);
+          get().updateItem("kubito-base", result.bodyUpdates);
         }
       }
 
@@ -627,7 +629,7 @@ export function createEditorActions(
     },
 
     setKubitoName: (name: string) => {
-      set({ kubitoName: name.trim() || 'my-kubito' });
+      set({ kubitoName: name.trim() || "my-kubito" });
     },
 
     // View/Zoom
@@ -654,11 +656,11 @@ export function createEditorActions(
 
     // Brush
     setBrushMode: (mode: BrushMode) => {
-      console.warn('🎯 setBrushMode called in store with mode:', mode);
+      console.warn("🎯 setBrushMode called in store with mode:", mode);
       set({ brushMode: mode });
-      console.warn('🎯 State updated. New brushMode:', get().brushMode);
+      console.warn("🎯 State updated. New brushMode:", get().brushMode);
       // Deseleccionar items cuando se activa el modo brush
-      if (mode !== 'none') {
+      if (mode !== "none") {
         get().deselectAll();
       }
     },
@@ -736,7 +738,7 @@ export function createEditorActions(
     toggleStrokeVisibility: (id: string) => {
       set((state) => ({
         brushStrokes: state.brushStrokes.map((stroke) =>
-          stroke.id === id ? { ...stroke, visible: !stroke.visible } : stroke
+          stroke.id === id ? { ...stroke, visible: !stroke.visible } : stroke,
         ),
       }));
     },
@@ -744,7 +746,7 @@ export function createEditorActions(
     toggleStrokeLock: (id: string) => {
       set((state) => ({
         brushStrokes: state.brushStrokes.map((stroke) =>
-          stroke.id === id ? { ...stroke, locked: !stroke.locked } : stroke
+          stroke.id === id ? { ...stroke, locked: !stroke.locked } : stroke,
         ),
       }));
     },
@@ -756,18 +758,18 @@ export function createEditorActions(
     moveStroke: (id: string, offsetX: number, offsetY: number) => {
       set((state) => ({
         brushStrokes: state.brushStrokes.map((stroke) =>
-          stroke.id === id ? { ...stroke, offsetX, offsetY } : stroke
+          stroke.id === id ? { ...stroke, offsetX, offsetY } : stroke,
         ),
       }));
     },
 
     updateStrokeTransform: (
       id: string,
-      transform: { scale?: number; rotate?: number }
+      transform: { scale?: number; rotate?: number },
     ) => {
       set((state) => ({
         brushStrokes: state.brushStrokes.map((stroke) =>
-          stroke.id === id ? { ...stroke, ...transform } : stroke
+          stroke.id === id ? { ...stroke, ...transform } : stroke,
         ),
       }));
     },
@@ -783,9 +785,9 @@ export function createEditorActions(
       const state = get();
       const newText: TextItem = {
         id: crypto.randomUUID(),
-        type: 'text',
-        name: 'Text',
-        content: 'Double click to edit',
+        type: "text",
+        name: "Text",
+        content: "Double click to edit",
         settings: { ...state.textSettings },
         width: 300,
         x: state.config.canvasWidth / 2 - 150,
@@ -810,9 +812,9 @@ export function createEditorActions(
     updateText: (id: string, content: string) => {
       set((state) => ({
         items: state.items.map((item) =>
-          item.id === id && 'type' in item && (item as any).type === 'text'
+          item.id === id && "type" in item && (item as any).type === "text"
             ? { ...item, content }
-            : item
+            : item,
         ),
       }));
       get().addToHistory();
@@ -821,12 +823,12 @@ export function createEditorActions(
     updateTextStyle: (id: string, settings: Partial<TextSettings>) => {
       set((state) => ({
         items: state.items.map((item) =>
-          item.id === id && 'type' in item && (item as any).type === 'text'
+          item.id === id && "type" in item && (item as any).type === "text"
             ? {
                 ...item,
                 settings: { ...(item as any).settings, ...settings },
               }
-            : item
+            : item,
         ),
       }));
       get().addToHistory();
@@ -835,9 +837,9 @@ export function createEditorActions(
     toggleTextEditing: (id: string, isEditing: boolean) => {
       set((state) => ({
         items: state.items.map((item) =>
-          item.id === id && 'type' in item && (item as any).type === 'text'
+          item.id === id && "type" in item && (item as any).type === "text"
             ? { ...item, isEditing }
-            : item
+            : item,
         ),
       }));
     },
@@ -858,7 +860,7 @@ export function createEditorActions(
       items: KubitoItem[],
       config?: Partial<EditorConfig>,
       brushStrokes?: BrushStroke[],
-      selectedBodyId?: string
+      selectedBodyId?: string,
     ) => {
       set({
         items: JSON.parse(JSON.stringify(items)) as KubitoItem[],
@@ -891,7 +893,7 @@ export function createEditorActions(
         set({
           items: JSON.parse(JSON.stringify(items)) as KubitoItem[],
           config: { ...get().config, ...canvasConfig },
-          kubitoName: kubitoFile.name || 'imported-design',
+          kubitoName: kubitoFile.name || "imported-design",
           selectedId: null,
           selectedIds: [],
           history: [],
@@ -900,11 +902,11 @@ export function createEditorActions(
 
         get().addToHistory();
         toast.success(
-          `Design "${kubitoFile.name || 'Imported'}" loaded successfully`
+          `Design "${kubitoFile.name || "Imported"}" loaded successfully`,
         );
       } catch (error) {
-        console.error('Error importing kubito:', error);
-        toast.error('Error importing design');
+        console.error("Error importing kubito:", error);
+        toast.error("Error importing design");
       }
     },
   };

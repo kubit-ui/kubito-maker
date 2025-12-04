@@ -1,6 +1,6 @@
-import { memo } from 'react';
-import { ZoomIn, ZoomOut, Maximize2 } from 'lucide-react';
-import { useCanvasZoom, useEditorActions } from '@/store/editorStore';
+import { memo } from "react";
+import { ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { useCanvasZoom, useEditorActions } from "@/store/editorStore";
 
 export const ZoomControls = memo(() => {
   const canvasZoom = useCanvasZoom();
@@ -45,4 +45,4 @@ export const ZoomControls = memo(() => {
   );
 });
 
-ZoomControls.displayName = 'ZoomControls';
+ZoomControls.displayName = "ZoomControls";

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement } from "react";
 
 /**
  * Available asset categories for organizing and filtering Kubito editor elements.
@@ -17,13 +17,13 @@ import { ReactElement } from 'react';
  * ```
  */
 export type AssetCategory =
-  | 'Eyes'
-  | 'Mouths'
-  | 'Noses'
-  | 'Hairs'
-  | 'Accessories'
-  | 'Backgrounds'
-  | 'Bodies';
+  | "Eyes"
+  | "Mouths"
+  | "Noses"
+  | "Hairs"
+  | "Accessories"
+  | "Backgrounds"
+  | "Bodies";
 
 /**
  * Represents a pre-made design that can be loaded from the gallery.
@@ -431,12 +431,12 @@ export interface HistoryState {
  * - `scale`: Scale items
  * - `rotate`: Rotate items
  */
-export type TransformMode = 'none' | 'move' | 'scale' | 'rotate';
+export type TransformMode = "none" | "move" | "scale" | "rotate";
 
 /**
  * Supported export file formats.
  */
-export type ExportFormat = 'svg' | 'png' | 'jpeg' | 'webp';
+export type ExportFormat = "svg" | "png" | "jpeg" | "webp";
 
 /**
  * Options for exporting canvas content.
@@ -463,11 +463,11 @@ export interface ExportOptions {
  */
 export const DEFAULT_EFFECTS: VisualEffects = {
   opacity: 1,
-  color: '#000000',
+  color: "#000000",
   shadowBlur: 0,
   shadowOffsetX: 0,
   shadowOffsetY: 0,
-  shadowColor: '#000000',
+  shadowColor: "#000000",
   shadowOpacity: 0.3,
   blur: 0,
   brightness: 1,
@@ -493,7 +493,7 @@ export const DEFAULT_TRANSFORM: Transform = {
 /**
  * Brush type: Only pencil round is available
  */
-export type BrushType = 'round';
+export type BrushType = "round";
 
 /**
  * Drawing tool modes.
@@ -501,7 +501,7 @@ export type BrushType = 'round';
  * - `eraser`: Erases existing strokes
  * - `none`: No drawing tool active
  */
-export type BrushMode = 'brush' | 'eraser' | 'select' | 'none';
+export type BrushMode = "brush" | "eraser" | "select" | "none";
 
 /**
  * A single point in a brush stroke.
@@ -561,9 +561,9 @@ export interface BrushStroke {
  * Default brush settings for new strokes.
  */
 export const DEFAULT_BRUSH_SETTINGS: BrushSettings = {
-  type: 'round',
+  type: "round",
   size: 5,
-  color: '#000000',
+  color: "#000000",
   opacity: 1,
   smoothing: 0.5,
 };
@@ -574,29 +574,29 @@ export const DEFAULT_BRUSH_SETTINGS: BrushSettings = {
  * Available font families for text elements.
  */
 export type FontFamily =
-  | 'Inter'
-  | 'Roboto'
-  | 'Open Sans'
-  | 'Lato'
-  | 'Montserrat'
-  | 'Poppins'
-  | 'Raleway'
-  | 'Playfair Display'
-  | 'Merriweather'
-  | 'Bebas Neue'
-  | 'Pacifico'
-  | 'Lobster'
-  | 'Dancing Script'
-  | 'Caveat'
-  | 'Permanent Marker'
-  | 'Indie Flower'
-  | 'Comic Neue'
-  | 'Courier Prime';
+  | "Inter"
+  | "Roboto"
+  | "Open Sans"
+  | "Lato"
+  | "Montserrat"
+  | "Poppins"
+  | "Raleway"
+  | "Playfair Display"
+  | "Merriweather"
+  | "Bebas Neue"
+  | "Pacifico"
+  | "Lobster"
+  | "Dancing Script"
+  | "Caveat"
+  | "Permanent Marker"
+  | "Indie Flower"
+  | "Comic Neue"
+  | "Courier Prime";
 
 /**
  * Text alignment options.
  */
-export type TextAlign = 'left' | 'center' | 'right';
+export type TextAlign = "left" | "center" | "right";
 
 /**
  * Font weight options.
@@ -606,7 +606,7 @@ export type FontWeight = 300 | 400 | 500 | 600 | 700 | 800 | 900;
 /**
  * Text decoration options.
  */
-export type TextDecoration = 'none' | 'underline' | 'line-through';
+export type TextDecoration = "none" | "underline" | "line-through";
 
 /**
  * Configuration for text styling.
@@ -641,7 +641,7 @@ export interface TextItem extends Transform {
   /** Unique identifier */
   id: string;
   /** Type identifier for text items */
-  type: 'text';
+  type: "text";
   /** The text content */
   content: string;
   /** Text styling settings */
@@ -668,12 +668,12 @@ export interface TextItem extends Transform {
  * Default text settings.
  */
 export const DEFAULT_TEXT_SETTINGS: TextSettings = {
-  fontFamily: 'Inter',
+  fontFamily: "Inter",
   fontSize: 24,
   fontWeight: 400,
-  color: '#000000',
-  textAlign: 'left',
-  textDecoration: 'none',
+  color: "#000000",
+  textAlign: "left",
+  textDecoration: "none",
   lineHeight: 1.5,
   letterSpacing: 0,
   opacity: 1,

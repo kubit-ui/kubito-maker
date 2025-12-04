@@ -1,1 +1,1 @@
-export { BrushPanel } from './BrushPanel';
+export { BrushPanel } from "./BrushPanel";

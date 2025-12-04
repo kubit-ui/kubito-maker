@@ -1,10 +1,10 @@
-import { memo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Upload, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
-import { uploadKubito } from '@/services/kubitoUploadService';
-import { exportToWebPBlob } from '@/utils/export';
-import { useEditorStore } from '@/store/editorStore';
-import { useAnalytics } from '@/hooks';
+import { memo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Upload, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { uploadKubito } from "@/services/kubitoUploadService";
+import { exportToWebPBlob } from "@/utils/export";
+import { useEditorStore } from "@/store/editorStore";
+import { useAnalytics } from "@/hooks";
 
 interface ShareKubitoModalProps {
   isOpen: boolean;
@@ -13,15 +13,15 @@ interface ShareKubitoModalProps {
 
 export const ShareKubitoModal = memo<ShareKubitoModalProps>(
   ({ isOpen, onClose }) => {
-    const [authorName, setAuthorName] = useState('');
-    const [authorEmail, setAuthorEmail] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+    const [authorName, setAuthorName] = useState("");
+    const [authorEmail, setAuthorEmail] = useState("");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const [isUploading, setIsUploading] = useState(false);
     const [uploadStatus, setUploadStatus] = useState<
-      'idle' | 'success' | 'error'
-    >('idle');
-    const [errorMessage, setErrorMessage] = useState('');
+      "idle" | "success" | "error"
+    >("idle");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const editorStore = useEditorStore();
     const { trackKubitoShared } = useAnalytics();
@@ -33,14 +33,14 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
 
     const handleUpload = async () => {
       if (!authorName.trim() || !title.trim()) {
-        setErrorMessage('Please complete all required fields');
-        setUploadStatus('error');
+        setErrorMessage("Please complete all required fields");
+        setUploadStatus("error");
         return;
       }
 
       setIsUploading(true);
-      setUploadStatus('idle');
-      setErrorMessage('');
+      setUploadStatus("idle");
+      setErrorMessage("");
 
       try {
         // Deselect all items to hide selection UI
@@ -50,9 +50,9 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
         await new Promise((resolve) => setTimeout(resolve, 50));
 
         // Get SVG element
-        const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
+        const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
         if (!svg) {
-          throw new Error('Canvas not found');
+          throw new Error("Canvas not found");
         }
 
         // Export canvas as WebP blob
@@ -64,7 +64,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
         });
 
         if (!blob) {
-          throw new Error('Could not generate image');
+          throw new Error("Could not generate image");
         }
 
         // Get state data to save as .kubito
@@ -86,30 +86,30 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
         });
 
         if (result.success) {
-          setUploadStatus('success');
+          setUploadStatus("success");
 
           // Track successful share
           trackKubitoShared(title.trim(), !!authorEmail.trim());
 
           // Clear form
           setTimeout(() => {
-            setAuthorName('');
-            setAuthorEmail('');
-            setTitle('');
-            setTitle('');
-            setDescription('');
-            setUploadStatus('idle');
+            setAuthorName("");
+            setAuthorEmail("");
+            setTitle("");
+            setTitle("");
+            setDescription("");
+            setUploadStatus("idle");
             onClose();
           }, 2000);
         } else {
-          setUploadStatus('error');
-          setErrorMessage(result.error || 'Unknown error');
+          setUploadStatus("error");
+          setErrorMessage(result.error || "Unknown error");
         }
       } catch (error) {
-        console.error('Error sharing kubito:', error);
-        setUploadStatus('error');
+        console.error("Error sharing kubito:", error);
+        setUploadStatus("error");
         setErrorMessage(
-          error instanceof Error ? error.message : 'Unexpected error'
+          error instanceof Error ? error.message : "Unexpected error",
         );
       } finally {
         setIsUploading(false);
@@ -118,11 +118,11 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
 
     const handleClose = () => {
       if (!isUploading) {
-        setAuthorName('');
-        setTitle('');
-        setDescription('');
-        setUploadStatus('idle');
-        setErrorMessage('');
+        setAuthorName("");
+        setTitle("");
+        setDescription("");
+        setUploadStatus("idle");
+        setErrorMessage("");
         onClose();
       }
     };
@@ -261,7 +261,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
               </div>
 
               {/* Status Messages */}
-              {uploadStatus === 'success' && (
+              {uploadStatus === "success" && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -275,7 +275,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
                 </motion.div>
               )}
 
-              {uploadStatus === 'error' && (
+              {uploadStatus === "error" && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -284,7 +284,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
                 >
                   <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                   <span className="text-sm text-red-700 dark:text-red-300">
-                    {errorMessage || 'Error sharing'}
+                    {errorMessage || "Error sharing"}
                   </span>
                 </motion.div>
               )}
@@ -292,7 +292,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isUploading || uploadStatus === 'success'}
+                disabled={isUploading || uploadStatus === "success"}
                 className="w-full py-3 px-4 bg-kubito-primary 
                          hover:bg-kubito-primary-hover
                          text-white font-medium rounded-lg
@@ -306,7 +306,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
                     <Loader2 className="w-5 h-5 animate-spin" />
                     Sharing...
                   </>
-                ) : uploadStatus === 'success' ? (
+                ) : uploadStatus === "success" ? (
                   <>
                     <CheckCircle className="w-5 h-5" />
                     Shared
@@ -328,7 +328,7 @@ export const ShareKubitoModal = memo<ShareKubitoModalProps>(
         </div>
       </AnimatePresence>
     );
-  }
+  },
 );
 
-ShareKubitoModal.displayName = 'ShareKubitoModal';
+ShareKubitoModal.displayName = "ShareKubitoModal";

@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import type { TextItem } from '@/types';
-import { useEditorActions } from '@/store/editorStore';
+import { useEffect, useRef, useState } from "react";
+import type { TextItem } from "@/types";
+import { useEditorActions } from "@/store/editorStore";
 
 interface CanvasTextProps {
   textItem: TextItem;
@@ -45,10 +45,10 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       setEditingContent(textItem.content); // Revert changes
       toggleTextEditing(textItem.id, false);
-    } else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+    } else if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
       handleBlur();
     }
   };
@@ -61,23 +61,23 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
   const scaleY = textItem.scale * (textItem.flipY ? -1 : 1);
 
   // Split content into lines
-  const lines = (textItem.content || 'Double click to edit').split('\n');
+  const lines = (textItem.content || "Double click to edit").split("\n");
   const lineHeightPx =
     textItem.settings.fontSize * textItem.settings.lineHeight;
 
   // Calculate text anchor based on alignment
   const textAnchor =
-    textItem.settings.textAlign === 'center'
-      ? 'middle'
-      : textItem.settings.textAlign === 'right'
-        ? 'end'
-        : 'start';
+    textItem.settings.textAlign === "center"
+      ? "middle"
+      : textItem.settings.textAlign === "right"
+        ? "end"
+        : "start";
 
   // Calculate x offset based on alignment
   const textX =
-    textItem.settings.textAlign === 'center'
+    textItem.settings.textAlign === "center"
       ? textItem.width / 2
-      : textItem.settings.textAlign === 'right'
+      : textItem.settings.textAlign === "right"
         ? textItem.width
         : 0;
 
@@ -86,8 +86,8 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
       <g
         data-item-id={textItem.id}
         style={{
-          cursor: isEditing ? 'text' : 'move',
-          pointerEvents: textItem.locked ? 'none' : 'auto',
+          cursor: isEditing ? "text" : "move",
+          pointerEvents: textItem.locked ? "none" : "auto",
         }}
       >
         {/* Invisible rectangle for selection and dragging */}
@@ -97,13 +97,13 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
           width={textItem.width}
           height={Math.max(100, lines.length * lineHeightPx + 10)}
           fill="transparent"
-          stroke={isSelected && !isEditing ? '#DF2B52' : 'transparent'}
+          stroke={isSelected && !isEditing ? "#DF2B52" : "transparent"}
           strokeWidth={isSelected && !isEditing ? 2 : 0}
-          strokeDasharray={isSelected && !isEditing ? '5,5' : undefined}
+          strokeDasharray={isSelected && !isEditing ? "5,5" : undefined}
           onClick={handleClick}
           onDoubleClick={handleDoubleClick}
           style={{
-            pointerEvents: isEditing ? 'none' : 'all',
+            pointerEvents: isEditing ? "none" : "all",
           }}
         />
 
@@ -122,7 +122,7 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
               fontFamily={textItem.settings.fontFamily}
               fontSize={textItem.settings.fontSize}
               fontWeight={textItem.settings.fontWeight}
-              fontStyle={textItem.settings.italic ? 'italic' : 'normal'}
+              fontStyle={textItem.settings.italic ? "italic" : "normal"}
               textDecoration={textItem.settings.textDecoration}
               fill={textItem.settings.color}
               opacity={textItem.settings.opacity}
@@ -130,11 +130,11 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
               textAnchor={textAnchor}
               dominantBaseline="text-before-edge"
               style={{
-                userSelect: 'none',
-                pointerEvents: 'none',
+                userSelect: "none",
+                pointerEvents: "none",
               }}
             >
-              {line || ' '}
+              {line || " "}
             </text>
           ))}
         </g>
@@ -148,14 +148,14 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
           width={textItem.width}
           height={Math.max(100, lines.length * lineHeightPx + 40)}
           style={{
-            overflow: 'visible',
-            pointerEvents: 'auto',
+            overflow: "visible",
+            pointerEvents: "auto",
           }}
         >
           <div
             style={{
-              width: '100%',
-              pointerEvents: 'auto',
+              width: "100%",
+              pointerEvents: "auto",
             }}
           >
             <textarea
@@ -170,21 +170,21 @@ export function CanvasText({ textItem, isSelected }: CanvasTextProps) {
                 fontWeight: textItem.settings.fontWeight,
                 color: textItem.settings.color,
                 textAlign: textItem.settings.textAlign,
-                fontStyle: textItem.settings.italic ? 'italic' : 'normal',
+                fontStyle: textItem.settings.italic ? "italic" : "normal",
                 lineHeight: textItem.settings.lineHeight,
                 letterSpacing: `${textItem.settings.letterSpacing}px`,
                 width: `${textItem.width}px`,
-                border: '2px solid #DF2B52',
-                outline: 'none',
-                background: 'rgba(255, 255, 255, 0.95)',
-                padding: '4px',
-                resize: 'both',
-                minHeight: '40px',
-                minWidth: '100px',
-                whiteSpace: 'pre-wrap',
-                wordWrap: 'break-word',
+                border: "2px solid #DF2B52",
+                outline: "none",
+                background: "rgba(255, 255, 255, 0.95)",
+                padding: "4px",
+                resize: "both",
+                minHeight: "40px",
+                minWidth: "100px",
+                whiteSpace: "pre-wrap",
+                wordWrap: "break-word",
               }}
-              rows={editingContent.split('\n').length}
+              rows={editingContent.split("\n").length}
             />
           </div>
         </foreignObject>

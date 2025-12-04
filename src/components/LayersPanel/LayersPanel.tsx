@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState } from "react";
 import {
   Eye,
   EyeOff,
@@ -7,8 +7,8 @@ import {
   Smile,
   Crown,
   Sparkles,
-} from 'lucide-react';
-import { useItems, useSelection, useEditorActions } from '@/store/editorStore';
+} from "lucide-react";
+import { useItems, useSelection, useEditorActions } from "@/store/editorStore";
 
 export const LayersPanel = memo(() => {
   const items = useItems();
@@ -26,7 +26,7 @@ export const LayersPanel = memo(() => {
   } = useEditorActions();
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState('');
+  const [editingName, setEditingName] = useState("");
 
   // Sort items by z-index (top to bottom in UI)
   const sortedItems = [...items].sort((a, b) => b.z - a.z);
@@ -41,15 +41,15 @@ export const LayersPanel = memo(() => {
       updateItem(editingId, { name: editingName.trim() });
     }
     setEditingId(null);
-    setEditingName('');
+    setEditingName("");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleFinishEditing();
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       setEditingId(null);
-      setEditingName('');
+      setEditingName("");
     }
   };
 
@@ -62,7 +62,7 @@ export const LayersPanel = memo(() => {
             Layers
           </h3>
           <span className="text-xs text-gray-500 dark:text-gray-400">
-            {items.length} {items.length === 1 ? 'item' : 'items'}
+            {items.length} {items.length === 1 ? "item" : "items"}
           </span>
         </div>
       </div>
@@ -86,8 +86,8 @@ export const LayersPanel = memo(() => {
                   key={item.id}
                   className={`group relative rounded-lg transition-all ${
                     isSelected
-                      ? 'bg-kubito-secondary-bg dark:bg-kubito-primary/20 ring-2 ring-kubito-primary'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-800'
+                      ? "bg-kubito-secondary-bg dark:bg-kubito-primary/20 ring-2 ring-kubito-primary"
+                      : "hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
                   <div className="flex items-center gap-2 p-2">
@@ -95,8 +95,8 @@ export const LayersPanel = memo(() => {
                     <div
                       className={`w-8 h-8 rounded flex items-center justify-center text-lg ${
                         item.locked
-                          ? 'bg-gray-200 dark:bg-gray-700'
-                          : 'bg-gray-100 dark:bg-gray-800'
+                          ? "bg-gray-200 dark:bg-gray-700"
+                          : "bg-gray-100 dark:bg-gray-800"
                       }`}
                       onClick={(e) => {
                         if (e.shiftKey) {
@@ -106,20 +106,20 @@ export const LayersPanel = memo(() => {
                         }
                       }}
                     >
-                      {(item as any).category === 'Eyes' && (
+                      {(item as any).category === "Eyes" && (
                         <Eye className="h-4 w-4" />
                       )}
-                      {(item as any).category === 'Mouths' && (
+                      {(item as any).category === "Mouths" && (
                         <Smile className="h-4 w-4" />
                       )}
-                      {(item as any).category === 'Accessories' && (
+                      {(item as any).category === "Accessories" && (
                         <Crown className="h-4 w-4" />
                       )}
-                      {(item as any).category === 'Noses' && '▪'}
-                      {(item as any).category === 'Hairs' && (
+                      {(item as any).category === "Noses" && "▪"}
+                      {(item as any).category === "Hairs" && (
                         <Sparkles className="h-4 w-4" />
                       )}
-                      {(item as any).category === 'Backgrounds' && '▪'}
+                      {(item as any).category === "Backgrounds" && "▪"}
                     </div>
 
                     {/* Layer Name */}
@@ -144,7 +144,7 @@ export const LayersPanel = memo(() => {
                             }
                           }}
                           onDoubleClick={() =>
-                            handleStartEditing(item.id, item.name || 'Text')
+                            handleStartEditing(item.id, item.name || "Text")
                           }
                           className="w-full text-left"
                         >
@@ -152,7 +152,7 @@ export const LayersPanel = memo(() => {
                             {item.name}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400">
-                            {(item as any).category || 'Text'}
+                            {(item as any).category || "Text"}
                           </div>
                         </button>
                       )}
@@ -163,7 +163,7 @@ export const LayersPanel = memo(() => {
                       <button
                         onClick={() => toggleItemVisibility(item.id)}
                         className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
-                        title={item.visible ? 'Hide' : 'Show'}
+                        title={item.visible ? "Hide" : "Show"}
                       >
                         {item.visible ? (
                           <Eye className="h-4 w-4" />
@@ -174,7 +174,7 @@ export const LayersPanel = memo(() => {
                       <button
                         onClick={() => toggleItemLock(item.id)}
                         className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
-                        title={item.locked ? 'Unlock' : 'Lock'}
+                        title={item.locked ? "Unlock" : "Lock"}
                       >
                         {item.locked ? (
                           <Lock className="h-4 w-4" />
@@ -240,4 +240,4 @@ export const LayersPanel = memo(() => {
   );
 });
 
-LayersPanel.displayName = 'LayersPanel';
+LayersPanel.displayName = "LayersPanel";

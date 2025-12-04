@@ -1,37 +1,37 @@
-import { toPng, toJpeg, toSvg } from 'html-to-image';
+import { toPng, toJpeg, toSvg } from "html-to-image";
 import type {
   ExportOptions,
   KubitoItem,
   BrushStroke,
   EditorConfig,
-} from '@/types';
+} from "@/types";
 
 // Helper function to fetch and embed Google Fonts as base64
 const embedGoogleFonts = async (): Promise<string> => {
   const fonts = [
-    'Inter:wght@300;400;500;600;700;800;900',
-    'Roboto:wght@300;400;500;700;900',
-    'Open+Sans:wght@300;400;600;700;800',
-    'Lato:wght@300;400;700;900',
-    'Montserrat:wght@300;400;500;600;700;800;900',
-    'Poppins:wght@300;400;500;600;700;800;900',
-    'Raleway:wght@300;400;500;600;700;800;900',
-    'Playfair+Display:wght@400;700;900',
-    'Merriweather:wght@300;400;700;900',
-    'Bebas+Neue',
-    'Pacifico',
-    'Lobster',
-    'Dancing+Script:wght@400;700',
-    'Caveat:wght@400;700',
-    'Permanent+Marker',
-    'Indie+Flower',
-    'Comic+Neue:wght@300;400;700',
-    'Courier+Prime:wght@400;700',
+    "Inter:wght@300;400;500;600;700;800;900",
+    "Roboto:wght@300;400;500;700;900",
+    "Open+Sans:wght@300;400;600;700;800",
+    "Lato:wght@300;400;700;900",
+    "Montserrat:wght@300;400;500;600;700;800;900",
+    "Poppins:wght@300;400;500;600;700;800;900",
+    "Raleway:wght@300;400;500;600;700;800;900",
+    "Playfair+Display:wght@400;700;900",
+    "Merriweather:wght@300;400;700;900",
+    "Bebas+Neue",
+    "Pacifico",
+    "Lobster",
+    "Dancing+Script:wght@400;700",
+    "Caveat:wght@400;700",
+    "Permanent+Marker",
+    "Indie+Flower",
+    "Comic+Neue:wght@300;400;700",
+    "Courier+Prime:wght@400;700",
   ];
 
   try {
     // Fetch the CSS from Google Fonts
-    const fontUrl = `https://fonts.googleapis.com/css2?${fonts.map((f) => `family=${f}`).join('&')}&display=swap`;
+    const fontUrl = `https://fonts.googleapis.com/css2?${fonts.map((f) => `family=${f}`).join("&")}&display=swap`;
     const response = await fetch(fontUrl);
     const css = await response.text();
 
@@ -40,8 +40,8 @@ const embedGoogleFonts = async (): Promise<string> => {
     const urlMatches = css.match(/url\([^)]+\)/g) || [];
 
     for (const urlMatch of urlMatches) {
-      const url = urlMatch.match(/url\(([^)]+)\)/)?.[1]?.replace(/['"]/g, '');
-      if (url && url.startsWith('http')) {
+      const url = urlMatch.match(/url\(([^)]+)\)/)?.[1]?.replace(/['"]/g, "");
+      if (url && url.startsWith("http")) {
         try {
           const fontResponse = await fetch(url);
           const fontBlob = await fontResponse.blob();
@@ -54,21 +54,21 @@ const embedGoogleFonts = async (): Promise<string> => {
 
           embeddedCss = embeddedCss.replace(url, base64);
         } catch (err) {
-          console.warn('Failed to embed font:', url, err);
+          console.warn("Failed to embed font:", url, err);
         }
       }
     }
 
     return embeddedCss;
   } catch (error) {
-    console.error('Failed to embed Google Fonts:', error);
-    return '';
+    console.error("Failed to embed Google Fonts:", error);
+    return "";
   }
 };
 
 // Helper function to inject fonts into SVG
 const injectFontsIntoSVG = async (
-  svgElement: SVGSVGElement
+  svgElement: SVGSVGElement,
 ): Promise<() => void> => {
   const fontCss = await embedGoogleFonts();
 
@@ -76,8 +76,8 @@ const injectFontsIntoSVG = async (
 
   // Create a style element with the embedded fonts
   const styleElement = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'style'
+    "http://www.w3.org/2000/svg",
+    "style",
   );
   styleElement.textContent = fontCss;
 
@@ -93,7 +93,7 @@ const injectFontsIntoSVG = async (
 };
 
 const downloadDataUrl = (dataUrl: string, filename: string) => {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = dataUrl;
   a.download = filename;
   document.body.appendChild(a);
@@ -109,13 +109,13 @@ const downloadBlob = (blob: Blob, filename: string) => {
 
 export const exportPNG = async (
   svgElement: SVGSVGElement,
-  options: Partial<ExportOptions> & { filename?: string } = {}
+  options: Partial<ExportOptions> & { filename?: string } = {},
 ): Promise<void> => {
   const {
     width = 720,
     height = 720,
     transparentBackground = false,
-    filename = 'kubito.png',
+    filename = "kubito.png",
   } = options;
 
   // Wait for fonts to load and give rendering time
@@ -126,11 +126,11 @@ export const exportPNG = async (
   const cleanupFonts = await injectFontsIntoSVG(svgElement);
 
   // Hide all foreignObject elements during export
-  const foreignObjects = svgElement.querySelectorAll('foreignObject');
+  const foreignObjects = svgElement.querySelectorAll("foreignObject");
   const originalDisplays: string[] = [];
   foreignObjects.forEach((fo, index) => {
     originalDisplays[index] = fo.style.display;
-    fo.style.display = 'none';
+    fo.style.display = "none";
   });
 
   try {
@@ -138,15 +138,15 @@ export const exportPNG = async (
       width,
       height,
       pixelRatio: 3,
-      backgroundColor: transparentBackground ? undefined : '#ffffff',
+      backgroundColor: transparentBackground ? undefined : "#ffffff",
       skipFonts: false,
       filter: (node: Element) => {
         if (node instanceof Element) {
-          const dataUi = node.getAttribute('data-ui');
-          const dataHandle = node.getAttribute('data-handle');
+          const dataUi = node.getAttribute("data-ui");
+          const dataHandle = node.getAttribute("data-handle");
           if (dataHandle) return false;
           if (dataUi) {
-            if (dataUi === 'grid' && !transparentBackground) return true;
+            if (dataUi === "grid" && !transparentBackground) return true;
             return false;
           }
         }
@@ -160,7 +160,7 @@ export const exportPNG = async (
   } finally {
     // Restore foreignObject visibility
     foreignObjects.forEach((fo, index) => {
-      fo.style.display = originalDisplays[index] || '';
+      fo.style.display = originalDisplays[index] || "";
     });
 
     // Remove injected fonts
@@ -173,7 +173,7 @@ export const exportPNG = async (
  */
 export const exportToPNGBlob = async (
   svgElement: SVGSVGElement,
-  options: Partial<ExportOptions> = {}
+  options: Partial<ExportOptions> = {},
 ): Promise<Blob> => {
   const { width = 720, height = 720, transparentBackground = false } = options;
 
@@ -181,14 +181,14 @@ export const exportToPNGBlob = async (
     width,
     height,
     pixelRatio: 3,
-    backgroundColor: transparentBackground ? undefined : '#ffffff',
+    backgroundColor: transparentBackground ? undefined : "#ffffff",
     filter: (node: Element) => {
       if (node instanceof Element) {
-        const dataUi = node.getAttribute('data-ui');
-        const dataHandle = node.getAttribute('data-handle');
+        const dataUi = node.getAttribute("data-ui");
+        const dataHandle = node.getAttribute("data-handle");
         if (dataHandle) return false;
         if (dataUi) {
-          if (dataUi === 'grid' && !transparentBackground) return true;
+          if (dataUi === "grid" && !transparentBackground) return true;
           return false;
         }
       }
@@ -208,7 +208,7 @@ export const exportToPNGBlob = async (
  */
 export const exportToWebPBlob = async (
   svgElement: SVGSVGElement,
-  options: Partial<ExportOptions> = {}
+  options: Partial<ExportOptions> = {},
 ): Promise<Blob> => {
   const {
     width = 720,
@@ -222,14 +222,14 @@ export const exportToWebPBlob = async (
     width,
     height,
     pixelRatio: 3,
-    backgroundColor: transparentBackground ? undefined : '#ffffff',
+    backgroundColor: transparentBackground ? undefined : "#ffffff",
     filter: (node: Element) => {
       if (node instanceof Element) {
-        const dataUi = node.getAttribute('data-ui');
-        const dataHandle = node.getAttribute('data-handle');
+        const dataUi = node.getAttribute("data-ui");
+        const dataHandle = node.getAttribute("data-handle");
         if (dataHandle) return false;
         if (dataUi) {
-          if (dataUi === 'grid' && !transparentBackground) return true;
+          if (dataUi === "grid" && !transparentBackground) return true;
           return false;
         }
       }
@@ -239,43 +239,43 @@ export const exportToWebPBlob = async (
 
   // Load image from data URL
   const img = new Image();
-  img.crossOrigin = 'anonymous';
+  img.crossOrigin = "anonymous";
 
   await new Promise<void>((resolve, reject) => {
     img.onload = () => resolve();
-    img.onerror = () => reject(new Error('Failed to load image'));
+    img.onerror = () => reject(new Error("Failed to load image"));
     img.src = pngDataUrl;
   });
 
   // Create canvas and convert to WebP
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = width * 3;
   canvas.height = height * 3;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
-  if (!ctx) throw new Error('Could not get canvas context');
+  if (!ctx) throw new Error("Could not get canvas context");
 
   ctx.drawImage(img, 0, 0);
 
   // Convert to WebP blob
   const blob = await new Promise<Blob | null>((resolve) => {
-    canvas.toBlob(resolve, 'image/webp', quality);
+    canvas.toBlob(resolve, "image/webp", quality);
   });
 
-  if (!blob) throw new Error('Failed to create WebP blob');
+  if (!blob) throw new Error("Failed to create WebP blob");
 
   return blob;
 };
 
 export const exportJPEG = async (
   svgElement: SVGSVGElement,
-  options: Partial<ExportOptions> & { filename?: string } = {}
+  options: Partial<ExportOptions> & { filename?: string } = {},
 ): Promise<void> => {
   const {
     width = 720,
     height = 720,
     quality = 0.95,
-    filename = 'kubito.jpg',
+    filename = "kubito.jpg",
   } = options;
 
   const dataUrl = await toJpeg(svgElement as unknown as HTMLElement, {
@@ -283,13 +283,13 @@ export const exportJPEG = async (
     height,
     quality,
     pixelRatio: 3,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     filter: (node: Element) => {
       if (node instanceof Element) {
-        const dataUi = node.getAttribute('data-ui');
-        const dataHandle = node.getAttribute('data-handle');
+        const dataUi = node.getAttribute("data-ui");
+        const dataHandle = node.getAttribute("data-handle");
         if (dataHandle) return false;
-        if (dataUi && dataUi !== 'grid') return false;
+        if (dataUi && dataUi !== "grid") return false;
       }
       return true;
     },
@@ -300,14 +300,14 @@ export const exportJPEG = async (
 
 export const exportWebP = async (
   svgElement: SVGSVGElement,
-  options: Partial<ExportOptions> & { filename?: string } = {}
+  options: Partial<ExportOptions> & { filename?: string } = {},
 ): Promise<void> => {
   const {
     width = 720,
     height = 720,
     quality = 0.95,
     transparentBackground = false,
-    filename = 'kubito.webp',
+    filename = "kubito.webp",
   } = options;
 
   // Wait for fonts to load and give rendering time
@@ -318,11 +318,11 @@ export const exportWebP = async (
   const cleanupFonts = await injectFontsIntoSVG(svgElement);
 
   // Hide all foreignObject elements during export
-  const foreignObjects = svgElement.querySelectorAll('foreignObject');
+  const foreignObjects = svgElement.querySelectorAll("foreignObject");
   const originalDisplays: string[] = [];
   foreignObjects.forEach((fo, index) => {
     originalDisplays[index] = fo.style.display;
-    fo.style.display = 'none';
+    fo.style.display = "none";
   });
 
   try {
@@ -330,15 +330,15 @@ export const exportWebP = async (
       width,
       height,
       pixelRatio: 3,
-      backgroundColor: transparentBackground ? undefined : '#ffffff',
+      backgroundColor: transparentBackground ? undefined : "#ffffff",
       skipFonts: false,
       filter: (node: Element) => {
         if (node instanceof Element) {
-          const dataUi = node.getAttribute('data-ui');
-          const dataHandle = node.getAttribute('data-handle');
+          const dataUi = node.getAttribute("data-ui");
+          const dataHandle = node.getAttribute("data-handle");
           if (dataHandle) return false;
           if (dataUi) {
-            if (dataUi === 'grid' && !transparentBackground) return true;
+            if (dataUi === "grid" && !transparentBackground) return true;
             return false;
           }
         }
@@ -350,36 +350,36 @@ export const exportWebP = async (
 
     // Load image from data URL
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    img.crossOrigin = "anonymous";
 
     await new Promise<void>((resolve, reject) => {
       img.onload = () => resolve();
-      img.onerror = () => reject(new Error('Failed to load image'));
+      img.onerror = () => reject(new Error("Failed to load image"));
       img.src = pngDataUrl;
     });
 
     // Create canvas and convert to WebP
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvas.width = width * 3;
     canvas.height = height * 3;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
-    if (!ctx) throw new Error('Could not get canvas context');
+    if (!ctx) throw new Error("Could not get canvas context");
 
     ctx.drawImage(img, 0, 0);
 
     // Convert to WebP blob
     const blob = await new Promise<Blob | null>((resolve) => {
-      canvas.toBlob(resolve, 'image/webp', quality);
+      canvas.toBlob(resolve, "image/webp", quality);
     });
 
-    if (!blob) throw new Error('Failed to create WebP blob');
+    if (!blob) throw new Error("Failed to create WebP blob");
 
     downloadBlob(blob, filename);
   } finally {
     // Restore foreignObject visibility
     foreignObjects.forEach((fo, index) => {
-      fo.style.display = originalDisplays[index] || '';
+      fo.style.display = originalDisplays[index] || "";
     });
 
     // Remove injected fonts
@@ -389,7 +389,7 @@ export const exportWebP = async (
 
 export const exportSVG = async (
   svgElement: SVGSVGElement,
-  filename = 'kubito.svg'
+  filename = "kubito.svg",
 ): Promise<void> => {
   // Wait for fonts to load
   await document.fonts.ready;
@@ -398,10 +398,10 @@ export const exportSVG = async (
     skipFonts: false,
     filter: (node: Element) => {
       if (node instanceof Element) {
-        const dataUi = node.getAttribute('data-ui');
-        const dataHandle = node.getAttribute('data-handle');
+        const dataUi = node.getAttribute("data-ui");
+        const dataHandle = node.getAttribute("data-handle");
         if (dataHandle) return false;
-        if (dataUi && dataUi !== 'grid') return false;
+        if (dataUi && dataUi !== "grid") return false;
       }
       return true;
     },
@@ -415,10 +415,10 @@ export const exportProject = (
   brushStrokes: BrushStroke[] = [],
   config?: EditorConfig,
   selectedBodyId?: string,
-  projectName = 'kubito-project'
+  projectName = "kubito-project",
 ): void => {
   const projectData = {
-    version: '1.0.0',
+    version: "1.0.0",
     name: projectName,
     items,
     brushStrokes,
@@ -429,12 +429,12 @@ export const exportProject = (
   };
 
   const json = JSON.stringify(projectData, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
+  const blob = new Blob([json], { type: "application/json" });
   downloadBlob(blob, `${projectName}.kubito`);
 };
 
 export const importProject = async (
-  file: File
+  file: File,
 ): Promise<{
   items: KubitoItem[];
   brushStrokes?: BrushStroke[];
@@ -467,21 +467,21 @@ export const importProject = async (
               ? (projectData.config as EditorConfig)
               : undefined,
             selectedBodyId:
-              typeof projectData.selectedBodyId === 'string'
+              typeof projectData.selectedBodyId === "string"
                 ? projectData.selectedBodyId
                 : undefined,
           });
         } else {
-          reject(new Error('Invalid project file format'));
+          reject(new Error("Invalid project file format"));
         }
       } catch (error) {
         reject(
-          error instanceof Error ? error : new Error('Failed to parse file')
+          error instanceof Error ? error : new Error("Failed to parse file"),
         );
       }
     };
 
-    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.onerror = () => reject(new Error("Failed to read file"));
     reader.readAsText(file);
   });
 };

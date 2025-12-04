@@ -1,19 +1,10 @@
-import { Circle, Trash2, Eraser, MousePointer2 } from 'lucide-react';
+import { Paintbrush, Eraser, MousePointer2 } from 'lucide-react';
 import {
+  useBrushMode,
   useBrushSettings,
   useEditorActions,
-  useBrushStrokes,
-  useBrushMode,
 } from '@/store/editorStore';
-import type { BrushType } from '@/types';
 
-const BRUSH_TYPES: Array<{
-  type: BrushType;
-  icon: React.ReactNode;
-  label: string;
-}> = [{ type: 'round', icon: <Circle size={18} />, label: 'Pencil Round' }];
-
-const PRESET_SIZES = [1, 2, 5, 10, 20, 30, 50];
 const PRESET_COLORS = [
   '#000000', // Negro
   '#FFFFFF', // Blanco
@@ -30,18 +21,13 @@ const PRESET_COLORS = [
 ];
 
 export function BrushPanel() {
-  const brushSettings = useBrushSettings();
-  const brushStrokes = useBrushStrokes();
   const brushMode = useBrushMode();
-  const { updateBrushSettings, clearAllStrokes, setBrushMode, selectStroke } =
+  const brushSettings = useBrushSettings();
+  const { setBrushMode, selectStroke, updateBrushSettings } =
     useEditorActions();
 
-  const handleTypeChange = (type: BrushType) => {
-    console.warn('🎨 handleTypeChange called with type:', type);
-    updateBrushSettings({ type });
-    // Activar el modo brush cuando se selecciona un tipo
-    setBrushMode('brush');
-    console.warn("🎨 Brush mode set to 'brush'");
+  const handleBrushMode = () => {
+    setBrushMode(brushMode === 'brush' ? 'none' : 'brush');
   };
 
   const handleEraserMode = () => {
@@ -65,76 +51,104 @@ export function BrushPanel() {
     updateBrushSettings({ color });
   };
 
-  const handleOpacityChange = (opacity: number) => {
-    updateBrushSettings({ opacity });
-  };
-
-  const handleSmoothingChange = (smoothing: number) => {
-    updateBrushSettings({ smoothing });
-  };
-
   return (
-    <div className="h-full overflow-y-auto p-3 bg-white dark:bg-gray-900">
-      <h2 className="mb-3 text-sm font-semibold text-gray-800 dark:text-gray-100">
-        Brush
+    <div className="h-full overflow-y-auto p-4 bg-white dark:bg-gray-900">
+      <h2 className="mb-4 text-sm font-semibold text-gray-800 dark:text-gray-100">
+        Brush Tools
       </h2>
 
-      {/* Tipo de Pincel */}
-      <div className="mb-4">
-        <label className="mb-1.5 block text-xs font-medium text-gray-700 dark:text-gray-300">
-          Type
-        </label>
-        <div className="grid grid-cols-4 gap-1.5">
-          {BRUSH_TYPES.map(({ type, icon, label }) => (
-            <button
-              key={type}
-              onClick={() => handleTypeChange(type)}
-              className={`flex flex-col items-center justify-center gap-0.5 rounded-md border-2 p-1.5 transition-colors ${
-                brushSettings.type === type && brushMode === 'brush'
-                  ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
-                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
-              }`}
-              title={label}
-            >
-              {icon}
-              <span className="text-[10px]">{label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* Herramientas de Pincel */}
+      <div className="grid grid-cols-3 gap-3">
+        {/* Botón Pincel */}
+        <button
+          onClick={handleBrushMode}
+          className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-4 transition-all hover:scale-105 ${
+            brushMode === 'brush'
+              ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20 shadow-lg'
+              : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
+          }`}
+          title="Brush"
+        >
+          <Paintbrush
+            size={28}
+            className={
+              brushMode === 'brush'
+                ? 'text-kubito-primary'
+                : 'text-gray-600 dark:text-gray-400'
+            }
+          />
+          <span
+            className={`text-xs font-medium ${
+              brushMode === 'brush'
+                ? 'text-kubito-primary'
+                : 'text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            Brush
+          </span>
+        </button>
 
-      {/* Eraser Mode */}
-      <div className="mb-4">
+        {/* Botón Goma */}
         <button
           onClick={handleEraserMode}
-          className={`flex w-full items-center justify-center gap-2 rounded-md border-2 p-2 transition-colors ${
+          className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-4 transition-all hover:scale-105 ${
             brushMode === 'eraser'
-              ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+              ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20 shadow-lg'
               : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
           }`}
+          title="Eraser"
         >
-          <Eraser size={18} />
-          <span className="text-xs font-medium">Eraser Mode</span>
+          <Eraser
+            size={28}
+            className={
+              brushMode === 'eraser'
+                ? 'text-kubito-primary'
+                : 'text-gray-600 dark:text-gray-400'
+            }
+          />
+          <span
+            className={`text-xs font-medium ${
+              brushMode === 'eraser'
+                ? 'text-kubito-primary'
+                : 'text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            Eraser
+          </span>
         </button>
-      </div>
 
-      {/* Select Mode */}
-      <div className="mb-4">
+        {/* Botón Seleccionar */}
         <button
           onClick={handleSelectMode}
-          className={`flex w-full items-center justify-center gap-2 rounded-md border-2 p-2 transition-colors ${
+          className={`flex flex-col items-center justify-center gap-2 rounded-lg border-2 p-4 transition-all hover:scale-105 ${
             brushMode === 'select'
-              ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+              ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20 shadow-lg'
               : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
           }`}
+          title="Select"
         >
-          <MousePointer2 size={18} />
-          <span className="text-xs font-medium">Select Mode</span>
+          <MousePointer2
+            size={28}
+            className={
+              brushMode === 'select'
+                ? 'text-kubito-primary'
+                : 'text-gray-600 dark:text-gray-400'
+            }
+          />
+          <span
+            className={`text-xs font-medium ${
+              brushMode === 'select'
+                ? 'text-kubito-primary'
+                : 'text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            Select
+          </span>
         </button>
       </div>
 
       {/* Tamaño del Pincel */}
-      <div className="mb-4">
+      <div className="mt-6 mb-4">
         <label className="mb-1.5 flex items-center justify-between text-xs font-medium text-gray-700 dark:text-gray-300">
           <span>Size</span>
           <span className="text-kubito-primary">{brushSettings.size}px</span>
@@ -147,21 +161,6 @@ export function BrushPanel() {
           onChange={(e) => handleSizeChange(Number(e.target.value))}
           className="w-full"
         />
-        <div className="mt-1.5 flex flex-wrap gap-1">
-          {PRESET_SIZES.map((size) => (
-            <button
-              key={size}
-              onClick={() => handleSizeChange(size)}
-              className={`rounded px-2 py-0.5 text-xs transition-colors ${
-                brushSettings.size === size
-                  ? 'bg-kubito-primary text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-              }`}
-            >
-              {size}px
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Color */}
@@ -194,65 +193,6 @@ export function BrushPanel() {
           onChange={(e) => handleColorChange(e.target.value)}
           className="h-8 w-full rounded border-2 border-gray-300 dark:border-gray-600"
         />
-      </div>
-
-      {/* Opacidad */}
-      <div className="mb-4">
-        <label className="mb-1.5 flex items-center justify-between text-xs font-medium text-gray-700 dark:text-gray-300">
-          <span>Opacity</span>
-          <span className="text-kubito-primary">
-            {Math.round(brushSettings.opacity * 100)}%
-          </span>
-        </label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={brushSettings.opacity}
-          onChange={(e) => handleOpacityChange(Number(e.target.value))}
-          className="w-full"
-        />
-      </div>
-
-      {/* Suavizado */}
-      <div className="mb-4">
-        <label className="mb-1.5 flex items-center justify-between text-xs font-medium text-gray-700 dark:text-gray-300">
-          <span>Smoothing</span>
-          <span className="text-kubito-primary">
-            {Math.round(brushSettings.smoothing * 100)}%
-          </span>
-        </label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={brushSettings.smoothing}
-          onChange={(e) => handleSmoothingChange(Number(e.target.value))}
-          className="w-full"
-        />
-      </div>
-
-      {/* Acciones */}
-      <div className="border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
-        <h3 className="mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">
-          Strokes ({brushStrokes.length})
-        </h3>
-
-        {brushStrokes.length > 0 ? (
-          <button
-            onClick={clearAllStrokes}
-            className="flex w-full items-center justify-center gap-1.5 rounded bg-gray-200 dark:bg-gray-700 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-300 dark:hover:bg-gray-600"
-          >
-            <Trash2 size={14} />
-            Clear All
-          </button>
-        ) : (
-          <p className="text-center text-xs text-gray-500 dark:text-gray-400">
-            No strokes
-          </p>
-        )}
       </div>
     </div>
   );

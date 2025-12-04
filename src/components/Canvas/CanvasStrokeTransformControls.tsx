@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import type { BrushStroke } from '@/types';
+import { useRef, useEffect } from "react";
+import type { BrushStroke } from "@/types";
 
 interface CanvasStrokeTransformControlsProps {
   stroke: BrushStroke;
@@ -72,18 +72,18 @@ export function CanvasStrokeTransformControls({
         const deltaY = currentPoint.y - startPoint.current.y;
         onMove(
           startTransform.current.offsetX + deltaX,
-          startTransform.current.offsetY + deltaY
+          startTransform.current.offsetY + deltaY,
         );
       } else if (isRotating.current) {
         // Rotar el trazo alrededor de su centro global
         // Necesitamos calcular el centro considerando la posición actual y escala
         const startAngle = Math.atan2(
           startPoint.current.y - globalCenterY,
-          startPoint.current.x - globalCenterX
+          startPoint.current.x - globalCenterX,
         );
         const currentAngle = Math.atan2(
           currentPoint.y - globalCenterY,
-          currentPoint.x - globalCenterX
+          currentPoint.x - globalCenterX,
         );
 
         const deltaAngle = (currentAngle - startAngle) * (180 / Math.PI);
@@ -94,17 +94,17 @@ export function CanvasStrokeTransformControls({
         // Escalar el trazo desde su centro, manteniendo el centro fijo
         const startDist = Math.hypot(
           startPoint.current.x - globalCenterX,
-          startPoint.current.y - globalCenterY
+          startPoint.current.y - globalCenterY,
         );
         const currentDist = Math.hypot(
           currentPoint.x - globalCenterX,
-          currentPoint.y - globalCenterY
+          currentPoint.y - globalCenterY,
         );
 
         const scaleFactor = currentDist / startDist;
         const newScale = Math.max(
           0.1,
-          startTransform.current.scale * scaleFactor
+          startTransform.current.scale * scaleFactor,
         );
 
         // Calcular el nuevo offset para mantener el centro en la misma posición
@@ -129,12 +129,12 @@ export function CanvasStrokeTransformControls({
       startTransform.current = null;
     };
 
-    document.addEventListener('pointermove', handlePointerMove);
-    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener("pointermove", handlePointerMove);
+    document.addEventListener("pointerup", handlePointerUp);
 
     return () => {
-      document.removeEventListener('pointermove', handlePointerMove);
-      document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerup", handlePointerUp);
     };
   }, [
     stroke,
@@ -213,7 +213,7 @@ export function CanvasStrokeTransformControls({
         strokeDasharray="5,5"
         transform={transform}
         onPointerDown={handleBboxPointerDown}
-        style={{ cursor: 'move' }}
+        style={{ cursor: "move" }}
       />
 
       {/* Handle de rotación (arriba al centro) */}
@@ -234,7 +234,7 @@ export function CanvasStrokeTransformControls({
           stroke="white"
           strokeWidth={2 / stroke.scale}
           onPointerDown={handleRotatePointerDown}
-          style={{ cursor: 'grab' }}
+          style={{ cursor: "grab" }}
         />
       </g>
 
@@ -248,7 +248,7 @@ export function CanvasStrokeTransformControls({
           stroke="white"
           strokeWidth={2 / stroke.scale}
           onPointerDown={handleScalePointerDown}
-          style={{ cursor: 'nwse-resize' }}
+          style={{ cursor: "nwse-resize" }}
         />
       </g>
 
@@ -262,7 +262,7 @@ export function CanvasStrokeTransformControls({
           stroke="white"
           strokeWidth={2 / stroke.scale}
           onPointerDown={handleScalePointerDown}
-          style={{ cursor: 'nwse-resize' }}
+          style={{ cursor: "nwse-resize" }}
         />
         <circle
           cx={bbox.maxX}
@@ -272,7 +272,7 @@ export function CanvasStrokeTransformControls({
           stroke="white"
           strokeWidth={2 / stroke.scale}
           onPointerDown={handleScalePointerDown}
-          style={{ cursor: 'nesw-resize' }}
+          style={{ cursor: "nesw-resize" }}
         />
         <circle
           cx={bbox.minX}
@@ -282,7 +282,7 @@ export function CanvasStrokeTransformControls({
           stroke="white"
           strokeWidth={2 / stroke.scale}
           onPointerDown={handleScalePointerDown}
-          style={{ cursor: 'nesw-resize' }}
+          style={{ cursor: "nesw-resize" }}
         />
       </g>
     </g>
