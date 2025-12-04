@@ -266,7 +266,9 @@ export const EYEBROWS_DEFINITIONS: AssetDefinition[] = [];
  */
 export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
   { id: 'ay', name: 'Speech Bubble', category: 'Accessories', file: 'ay.svg' },
+  { id: 'band', name: 'Band', category: 'Accessories', file: 'band.svg' },
   { id: 'beer', name: 'Beer Glass', category: 'Accessories', file: 'beer.svg' },
+  { id: 'boot', name: 'Boot', category: 'Accessories', file: 'boot.svg' },
   {
     id: 'bowtie',
     name: 'Bow Tie',
@@ -328,6 +330,12 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     category: 'Accessories',
     file: 'Ellipse 693.svg',
   },
+  {
+    id: 'hair',
+    name: 'Hair Accessory',
+    category: 'Accessories',
+    file: 'hair.svg',
+  },
   { id: 'hat', name: 'Top Hat', category: 'Accessories', file: 'hat.svg' },
   {
     id: 'hat-1',
@@ -335,6 +343,7 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     category: 'Accessories',
     file: 'hat-1.svg',
   },
+  { id: 'head', name: 'Head', category: 'Accessories', file: 'head.svg' },
   { id: 'leaf', name: 'Leaf', category: 'Accessories', file: 'leaf.svg' },
   { id: 'mask', name: 'Face Mask', category: 'Accessories', file: 'mask.svg' },
   {
@@ -366,6 +375,12 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     name: 'Floor Shadow',
     category: 'Accessories',
     file: 'shadow.svg',
+  },
+  {
+    id: 'sunglasses',
+    name: 'Sunglasses',
+    category: 'Accessories',
+    file: 'sunglasses.svg',
   },
   {
     id: 'tail',
@@ -468,6 +483,96 @@ export const BACKGROUNDS_DEFINITIONS: AssetDefinition[] = [
     name: 'Radial Burst',
     category: 'Backgrounds',
     file: 'Bg-07.svg',
+  },
+  {
+    id: 'bg-07-01',
+    name: 'Radial Burst Variant',
+    category: 'Backgrounds',
+    file: 'Bg-07-01.svg',
+  },
+  {
+    id: 'bg-08',
+    name: 'Pattern 08',
+    category: 'Backgrounds',
+    file: 'Bg-08.svg',
+  },
+  {
+    id: 'bg-08-1',
+    name: 'Pattern 08-1',
+    category: 'Backgrounds',
+    file: 'Bg-08-1.svg',
+  },
+  {
+    id: 'bg-08-2',
+    name: 'Pattern 08-2',
+    category: 'Backgrounds',
+    file: 'Bg-08-2.svg',
+  },
+  {
+    id: 'bg-08-3',
+    name: 'Pattern 08-3',
+    category: 'Backgrounds',
+    file: 'Bg-08-3.svg',
+  },
+  {
+    id: 'bg-08-4',
+    name: 'Pattern 08-4',
+    category: 'Backgrounds',
+    file: 'Bg-08-4.svg',
+  },
+  {
+    id: 'bg-08-5',
+    name: 'Pattern 08-5',
+    category: 'Backgrounds',
+    file: 'Bg-08-5.svg',
+  },
+  {
+    id: 'bg-08-6',
+    name: 'Pattern 08-6',
+    category: 'Backgrounds',
+    file: 'Bg-08-6.svg',
+  },
+  {
+    id: 'bg-08-7',
+    name: 'Pattern 08-7',
+    category: 'Backgrounds',
+    file: 'Bg-08-7.svg',
+  },
+  {
+    id: 'bg-08-8',
+    name: 'Pattern 08-8',
+    category: 'Backgrounds',
+    file: 'Bg-08-8.svg',
+  },
+  {
+    id: 'bg-08-9',
+    name: 'Pattern 08-9',
+    category: 'Backgrounds',
+    file: 'Bg-08-9.svg',
+  },
+  {
+    id: 'bg-08-10',
+    name: 'Pattern 08-10',
+    category: 'Backgrounds',
+    file: 'Bg-08-10.svg',
+  },
+  {
+    id: 'bg-08-11',
+    name: 'Pattern 08-11',
+    category: 'Backgrounds',
+    file: 'Bg-08-11.svg',
+  },
+  {
+    id: 'bg-08-12',
+    name: 'Pattern 08-12',
+    category: 'Backgrounds',
+    file: 'Bg-08-12.svg',
+  },
+  {
+    id: 'bg-08-cv',
+    name: 'Pattern 08 CV',
+    category: 'Backgrounds',
+    file: 'Bg-08-cv.svg',
   },
 ];
 
