@@ -274,6 +274,12 @@ export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
     file: 'bowtie.svg',
   },
   {
+    id: 'cap',
+    name: 'Cap',
+    category: 'Accessories',
+    file: 'cap.svg',
+  },
+  {
     id: 'cigarette',
     name: 'Cigarette',
     category: 'Accessories',
