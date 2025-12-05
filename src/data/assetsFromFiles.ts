@@ -230,6 +230,7 @@ export const NOSES_DEFINITIONS: AssetDefinition[] = [];
 export const HAIRS_DEFINITIONS: AssetDefinition[] = [
   { id: 'afro', name: 'Afro Hair', category: 'Hairs', file: 'afro.svg' },
   { id: 'afro-2', name: 'Afro Hair 2', category: 'Hairs', file: 'afro_2.svg' },
+  { id: 'hair-1', name: 'Hair Style 1', category: 'Hairs', file: 'hair-1.svg' },
   { id: 'hair-2', name: 'Wavy Hair', category: 'Hairs', file: 'hair_2.svg' },
   {
     id: 'hair-big-square',
@@ -249,6 +250,12 @@ export const HAIRS_DEFINITIONS: AssetDefinition[] = [
     name: 'Punk Hair',
     category: 'Hairs',
     file: 'punk_hair.svg',
+  },
+  {
+    id: 'vector-925',
+    name: 'Vector Hair',
+    category: 'Hairs',
+    file: 'Vector 925.svg',
   },
 ];
 
@@ -696,18 +703,6 @@ export const BACKGROUNDS_DEFINITIONS: AssetDefinition[] = [
     category: 'Backgrounds',
     file: 'Bg-08-23.svg',
   },
-  {
-    id: 'hair-1-bg',
-    name: 'Hair Pattern',
-    category: 'Backgrounds',
-    file: 'hair-1.svg',
-  },
-  {
-    id: 'vector-925-bg',
-    name: 'Vector Pattern',
-    category: 'Backgrounds',
-    file: 'Vector 925.svg',
-  },
 ];
 
 /**
@@ -752,6 +747,18 @@ export const BODIES_DEFINITIONS: AssetDefinition[] = [
  */
 export const DECORATIONS_DEFINITIONS: AssetDefinition[] = [
   {
+    id: 'body1-dec',
+    name: 'Body 1 Decoration',
+    category: 'Decorations',
+    file: 'body1.svg',
+  },
+  {
+    id: 'body2-dec',
+    name: 'Body 2 Decoration',
+    category: 'Decorations',
+    file: 'body2.svg',
+  },
+  {
     id: 'cloud-dec',
     name: 'Cloud',
     category: 'Decorations',
@@ -762,6 +769,18 @@ export const DECORATIONS_DEFINITIONS: AssetDefinition[] = [
     name: 'Cloud 2',
     category: 'Decorations',
     file: 'cloud2.svg',
+  },
+  {
+    id: 'image-13',
+    name: 'Image 13',
+    category: 'Decorations',
+    file: 'image 13.svg',
+  },
+  {
+    id: 'kubito-04-dec',
+    name: 'Kubito 04 Decoration',
+    category: 'Decorations',
+    file: 'Kubito-04.svg',
   },
   {
     id: 'mountain',
@@ -780,12 +799,6 @@ export const DECORATIONS_DEFINITIONS: AssetDefinition[] = [
     name: 'Green Mountain',
     category: 'Decorations',
     file: 'mountain_green.svg',
-  },
-  {
-    id: 'image-13',
-    name: 'Image 13',
-    category: 'Decorations',
-    file: 'image 13.svg',
   },
 ];
 
