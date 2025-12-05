@@ -1,4 +1,4 @@
-import { supabase, type KubitoSubmission } from "../lib/supabase";
+import { supabase, type KubitoSubmission } from '../lib/supabase';
 
 export interface UploadKubitoData {
   authorName: string;
@@ -19,7 +19,7 @@ export interface UploadResult {
  * Sube una imagen de Kubito a Supabase Storage y registra la submission en la base de datos
  */
 export async function uploadKubito(
-  data: UploadKubitoData,
+  data: UploadKubitoData
 ): Promise<UploadResult> {
   try {
     const {
@@ -38,31 +38,31 @@ export async function uploadKubito(
 
     // 2. Upload image to Supabase Storage
     const { error: uploadError } = await supabase.storage
-      .from("kubitos")
+      .from('kubitos')
       .upload(fileName, imageBlob, {
-        contentType: "image/webp",
-        cacheControl: "3600",
+        contentType: 'image/webp',
+        cacheControl: '3600',
         upsert: false,
       });
 
     if (uploadError) {
-      console.error("Error uploading to storage:", uploadError);
+      console.error('Error uploading to storage:', uploadError);
       return {
         success: false,
-        error: `Error al subir la imagen: ${uploadError.message}`,
+        error: `Error uploading picture: ${uploadError.message}`,
       };
     }
 
     // 3. Get public URL of the image
     const {
       data: { publicUrl },
-    } = supabase.storage.from("kubitos").getPublicUrl(fileName);
+    } = supabase.storage.from('kubitos').getPublicUrl(fileName);
 
     // 4. Save metadata to database
     // Note: kubitoData is stored as JSONB in PostgreSQL, which automatically
     // compresses and stores JSON efficiently (no extra spaces/formatting)
     const { data: submissionData, error: dbError } = await supabase
-      .from("kubito_submissions")
+      .from('kubito_submissions')
       .insert([
         {
           author_name: authorName,
@@ -79,9 +79,9 @@ export async function uploadKubito(
       .single();
 
     if (dbError) {
-      console.error("Error saving to database:", dbError);
+      console.error('Error saving to database:', dbError);
       // Try to delete image if database save fails
-      await supabase.storage.from("kubitos").remove([fileName]);
+      await supabase.storage.from('kubitos').remove([fileName]);
       return {
         success: false,
         error: `Error al guardar en la base de datos: ${dbError.message}`,
@@ -93,10 +93,10 @@ export async function uploadKubito(
       data: submissionData as KubitoSubmission,
     };
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.error('Unexpected error:', error);
     return {
       success: false,
-      error: `Error inesperado: ${error instanceof Error ? error.message : "Desconocido"}`,
+      error: `Error inesperado: ${error instanceof Error ? error.message : 'Desconocido'}`,
     };
   }
 }
@@ -106,23 +106,23 @@ export async function uploadKubito(
  */
 export async function getCommunityKubitos(
   limit = 50,
-  offset = 0,
+  offset = 0
 ): Promise<KubitoSubmission[]> {
   try {
     const { data, error } = await supabase
-      .from("kubito_submissions")
-      .select("*")
-      .order("created_at", { ascending: false })
+      .from('kubito_submissions')
+      .select('*')
+      .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
     if (error) {
-      console.error("Error fetching community kubitos:", error);
+      console.error('Error fetching community kubitos:', error);
       return [];
     }
 
     return (data || []) as KubitoSubmission[];
   } catch (error) {
-    console.error("Unexpected error fetching kubitos:", error);
+    console.error('Unexpected error fetching kubitos:', error);
     return [];
   }
 }
@@ -132,9 +132,9 @@ export async function getCommunityKubitos(
  */
 export async function incrementViews(id: string): Promise<void> {
   try {
-    await supabase.rpc("increment_views", { kubito_id: id });
+    await supabase.rpc('increment_views', { kubito_id: id });
   } catch (error) {
-    console.error("Error incrementing views:", error);
+    console.error('Error incrementing views:', error);
   }
 }
 
@@ -143,8 +143,8 @@ export async function incrementViews(id: string): Promise<void> {
  */
 export async function incrementLikes(id: string): Promise<void> {
   try {
-    await supabase.rpc("increment_likes", { kubito_id: id });
+    await supabase.rpc('increment_likes', { kubito_id: id });
   } catch (error) {
-    console.error("Error incrementing likes:", error);
+    console.error('Error incrementing likes:', error);
   }
 }
