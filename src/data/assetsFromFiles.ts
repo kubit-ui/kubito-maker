@@ -231,12 +231,24 @@ export const HAIRS_DEFINITIONS: AssetDefinition[] = [
   { id: 'afro', name: 'Afro Hair', category: 'Hairs', file: 'afro.svg' },
   { id: 'afro-2', name: 'Afro Hair 2', category: 'Hairs', file: 'afro_2.svg' },
   { id: 'hair-2', name: 'Wavy Hair', category: 'Hairs', file: 'hair_2.svg' },
+  {
+    id: 'hair-big-square',
+    name: 'Square Hair',
+    category: 'Hairs',
+    file: 'hair_big_square.svg',
+  },
   { id: 'hairs', name: 'Spiky Hair', category: 'Hairs', file: 'hairs.svg' },
   {
     id: 'litle-hair',
     name: 'Small Tuft',
     category: 'Hairs',
     file: 'litle hair.svg',
+  },
+  {
+    id: 'punk-hair',
+    name: 'Punk Hair',
+    category: 'Hairs',
+    file: 'punk_hair.svg',
   },
 ];
 
@@ -279,6 +291,12 @@ export const EYEBROWS_DEFINITIONS: AssetDefinition[] = [];
  * Accessories assets
  */
 export const ACCESSORIES_DEFINITIONS: AssetDefinition[] = [
+  {
+    id: 'astroboots',
+    name: 'Astro Boots',
+    category: 'Accessories',
+    file: 'astroboots.svg',
+  },
   { id: 'ay', name: 'Speech Bubble', category: 'Accessories', file: 'ay.svg' },
   { id: 'band', name: 'Band', category: 'Accessories', file: 'band.svg' },
   { id: 'beer', name: 'Beer Glass', category: 'Accessories', file: 'beer.svg' },
@@ -678,6 +696,18 @@ export const BACKGROUNDS_DEFINITIONS: AssetDefinition[] = [
     category: 'Backgrounds',
     file: 'Bg-08-23.svg',
   },
+  {
+    id: 'hair-1-bg',
+    name: 'Hair Pattern',
+    category: 'Backgrounds',
+    file: 'hair-1.svg',
+  },
+  {
+    id: 'vector-925-bg',
+    name: 'Vector Pattern',
+    category: 'Backgrounds',
+    file: 'Vector 925.svg',
+  },
 ];
 
 /**
@@ -744,6 +774,12 @@ export const DECORATIONS_DEFINITIONS: AssetDefinition[] = [
     name: 'Mountain Peak',
     category: 'Decorations',
     file: 'mountain-1.svg',
+  },
+  {
+    id: 'mountain-green',
+    name: 'Green Mountain',
+    category: 'Decorations',
+    file: 'mountain_green.svg',
   },
   {
     id: 'image-13',

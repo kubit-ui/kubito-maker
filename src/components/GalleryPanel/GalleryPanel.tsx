@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { Image } from "lucide-react";
-import type { GalleryItem } from "@/types";
+import { useState, useEffect } from 'react';
+import { Image } from 'lucide-react';
+import type { GalleryItem } from '@/types';
 import {
   loadGalleryManifest,
   getGalleryThumbnailUrl,
   loadGalleryKubito,
-} from "@/data/gallery";
-import { useEditorActions } from "@/store/editorStore";
+} from '@/data/gallery';
+import { useEditorActions } from '@/store/editorStore';
 
 export function GalleryPanel() {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
@@ -31,8 +31,8 @@ export function GalleryPanel() {
       const kubitoFile = await loadGalleryKubito(item);
       importKubito(kubitoFile);
     } catch (error) {
-      console.error("Error loading gallery item:", error);
-      alert("Error loading gallery design");
+      console.error('Error loading gallery item:', error);
+      alert('Error loading gallery design');
     } finally {
       setSelectedItem(null);
     }
@@ -68,7 +68,7 @@ export function GalleryPanel() {
       <h2 className="mb-4 text-lg font-semibold text-gray-800">
         Design Gallery
       </h2>
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-3 gap-4 md:grid-cols-5">
         {galleryItems.map((item) => (
           <button
             key={item.id}
@@ -79,8 +79,8 @@ export function GalleryPanel() {
               transition-all duration-200
               ${
                 selectedItem === item.id
-                  ? "cursor-wait border-kubito-primary opacity-50"
-                  : "cursor-pointer border-gray-200 hover:border-gray-300"
+                  ? 'cursor-wait border-kubito-primary opacity-50'
+                  : 'cursor-pointer border-gray-200 hover:border-gray-300'
               }
             `}
             title={item.description}
@@ -94,7 +94,7 @@ export function GalleryPanel() {
                 onError={(e) => {
                   // Fallback si no existe la imagen
                   const target = e.target as HTMLImageElement;
-                  target.style.display = "none";
+                  target.style.display = 'none';
                   const parent = target.parentElement;
                   if (parent) {
                     parent.innerHTML = `
