@@ -54,9 +54,9 @@ export const LayersPanel = memo(() => {
   };
 
   return (
-    <aside className="w-64 bg-white dark:bg-gray-900 rounded-2xl shadow-xl flex flex-col h-full overflow-hidden">
+    <aside className="w-full md:w-64 bg-white dark:bg-gray-900 md:rounded-2xl md:shadow-xl flex flex-col h-full overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+      <div className="p-3 md:p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-gray-900 dark:text-white">
             Layers
@@ -68,15 +68,15 @@ export const LayersPanel = memo(() => {
       </div>
 
       {/* Layers List */}
-      <div className="flex-1 overflow-y-auto p-2">
+      <div className="flex-1 overflow-y-auto p-2 md:p-2">
         {sortedItems.length === 0 ? (
-          <div className="p-4 text-center text-sm text-gray-400 dark:text-gray-500">
+          <div className="p-8 md:p-4 text-center text-sm text-gray-400 dark:text-gray-500">
             No layers
             <br />
             <span className="text-xs">Drag elements to canvas</span>
           </div>
         ) : (
-          <div className="space-y-1">
+          <div className="space-y-2 md:space-y-1">
             {sortedItems.map((item) => {
               const isSelected = selectedIds.includes(item.id);
               const isEditing = editingId === item.id;
@@ -90,10 +90,10 @@ export const LayersPanel = memo(() => {
                       : "hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
-                  <div className="flex items-center gap-2 p-2">
+                  <div className="flex items-center gap-2 md:gap-2 p-3 md:p-2">
                     {/* Layer Thumbnail/Icon */}
                     <div
-                      className={`w-8 h-8 rounded flex items-center justify-center text-lg ${
+                      className={`w-10 h-10 md:w-8 md:h-8 rounded flex items-center justify-center text-lg ${
                         item.locked
                           ? "bg-gray-200 dark:bg-gray-700"
                           : "bg-gray-100 dark:bg-gray-800"
@@ -106,20 +106,23 @@ export const LayersPanel = memo(() => {
                         }
                       }}
                     >
-                      {(item as any).category === "Eyes" && (
-                        <Eye className="h-4 w-4" />
+                      {"category" in item && item.category === "Eyes" && (
+                        <Eye className="h-5 w-5 md:h-4 md:w-4" />
                       )}
-                      {(item as any).category === "Mouths" && (
-                        <Smile className="h-4 w-4" />
+                      {"category" in item && item.category === "Mouths" && (
+                        <Smile className="h-5 w-5 md:h-4 md:w-4" />
                       )}
-                      {(item as any).category === "Accessories" && (
-                        <Crown className="h-4 w-4" />
+                      {"category" in item &&
+                        item.category === "Accessories" && (
+                          <Crown className="h-5 w-5 md:h-4 md:w-4" />
+                        )}
+                      {"category" in item && item.category === "Noses" && "▪"}
+                      {"category" in item && item.category === "Hairs" && (
+                        <Sparkles className="h-5 w-5 md:h-4 md:w-4" />
                       )}
-                      {(item as any).category === "Noses" && "▪"}
-                      {(item as any).category === "Hairs" && (
-                        <Sparkles className="h-4 w-4" />
-                      )}
-                      {(item as any).category === "Backgrounds" && "▪"}
+                      {"category" in item &&
+                        item.category === "Backgrounds" &&
+                        "▪"}
                     </div>
 
                     {/* Layer Name */}
@@ -152,7 +155,7 @@ export const LayersPanel = memo(() => {
                             {item.name}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400">
-                            {(item as any).category || "Text"}
+                            {"category" in item ? item.category : "Text"}
                           </div>
                         </button>
                       )}

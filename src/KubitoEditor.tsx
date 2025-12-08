@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -11,17 +11,27 @@ import {
 } from "@dnd-kit/core";
 import { Canvas } from "./components/Canvas";
 import { Toolbar } from "./components/Toolbar";
-import { UnifiedSidebar } from "./components/UnifiedSidebar";
-import { Inspector } from "./components/Inspector";
+import { ResponsiveUnifiedSidebar } from "./components/UnifiedSidebar";
+import { ResponsiveInspector } from "./components/Inspector";
+import { MobileFloatingButtons } from "./components/MobileFloatingButtons";
 import { useEditorStore } from "./store/editorStore";
-import { useKeyboardShortcuts, useAnalytics } from "./hooks";
+import { useKeyboardShortcuts, useAnalytics, useIsMobile } from "./hooks";
 import { AssetRenderer } from "./components/AssetRenderer";
 import type { Asset, AssetCategory } from "./types";
-import { useState } from "react";
+
+type MobilePanel = "assets" | "layers" | "tools" | null;
+type SidebarTab = "assets" | "layers" | "guides" | "brush" | "text";
 
 export default function KubitoEditor() {
   // Analytics
   const { trackSessionStart } = useAnalytics();
+
+  // Responsive state
+  const isMobile = useIsMobile();
+  const [activeMobilePanel, setActiveMobilePanel] =
+    useState<MobilePanel>(null);
+  const [activeSidebarTab, setActiveSidebarTab] =
+    useState<SidebarTab>("assets");
 
   // Initialize analytics on mount
   useEffect(() => {
@@ -166,6 +176,24 @@ export default function KubitoEditor() {
     return () => clearInterval(autoSaveInterval);
   }, []);
 
+  // Handle mobile panel opening
+  const handleMobilePanelClick = (panel: MobilePanel) => {
+    if (panel === activeMobilePanel) {
+      setActiveMobilePanel(null);
+    } else {
+      setActiveMobilePanel(panel);
+      // Map mobile panel to sidebar tab
+      if (panel === "assets") {
+        setActiveSidebarTab("assets");
+      } else if (panel === "layers") {
+        setActiveSidebarTab("layers");
+      } else if (panel === "tools") {
+        // Default to brush when opening tools
+        setActiveSidebarTab("brush");
+      }
+    }
+  };
+
   return (
     <DndContext
       sensors={sensors}
@@ -174,26 +202,56 @@ export default function KubitoEditor() {
     >
       <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-3 flex flex-col overflow-hidden">
         <div className="max-w-[1920px] mx-auto w-full flex flex-col gap-2 sm:gap-3 h-full">
-          {/* Toolbar */}
+          {/* Toolbar - Always visible */}
           <Toolbar />
 
           {/* Main Layout */}
           <div className="flex gap-2 sm:gap-3 items-start flex-1 min-h-0">
-            {/* Unified Left Sidebar */}
-            <UnifiedSidebar />
+            {/* Unified Left Sidebar - Hidden on mobile */}
+            {!isMobile && (
+              <ResponsiveUnifiedSidebar
+                activeTab={activeSidebarTab}
+                onTabChange={setActiveSidebarTab}
+                isOpen={!isMobile}
+              />
+            )}
 
             {/* Canvas - takes all remaining space */}
             <div className="relative z-10 flex-1 min-w-0 h-full overflow-auto">
               <Canvas className="h-full" />
             </div>
 
-            {/* Inspector - Right Sidebar */}
-            <div className="relative z-40 h-full">
-              <Inspector />
-            </div>
+            {/* Inspector - Right Sidebar - Hidden on mobile */}
+            {!isMobile && <ResponsiveInspector />}
           </div>
         </div>
+
+        {/* Mobile Floating Buttons */}
+        {isMobile && (
+          <MobileFloatingButtons
+            onTabClick={(tab) => {
+              handleMobilePanelClick(tab as MobilePanel);
+            }}
+            activeTab={activeMobilePanel}
+          />
+        )}
       </div>
+
+      {/* Mobile Bottom Sheets */}
+      {isMobile && (
+        <>
+          <ResponsiveUnifiedSidebar
+            activeTab={activeSidebarTab}
+            onTabChange={setActiveSidebarTab}
+            isOpen={
+              activeMobilePanel === "assets" ||
+              activeMobilePanel === "layers" ||
+              activeMobilePanel === "tools"
+            }
+            onClose={() => setActiveMobilePanel(null)}
+          />
+        </>
+      )}
 
       {/* Drag Overlay - shows animated preview while dragging */}
       <DragOverlay dropAnimation={null}>

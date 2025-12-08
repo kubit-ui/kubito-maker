@@ -1,6 +1,19 @@
 import { memo, useState, useRef } from "react";
-import { motion } from "framer-motion";
-import { FileText, Image, Briefcase, Share2, Users } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FileText,
+  Image,
+  Briefcase,
+  Share2,
+  Users,
+  Menu,
+  X,
+  Maximize2,
+  FolderOpen,
+  Trash2,
+  Info,
+  Download,
+} from "lucide-react";
 import {
   useItems,
   useConfig,
@@ -22,10 +35,11 @@ import {
   importProject,
 } from "@/utils/export";
 import { ExportService } from "@/domain";
-import { useAnalytics } from "@/hooks";
+import { useAnalytics, useIsMobile, useIsTablet } from "@/hooks";
 
 export const Toolbar = memo(() => {
   const [showExportMenu, setShowExportMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showCommunityGallery, setShowCommunityGallery] = useState(false);
@@ -39,6 +53,8 @@ export const Toolbar = memo(() => {
     useEditorActions();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { trackExport, trackProjectSaved, trackProjectLoaded } = useAnalytics();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   const handleExportSVG = async () => {
     // Deselect all items to hide selection UI
@@ -233,6 +249,334 @@ export const Toolbar = memo(() => {
     void handleImportProject(e);
   };
 
+  // Mobile/Tablet: Simplified toolbar
+  if (isMobile || isTablet) {
+    return (
+      <>
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="relative z-50 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-2 sm:p-3 flex items-center justify-center gap-2"
+        >
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="Menu"
+          >
+            {showMobileMenu ? (
+              <X className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+            ) : (
+              <Menu className="h-5 w-5 text-gray-700 dark:text-gray-300" />
+            )}
+          </button>
+
+          {/* Title - Compact on mobile */}
+          <h1 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white truncate flex-1 text-center">
+            Kubito Maker
+          </h1>
+
+          {/* Quick Actions - Always visible */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className="p-2 bg-kubito-primary text-white rounded-lg hover:bg-kubito-primary-hover transition-colors"
+              aria-label="Export"
+            >
+              <Download className="h-4 w-4 sm:h-5 sm:w-5" />
+            </button>
+
+            <button
+              onClick={() => setShowShareModal(true)}
+              className="p-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Share"
+            >
+              <Share2 className="h-4 w-4 sm:h-5 sm:w-5" />
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {showMobileMenu && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 z-[60] lg:hidden"
+                onClick={() => setShowMobileMenu(false)}
+              />
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed left-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl z-[70] lg:hidden overflow-y-auto"
+              >
+                <div className="p-4 space-y-4">
+                  {/* Close Button */}
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                      Menu
+                    </h2>
+                    <button
+                      onClick={() => setShowMobileMenu(false)}
+                      className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+
+                  {/* Kubito Name Input */}
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="kubito-name-mobile"
+                      className="text-sm font-medium text-gray-700 dark:text-gray-300 block"
+                    >
+                      Kubito Name
+                    </label>
+                    <input
+                      id="kubito-name-mobile"
+                      type="text"
+                      value={kubitoName}
+                      onChange={(e) => setKubitoName(e.target.value)}
+                      placeholder="my-kubito"
+                      className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-kubito-primary"
+                    />
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => {
+                        setShowCanvasSizeSelector(true);
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left"
+                    >
+                      <Maximize2 className="h-5 w-5 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        Canvas Size
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        fileInputRef.current?.click();
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left"
+                    >
+                      <FolderOpen className="h-5 w-5 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        Open Project
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        if (confirm("Clear all items?")) {
+                          clearAll();
+                          setShowMobileMenu(false);
+                        }
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left"
+                    >
+                      <Trash2 className="h-5 w-5 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        Clear Canvas
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setShowCommunityGallery(true);
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left"
+                    >
+                      <Users className="h-5 w-5 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        Community Gallery
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setShowTipsModal(true);
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left"
+                    >
+                      <Info className="h-5 w-5 text-gray-500" />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        Tips & Shortcuts
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Export Menu for Mobile */}
+        <AnimatePresence>
+          {showExportMenu && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 z-[60]"
+                onClick={() => setShowExportMenu(false)}
+              />
+              <motion.div
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 rounded-t-3xl shadow-2xl z-[70] p-4 sm:p-6 max-h-[80vh] overflow-y-auto"
+              >
+                <div className="space-y-2">
+                  {/* Drag Handle */}
+                  <div className="flex justify-center mb-2">
+                    <div className="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full" />
+                  </div>
+
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                    Export Options
+                  </h3>
+
+                  <button
+                    onClick={() => {
+                      handleExportSVGClick();
+                      setShowExportMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl text-left transition-colors"
+                  >
+                    <FileText className="h-5 w-5 text-kubito-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">
+                        Export SVG
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        Vector format, scalable
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      handleExportPNGClick();
+                      setShowExportMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl text-left transition-colors"
+                  >
+                    <Image className="h-5 w-5 text-kubito-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">
+                        Export PNG
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        High quality with transparency
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      handleExportJPEGClick();
+                      setShowExportMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl text-left transition-colors"
+                  >
+                    <Image className="h-5 w-5 text-kubito-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">
+                        Export JPEG
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        Compressed, smaller file size
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      handleExportWebPClick();
+                      setShowExportMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl text-left transition-colors"
+                  >
+                    <Image className="h-5 w-5 text-kubito-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">
+                        Export WebP
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        Modern format, best compression
+                      </div>
+                    </div>
+                  </button>
+
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
+
+                  <button
+                    onClick={() => {
+                      handleExportProject();
+                      setShowExportMenu(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl text-left transition-colors"
+                  >
+                    <Briefcase className="h-5 w-5 text-kubito-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">
+                        Save Project
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        Save as .kubito file to edit later
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".kubito,application/json"
+          onChange={handleImportProjectChange}
+          className="hidden"
+        />
+
+        {/* Modals */}
+        <TipsModal
+          isOpen={showTipsModal}
+          onClose={() => setShowTipsModal(false)}
+        />
+        <ShareKubitoModal
+          isOpen={showShareModal}
+          onClose={() => setShowShareModal(false)}
+        />
+        <CommunityGalleryModal
+          isOpen={showCommunityGallery}
+          onClose={() => setShowCommunityGallery(false)}
+        />
+        <CanvasSizeSelector
+          isOpen={showCanvasSizeSelector}
+          onClose={() => setShowCanvasSizeSelector(false)}
+        />
+      </>
+    );
+  }
+
+  // Desktop: Full toolbar
   return (
     <motion.div
       initial={{ y: -50, opacity: 0 }}

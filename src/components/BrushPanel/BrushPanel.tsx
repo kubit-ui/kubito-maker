@@ -20,18 +20,32 @@ const PRESET_COLORS = [
   "#FD79A8", // Rosa
 ];
 
-export function BrushPanel() {
+interface BrushPanelProps {
+  onClose?: () => void;
+}
+
+export function BrushPanel({ onClose }: BrushPanelProps = {}) {
   const brushMode = useBrushMode();
   const brushSettings = useBrushSettings();
   const { setBrushMode, selectStroke, updateBrushSettings } =
     useEditorActions();
 
   const handleBrushMode = () => {
-    setBrushMode(brushMode === "brush" ? "none" : "brush");
+    const newMode = brushMode === "brush" ? "none" : "brush";
+    setBrushMode(newMode);
+    // Close panel in mobile when activating brush mode
+    if (newMode === "brush" && onClose) {
+      onClose();
+    }
   };
 
   const handleEraserMode = () => {
-    setBrushMode(brushMode === "eraser" ? "none" : "eraser");
+    const newMode = brushMode === "eraser" ? "none" : "eraser";
+    setBrushMode(newMode);
+    // Close panel in mobile when activating eraser mode
+    if (newMode === "eraser" && onClose) {
+      onClose();
+    }
   };
 
   const handleSelectMode = () => {

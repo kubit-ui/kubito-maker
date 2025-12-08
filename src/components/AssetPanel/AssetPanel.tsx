@@ -50,19 +50,20 @@ const DraggableAsset = ({
       onClick={handleClick}
       style={{ opacity: isDragging ? 0.4 : 1 }}
       className={`
-        border border-gray-200 dark:border-gray-700 rounded-lg p-2 
+        border border-gray-200 dark:border-gray-700 rounded-lg p-2 md:p-2
         flex flex-col items-center gap-1 
         hover:shadow-md cursor-pointer
-        transition-opacity bg-white dark:bg-gray-800 
+        transition-all bg-white dark:bg-gray-800 
         hover:scale-105 active:scale-95
+        min-h-[60px] md:min-h-[48px]
       `}
       title={`Click or drag ${asset.name}`}
     >
       <svg
-        width="48"
-        height="48"
+        width="56"
+        height="56"
         viewBox="-40 -40 80 80"
-        className="w-full h-auto pointer-events-none"
+        className="w-full h-auto pointer-events-none md:w-12 md:h-12"
       >
         <AssetRenderer
           asset={asset}
@@ -101,6 +102,11 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
 
     // Track analytics
     trackAssetAdded(category, asset.id);
+
+    // Close panel in mobile after adding asset
+    if (onClose) {
+      onClose();
+    }
   };
 
   const toggleCategory = (category: string) => {
@@ -161,11 +167,16 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
 
       // Track analytics
       trackBodyChanged(bodyId);
+
+      // Close panel in mobile after selecting body
+      if (onClose) {
+        onClose();
+      }
     }
   };
 
   return (
-    <aside className="w-64 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-3 flex flex-col gap-3 h-full overflow-hidden">
+    <aside className="w-full md:w-64 bg-white dark:bg-gray-900 md:rounded-2xl md:shadow-xl p-3 flex flex-col gap-3 h-full overflow-hidden">
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold text-gray-900 dark:text-white">
           {activeTab === "assets" ? "Assets" : "Bodies"}
@@ -295,8 +306,8 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
 
                     {/* Assets grid */}
                     {isExpanded && (
-                      <div className="overflow-y-auto max-h-[288px]">
-                        <div className="grid grid-cols-3 gap-1.5 p-2 bg-white dark:bg-gray-900">
+                      <div className="overflow-y-auto max-h-[288px] md:max-h-[288px]">
+                        <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-3 gap-2 md:gap-1.5 p-2 bg-white dark:bg-gray-900">
                           {assets.map((asset) => (
                             <DraggableAsset
                               key={asset.id}
@@ -323,45 +334,47 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
 
       {/* Bodies Tab Content */}
       {activeTab === "bodies" && (
-        <div className="flex-1 overflow-y-auto space-y-2 pr-1">
-          <p className="text-xs text-gray-500 dark:text-gray-400 px-1">
+        <div className="flex-1 overflow-y-auto pr-1">
+          <p className="text-xs text-gray-500 dark:text-gray-400 px-1 mb-3">
             Select a body. Current items will be removed.
           </p>
-          {bodies.map((body) => (
-            <button
-              key={body.id}
-              onClick={() => handleBodySelect(body.id)}
-              className={`w-full border-2 rounded-lg p-3 transition-colors ${
-                selectedBodyId === body.id
-                  ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
-                  : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
-              }`}
-            >
-              <div className="flex flex-col items-center gap-2">
-                {/* Preview */}
-                <div className="w-full h-32 flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-900 rounded-lg">
-                  <svg
-                    viewBox="0 0 400 400"
-                    className="w-full h-full"
-                    style={{ maxWidth: "120px", maxHeight: "120px" }}
-                  >
-                    <g transform="translate(200, 200)">
-                      <BodyRenderer body={body} />
-                    </g>
-                  </svg>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2">
+            {bodies.map((body) => (
+              <button
+                key={body.id}
+                onClick={() => handleBodySelect(body.id)}
+                className={`w-full border-2 rounded-lg p-3 transition-colors ${
+                  selectedBodyId === body.id
+                    ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
+                    : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
+                }`}
+              >
+                <div className="flex flex-col items-center gap-2">
+                  {/* Preview */}
+                  <div className="w-full h-32 flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-900 rounded-lg">
+                    <svg
+                      viewBox="0 0 400 400"
+                      className="w-full h-full"
+                      style={{ maxWidth: "120px", maxHeight: "120px" }}
+                    >
+                      <g transform="translate(200, 200)">
+                        <BodyRenderer body={body} />
+                      </g>
+                    </svg>
+                  </div>
+                  {/* Name */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      {body.name}
+                    </span>
+                    {selectedBodyId === body.id && (
+                      <span className="text-blue-500 text-xs">✓</span>
+                    )}
+                  </div>
                 </div>
-                {/* Name */}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-900 dark:text-white">
-                    {body.name}
-                  </span>
-                  {selectedBodyId === body.id && (
-                    <span className="text-blue-500 text-xs">✓</span>
-                  )}
-                </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </aside>

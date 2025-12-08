@@ -54,12 +54,14 @@ interface TextPanelProps {
   textSettings: TextSettings;
   onSettingsChange: (settings: Partial<TextSettings>) => void;
   onAddText: () => void;
+  onClose?: () => void;
 }
 
 export function TextPanel({
   textSettings,
   onSettingsChange,
   onAddText,
+  onClose,
 }: TextPanelProps) {
   const selectedId = useSelectedId();
   const items = useItems();
@@ -161,7 +163,13 @@ export function TextPanel({
 
       {/* Add Text Button */}
       <button
-        onClick={onAddText}
+        onClick={() => {
+          onAddText();
+          // Close panel in mobile after adding text
+          if (onClose) {
+            onClose();
+          }
+        }}
         className="w-full mb-4 px-4 py-3 bg-kubito-primary text-white rounded-lg hover:bg-kubito-primary-dark transition-colors flex items-center justify-center gap-2 font-medium"
       >
         <Type size={18} />
