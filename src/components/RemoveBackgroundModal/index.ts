@@ -1,1 +1,1 @@
-export { RemoveBackgroundModal } from "./RemoveBackgroundModal";
+export { RemoveBackgroundModal } from './RemoveBackgroundModal';

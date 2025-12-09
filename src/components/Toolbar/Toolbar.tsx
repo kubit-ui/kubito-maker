@@ -34,7 +34,7 @@ import {
   importProject,
   exportPNGWithBackgroundRemoval,
   exportWebPWithBackgroundRemoval,
-} from "@/utils/export";
+} from '@/utils/export';
 import { ExportService } from '@/domain';
 import { useAnalytics, useIsMobile, useIsTablet } from '@/hooks';
 
@@ -48,7 +48,7 @@ export const Toolbar = memo(() => {
   const [showRemoveBackgroundModal, setShowRemoveBackgroundModal] =
     useState(false);
   const [pendingExportFormat, setPendingExportFormat] = useState<
-    "PNG" | "WebP" | null
+    'PNG' | 'WebP' | null
   >(null);
   const items = useItems();
   const config = useConfig();
@@ -84,7 +84,7 @@ export const Toolbar = memo(() => {
 
   const handleExportPNG = async () => {
     // Show the remove background modal instead of exporting directly
-    setPendingExportFormat("PNG");
+    setPendingExportFormat('PNG');
     setShowRemoveBackgroundModal(true);
     setShowExportMenu(false);
   };
@@ -125,13 +125,13 @@ export const Toolbar = memo(() => {
 
   const handleExportWebP = async () => {
     // Show the remove background modal instead of exporting directly
-    setPendingExportFormat("WebP");
+    setPendingExportFormat('WebP');
     setShowRemoveBackgroundModal(true);
     setShowExportMenu(false);
   };
 
   const handleExportWithBackgroundOption = async (
-    removeBackground: boolean,
+    removeBackground: boolean
   ) => {
     if (!pendingExportFormat) return;
 
@@ -141,27 +141,27 @@ export const Toolbar = memo(() => {
     // Small delay to ensure UI updates before export
     await new Promise((resolve) => setTimeout(resolve, 50));
 
-    const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+    const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
     if (!svg) return;
 
     // Check if there's a background item
     const hasBackground = items.some(
-      (item) => (item as { category?: string }).category === "Backgrounds",
+      (item) => (item as { category?: string }).category === 'Backgrounds'
     );
 
     // Create options for export
     const options = ExportService.createDefaultOptions(
       config.canvasWidth,
-      config.canvasHeight,
+      config.canvasHeight
     );
 
     // Set format and filename based on pending export
-    const isPNG = pendingExportFormat === "PNG";
-    options.format = isPNG ? "png" : "webp";
+    const isPNG = pendingExportFormat === 'PNG';
+    options.format = isPNG ? 'png' : 'webp';
     options.quality = isPNG ? 1.0 : 0.95;
     options.transparentBackground = !hasBackground;
 
-    const filename = `kubito_${kubitoName}.${isPNG ? "png" : "webp"}`;
+    const filename = `kubito_${kubitoName}.${isPNG ? 'png' : 'webp'}`;
 
     try {
       if (isPNG) {
@@ -179,17 +179,12 @@ export const Toolbar = memo(() => {
       }
 
       // Track export
-      trackExport(
-        pendingExportFormat,
-        config.canvasWidth,
-        config.canvasHeight,
-      );
+      trackExport(pendingExportFormat, config.canvasWidth, config.canvasHeight);
     } catch (error) {
-      console.error("Export failed:", error);
-      alert("Export failed: " + (error as Error).message);
+      console.error('Export failed:', error);
+      alert('Export failed: ' + (error as Error).message);
     }
   };
-
 
   const handleExportProject = () => {
     exportProject(items as any, brushStrokes, config, selectedBodyId);
@@ -862,10 +857,10 @@ export const Toolbar = memo(() => {
           setPendingExportFormat(null);
         }}
         onExport={handleExportWithBackgroundOption}
-        format={pendingExportFormat || "PNG"}
+        format={pendingExportFormat || 'PNG'}
       />
     </motion.div>
   );
 });
 
-Toolbar.displayName = "Toolbar";
+Toolbar.displayName = 'Toolbar';

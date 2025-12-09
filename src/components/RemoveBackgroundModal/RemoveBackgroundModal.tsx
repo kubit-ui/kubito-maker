@@ -8,7 +8,6 @@ interface RemoveBackgroundModalProps {
   onExport: (removeBackground: boolean) => Promise<void>;
   format: "PNG" | "WebP";
 }
-
 /**
  * Modal to ask user if they want to remove background before export
  * Only shown for PNG and WebP formats
