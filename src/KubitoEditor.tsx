@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -8,19 +8,19 @@ import {
   useSensors,
   type DragEndEvent,
   type DragStartEvent,
-} from "@dnd-kit/core";
-import { Canvas } from "./components/Canvas";
-import { Toolbar } from "./components/Toolbar";
-import { ResponsiveUnifiedSidebar } from "./components/UnifiedSidebar";
-import { ResponsiveInspector } from "./components/Inspector";
-import { MobileFloatingButtons } from "./components/MobileFloatingButtons";
-import { useEditorStore } from "./store/editorStore";
-import { useKeyboardShortcuts, useAnalytics, useIsMobile } from "./hooks";
-import { AssetRenderer } from "./components/AssetRenderer";
-import type { Asset, AssetCategory } from "./types";
+} from '@dnd-kit/core';
+import { Canvas } from './components/Canvas';
+import { Toolbar } from './components/Toolbar';
+import { ResponsiveUnifiedSidebar } from './components/UnifiedSidebar';
+import { ResponsiveInspector } from './components/Inspector';
+import { MobileFloatingButtons } from './components/MobileFloatingButtons';
+import { useEditorStore } from './store/editorStore';
+import { useKeyboardShortcuts, useAnalytics, useIsMobile } from './hooks';
+import { AssetRenderer } from './components/AssetRenderer';
+import type { Asset, AssetCategory } from './types';
 
-type MobilePanel = "assets" | "layers" | "tools" | null;
-type SidebarTab = "assets" | "layers" | "guides" | "brush" | "text";
+type MobilePanel = 'assets' | 'layers' | 'tools' | null;
+type SidebarTab = 'assets' | 'layers' | 'guides' | 'brush' | 'text';
 
 export default function KubitoEditor() {
   // Analytics
@@ -28,10 +28,9 @@ export default function KubitoEditor() {
 
   // Responsive state
   const isMobile = useIsMobile();
-  const [activeMobilePanel, setActiveMobilePanel] =
-    useState<MobilePanel>(null);
+  const [activeMobilePanel, setActiveMobilePanel] = useState<MobilePanel>(null);
   const [activeSidebarTab, setActiveSidebarTab] =
-    useState<SidebarTab>("assets");
+    useState<SidebarTab>('assets');
 
   // Initialize analytics on mount
   useEffect(() => {
@@ -56,7 +55,7 @@ export default function KubitoEditor() {
         delay: 200, // 200ms delay before touch drag starts
         tolerance: 8,
       },
-    }),
+    })
   );
 
   // Store actions
@@ -114,10 +113,10 @@ export default function KubitoEditor() {
         if (!item || item.locked) return;
 
         const updates: { x?: number; y?: number } = {};
-        if (direction === "left") updates.x = item.x - step;
-        else if (direction === "right") updates.x = item.x + step;
-        else if (direction === "up") updates.y = item.y - step;
-        else if (direction === "down") updates.y = item.y + step;
+        if (direction === 'left') updates.x = item.x - step;
+        else if (direction === 'right') updates.x = item.x + step;
+        else if (direction === 'up') updates.y = item.y - step;
+        else if (direction === 'down') updates.y = item.y + step;
 
         if (Object.keys(updates).length > 0) {
           updateItem(id, updates);
@@ -154,23 +153,23 @@ export default function KubitoEditor() {
       };
 
       try {
-        localStorage.setItem("kubito-autosave", JSON.stringify(dataToSave));
+        localStorage.setItem('kubito-autosave', JSON.stringify(dataToSave));
         // Auto-saved successfully
       } catch (error) {
-        console.error("Auto-save failed:", error);
+        console.error('Auto-save failed:', error);
       }
     }, 30000); // Every 30 seconds
 
     // Load auto-save on mount
     try {
-      const saved = localStorage.getItem("kubito-autosave");
+      const saved = localStorage.getItem('kubito-autosave');
       if (saved) {
         const data = JSON.parse(saved) as { timestamp: number };
         // Auto-save loaded successfully
         void data.timestamp; // Use the timestamp to avoid unused variable warning
       }
     } catch (error) {
-      console.error("Failed to load auto-save:", error);
+      console.error('Failed to load auto-save:', error);
     }
 
     return () => clearInterval(autoSaveInterval);
@@ -183,13 +182,13 @@ export default function KubitoEditor() {
     } else {
       setActiveMobilePanel(panel);
       // Map mobile panel to sidebar tab
-      if (panel === "assets") {
-        setActiveSidebarTab("assets");
-      } else if (panel === "layers") {
-        setActiveSidebarTab("layers");
-      } else if (panel === "tools") {
+      if (panel === 'assets') {
+        setActiveSidebarTab('assets');
+      } else if (panel === 'layers') {
+        setActiveSidebarTab('layers');
+      } else if (panel === 'tools') {
         // Default to brush when opening tools
-        setActiveSidebarTab("brush");
+        setActiveSidebarTab('brush');
       }
     }
   };
@@ -244,9 +243,9 @@ export default function KubitoEditor() {
             activeTab={activeSidebarTab}
             onTabChange={setActiveSidebarTab}
             isOpen={
-              activeMobilePanel === "assets" ||
-              activeMobilePanel === "layers" ||
-              activeMobilePanel === "tools"
+              activeMobilePanel === 'assets' ||
+              activeMobilePanel === 'layers' ||
+              activeMobilePanel === 'tools'
             }
             onClose={() => setActiveMobilePanel(null)}
           />
@@ -260,8 +259,8 @@ export default function KubitoEditor() {
             className="opacity-95 cursor-grabbing w-24 h-24 pointer-events-none"
             style={{
               animation:
-                "drag-physics 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, wobble 2s ease-in-out infinite",
-              filter: "drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3))",
+                'drag-physics 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, wobble 2s ease-in-out infinite',
+              filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3))',
             }}
           >
             <svg

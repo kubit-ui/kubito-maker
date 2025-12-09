@@ -1,2 +1,2 @@
-export { UnifiedSidebar } from "./UnifiedSidebar";
-export { ResponsiveUnifiedSidebar } from "./ResponsiveUnifiedSidebar";
+export { UnifiedSidebar } from './UnifiedSidebar';
+export { ResponsiveUnifiedSidebar } from './ResponsiveUnifiedSidebar';

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 /**
  * Breakpoints for responsive design
@@ -10,7 +10,7 @@ export const BREAKPOINTS = {
   wide: 1920, // 1281px+
 } as const;
 
-export type DeviceType = "mobile" | "tablet" | "desktop" | "wide";
+export type DeviceType = 'mobile' | 'tablet' | 'desktop' | 'wide';
 
 /**
  * Hook to detect media queries and screen sizes
@@ -19,19 +19,19 @@ export type DeviceType = "mobile" | "tablet" | "desktop" | "wide";
  */
 export function useMediaQuery(query: string): boolean {
   const [matches, setMatches] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
+    if (typeof window === 'undefined') return false;
     return window.matchMedia(query).matches;
   });
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     const mediaQuery = window.matchMedia(query);
     const handler = (event: MediaQueryListEvent) => setMatches(event.matches);
 
     // Listen for changes
     if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener("change", handler);
+      mediaQuery.addEventListener('change', handler);
     } else {
       // Fallback for older browsers
       mediaQuery.addListener(handler);
@@ -39,7 +39,7 @@ export function useMediaQuery(query: string): boolean {
 
     return () => {
       if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener("change", handler);
+        mediaQuery.removeEventListener('change', handler);
       } else {
         // Fallback for older browsers
         mediaQuery.removeListener(handler);
@@ -57,16 +57,16 @@ export function useMediaQuery(query: string): boolean {
 export function useDeviceType(): DeviceType {
   const isMobile = useMediaQuery(`(max-width: ${BREAKPOINTS.mobile}px)`);
   const isTablet = useMediaQuery(
-    `(min-width: ${BREAKPOINTS.mobile + 1}px) and (max-width: ${BREAKPOINTS.tablet}px)`,
+    `(min-width: ${BREAKPOINTS.mobile + 1}px) and (max-width: ${BREAKPOINTS.tablet}px)`
   );
   const isDesktop = useMediaQuery(
-    `(min-width: ${BREAKPOINTS.tablet + 1}px) and (max-width: ${BREAKPOINTS.desktop}px)`,
+    `(min-width: ${BREAKPOINTS.tablet + 1}px) and (max-width: ${BREAKPOINTS.desktop}px)`
   );
 
-  if (isMobile) return "mobile";
-  if (isTablet) return "tablet";
-  if (isDesktop) return "desktop";
-  return "wide";
+  if (isMobile) return 'mobile';
+  if (isTablet) return 'tablet';
+  if (isDesktop) return 'desktop';
+  return 'wide';
 }
 
 /**
@@ -76,10 +76,10 @@ export function useDeviceType(): DeviceType {
 export function useIsMobile(): boolean {
   const isMobileSize = useMediaQuery(`(max-width: ${BREAKPOINTS.mobile}px)`);
   const [hasTouch] = useState(() => {
-    if (typeof window === "undefined") return false;
+    if (typeof window === 'undefined') return false;
     // Check for touch capability
     return (
-      "ontouchstart" in window ||
+      'ontouchstart' in window ||
       navigator.maxTouchPoints > 0 ||
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (navigator as any).msMaxTouchPoints > 0
@@ -94,7 +94,7 @@ export function useIsMobile(): boolean {
  */
 export function useIsTablet(): boolean {
   return useMediaQuery(
-    `(min-width: ${BREAKPOINTS.mobile + 1}px) and (max-width: ${BREAKPOINTS.tablet}px)`,
+    `(min-width: ${BREAKPOINTS.mobile + 1}px) and (max-width: ${BREAKPOINTS.tablet}px)`
   );
 }
 
@@ -110,8 +110,8 @@ export function useIsDesktop(): boolean {
  */
 export function useViewport() {
   const [viewport, setViewport] = useState({
-    width: typeof window !== "undefined" ? window.innerWidth : 0,
-    height: typeof window !== "undefined" ? window.innerHeight : 0,
+    width: typeof window !== 'undefined' ? window.innerWidth : 0,
+    height: typeof window !== 'undefined' ? window.innerHeight : 0,
   });
 
   useEffect(() => {
@@ -122,8 +122,8 @@ export function useViewport() {
       });
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return viewport;
@@ -133,13 +133,13 @@ export function useViewport() {
  * Hook to check if the user prefers reduced motion
  */
 export function usePrefersReducedMotion(): boolean {
-  return useMediaQuery("(prefers-reduced-motion: reduce)");
+  return useMediaQuery('(prefers-reduced-motion: reduce)');
 }
 
 /**
  * Hook to detect orientation
  */
-export function useOrientation(): "portrait" | "landscape" {
-  const isPortrait = useMediaQuery("(orientation: portrait)");
-  return isPortrait ? "portrait" : "landscape";
+export function useOrientation(): 'portrait' | 'landscape' {
+  const isPortrait = useMediaQuery('(orientation: portrait)');
+  return isPortrait ? 'portrait' : 'landscape';
 }

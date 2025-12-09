@@ -1,53 +1,53 @@
-import { Type, Italic, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
-import { useState } from "react";
-import type { FontFamily, FontWeight, TextAlign, TextSettings } from "@/types";
-import { useSelectedId, useItems, useEditorActions } from "@/store/editorStore";
+import { Type, Italic, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import { useState } from 'react';
+import type { FontFamily, FontWeight, TextAlign, TextSettings } from '@/types';
+import { useSelectedId, useItems, useEditorActions } from '@/store/editorStore';
 
 const FONT_FAMILIES: FontFamily[] = [
-  "Inter",
-  "Roboto",
-  "Open Sans",
-  "Lato",
-  "Montserrat",
-  "Poppins",
-  "Raleway",
-  "Playfair Display",
-  "Merriweather",
-  "Bebas Neue",
-  "Pacifico",
-  "Lobster",
-  "Dancing Script",
-  "Caveat",
-  "Permanent Marker",
-  "Indie Flower",
-  "Comic Neue",
-  "Courier Prime",
+  'Inter',
+  'Roboto',
+  'Open Sans',
+  'Lato',
+  'Montserrat',
+  'Poppins',
+  'Raleway',
+  'Playfair Display',
+  'Merriweather',
+  'Bebas Neue',
+  'Pacifico',
+  'Lobster',
+  'Dancing Script',
+  'Caveat',
+  'Permanent Marker',
+  'Indie Flower',
+  'Comic Neue',
+  'Courier Prime',
 ];
 
 const FONT_SIZES = [8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48, 64, 72, 96];
 const FONT_WEIGHTS: Array<{ value: FontWeight; label: string }> = [
-  { value: 300, label: "Light" },
-  { value: 400, label: "Regular" },
-  { value: 500, label: "Medium" },
-  { value: 600, label: "Semi Bold" },
-  { value: 700, label: "Bold" },
-  { value: 800, label: "Extra Bold" },
-  { value: 900, label: "Black" },
+  { value: 300, label: 'Light' },
+  { value: 400, label: 'Regular' },
+  { value: 500, label: 'Medium' },
+  { value: 600, label: 'Semi Bold' },
+  { value: 700, label: 'Bold' },
+  { value: 800, label: 'Extra Bold' },
+  { value: 900, label: 'Black' },
 ];
 
 const PRESET_COLORS = [
-  "#000000", // Negro
-  "#FFFFFF", // Blanco
-  "#DF2B52", // Kubito Primary
-  "#FF6B6B", // Rojo
-  "#4ECDC4", // Turquesa
-  "#45B7D1", // Azul
-  "#96CEB4", // Verde
-  "#FFEAA7", // Amarillo
-  "#DFE6E9", // Gris claro
-  "#74B9FF", // Azul claro
-  "#A29BFE", // Púrpura
-  "#FD79A8", // Rosa
+  '#000000', // Negro
+  '#FFFFFF', // Blanco
+  '#DF2B52', // Kubito Primary
+  '#FF6B6B', // Rojo
+  '#4ECDC4', // Turquesa
+  '#45B7D1', // Azul
+  '#96CEB4', // Verde
+  '#FFEAA7', // Amarillo
+  '#DFE6E9', // Gris claro
+  '#74B9FF', // Azul claro
+  '#A29BFE', // Púrpura
+  '#FD79A8', // Rosa
 ];
 
 interface TextPanelProps {
@@ -70,7 +70,7 @@ export function TextPanel({
   // Find selected text item
   const selectedTextItem = items.find(
     (item) =>
-      item.id === selectedId && "type" in item && (item as any).type === "text",
+      item.id === selectedId && 'type' in item && (item as any).type === 'text'
   );
 
   // Determine which settings to display (selected text or global defaults)
@@ -240,33 +240,33 @@ export function TextPanel({
         </label>
         <div className="flex gap-2">
           <button
-            onClick={() => handleAlignChange("left")}
+            onClick={() => handleAlignChange('left')}
             className={`flex-1 p-2 border rounded transition-colors ${
-              displaySettings.textAlign === "left"
-                ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
-                : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
+              displaySettings.textAlign === 'left'
+                ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
             }`}
             title="Align Left"
           >
             <AlignLeft size={18} className="mx-auto" />
           </button>
           <button
-            onClick={() => handleAlignChange("center")}
+            onClick={() => handleAlignChange('center')}
             className={`flex-1 p-2 border rounded transition-colors ${
-              displaySettings.textAlign === "center"
-                ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
-                : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
+              displaySettings.textAlign === 'center'
+                ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
             }`}
             title="Align Center"
           >
             <AlignCenter size={18} className="mx-auto" />
           </button>
           <button
-            onClick={() => handleAlignChange("right")}
+            onClick={() => handleAlignChange('right')}
             className={`flex-1 p-2 border rounded transition-colors ${
-              displaySettings.textAlign === "right"
-                ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
-                : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
+              displaySettings.textAlign === 'right'
+                ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
             }`}
             title="Align Right"
           >
@@ -285,8 +285,8 @@ export function TextPanel({
             onClick={handleItalicToggle}
             className={`flex-1 p-2 border rounded transition-colors flex items-center justify-center ${
               displaySettings.italic
-                ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
-                : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
+                ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
             }`}
             title="Italic"
           >
@@ -322,8 +322,8 @@ export function TextPanel({
               onClick={() => handleColorChange(color)}
               className={`w-full h-8 rounded border-2 transition-transform hover:scale-105 ${
                 displaySettings.color === color
-                  ? "border-kubito-primary scale-110"
-                  : "border-gray-300 dark:border-gray-600"
+                  ? 'border-kubito-primary scale-110'
+                  : 'border-gray-300 dark:border-gray-600'
               }`}
               style={{ backgroundColor: color }}
               title={color}
@@ -393,7 +393,7 @@ export function TextPanel({
             fontWeight: displaySettings.fontWeight,
             color: displaySettings.color,
             textAlign: displaySettings.textAlign,
-            fontStyle: displaySettings.italic ? "italic" : "normal",
+            fontStyle: displaySettings.italic ? 'italic' : 'normal',
             lineHeight: displaySettings.lineHeight,
             letterSpacing: `${displaySettings.letterSpacing}px`,
             opacity: displaySettings.opacity,

@@ -1,8 +1,8 @@
-import { memo } from "react";
-import { Inspector } from "./Inspector";
-import { BottomSheet } from "../BottomSheet";
-import { useIsMobile } from "@/hooks";
-import { useSelection } from "@/store/editorStore";
+import { memo } from 'react';
+import { Inspector } from './Inspector';
+import { BottomSheet } from '../BottomSheet';
+import { useIsMobile } from '@/hooks';
+import { useSelection } from '@/store/editorStore';
 
 interface ResponsiveInspectorProps {
   isOpen?: boolean;
@@ -44,7 +44,7 @@ export const ResponsiveInspector = memo<ResponsiveInspectorProps>(
         <Inspector />
       </div>
     );
-  },
+  }
 );
 
-ResponsiveInspector.displayName = "ResponsiveInspector";
+ResponsiveInspector.displayName = 'ResponsiveInspector';

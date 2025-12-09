@@ -1,7 +1,7 @@
-import { memo, useRef, useState, type ReactNode } from "react";
-import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import { X } from "lucide-react";
-import { usePrefersReducedMotion } from "@/hooks";
+import { memo, useRef, useState, type ReactNode } from 'react';
+import { motion, AnimatePresence, PanInfo } from 'framer-motion';
+import { X } from 'lucide-react';
+import { usePrefersReducedMotion } from '@/hooks';
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ export const BottomSheet = memo<BottomSheetProps>(
     snapPoints = [0.4, 0.75, 0.95],
     defaultSnapPoint = 1,
     showHandle = true,
-    className = "",
+    className = '',
   }) => {
     const [currentSnapIndex, setCurrentSnapIndex] = useState(defaultSnapPoint);
     const [isDragging, setIsDragging] = useState(false);
@@ -36,7 +36,7 @@ export const BottomSheet = memo<BottomSheetProps>(
     // Handle drag end
     const handleDragEnd = (
       _event: MouseEvent | TouchEvent | PointerEvent,
-      info: PanInfo,
+      info: PanInfo
     ) => {
       setIsDragging(false);
       const velocity = info.velocity.y;
@@ -94,11 +94,11 @@ export const BottomSheet = memo<BottomSheetProps>(
             {/* Bottom Sheet */}
             <motion.div
               ref={sheetRef}
-              initial={{ y: "100%" }}
+              initial={{ y: '100%' }}
               animate={{ y: `${100 - currentHeight}%` }}
-              exit={{ y: "100%" }}
+              exit={{ y: '100%' }}
               transition={{
-                type: prefersReducedMotion ? "tween" : "spring",
+                type: prefersReducedMotion ? 'tween' : 'spring',
                 damping: 30,
                 stiffness: 300,
                 duration: prefersReducedMotion ? 0.2 : undefined,
@@ -114,12 +114,12 @@ export const BottomSheet = memo<BottomSheetProps>(
                 rounded-t-3xl shadow-2xl
                 flex flex-col
                 touch-none
-                ${isDragging ? "cursor-grabbing" : ""}
+                ${isDragging ? 'cursor-grabbing' : ''}
                 ${className}
               `}
               style={{
                 height: `${currentHeight}vh`,
-                maxHeight: "95vh",
+                maxHeight: '95vh',
               }}
             >
               {/* Drag Handle */}
@@ -158,8 +158,8 @@ export const BottomSheet = memo<BottomSheetProps>(
                       w-2 h-2 rounded-full transition-all
                       ${
                         index === currentSnapIndex
-                          ? "bg-gray-900 dark:bg-white w-6"
-                          : "bg-gray-300 dark:bg-gray-600"
+                          ? 'bg-gray-900 dark:bg-white w-6'
+                          : 'bg-gray-300 dark:bg-gray-600'
                       }
                     `}
                     aria-label={`Snap to position ${index + 1}`}
@@ -171,7 +171,7 @@ export const BottomSheet = memo<BottomSheetProps>(
         )}
       </AnimatePresence>
     );
-  },
+  }
 );
 
-BottomSheet.displayName = "BottomSheet";
+BottomSheet.displayName = 'BottomSheet';

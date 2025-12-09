@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState, memo } from 'react';
 import {
   Palette,
   Layers,
@@ -7,22 +7,22 @@ import {
   Type,
   ChevronLeft,
   ChevronRight,
-} from "lucide-react";
-import { AssetPanel } from "../AssetPanel";
-import { LayersPanel } from "../LayersPanel";
-import { SmartGuidesControls } from "../SmartGuidesControls";
-import { BrushPanel } from "../BrushPanel";
-import { TextPanel } from "../TextPanel";
-import { BottomSheet } from "../BottomSheet";
+} from 'lucide-react';
+import { AssetPanel } from '../AssetPanel';
+import { LayersPanel } from '../LayersPanel';
+import { SmartGuidesControls } from '../SmartGuidesControls';
+import { BrushPanel } from '../BrushPanel';
+import { TextPanel } from '../TextPanel';
+import { BottomSheet } from '../BottomSheet';
 import {
   useSnapConfig,
   useGuides,
   useEditorActions,
   useTextSettings,
-} from "@/store/editorStore";
-import { useIsMobile } from "@/hooks";
+} from '@/store/editorStore';
+import { useIsMobile } from '@/hooks';
 
-type SidebarTab = "assets" | "layers" | "guides" | "brush" | "text";
+type SidebarTab = 'assets' | 'layers' | 'guides' | 'brush' | 'text';
 
 const TAB_ICONS = {
   assets: Palette,
@@ -33,11 +33,11 @@ const TAB_ICONS = {
 } as const;
 
 const TAB_LABELS = {
-  assets: "Assets",
-  layers: "Layers",
-  guides: "Guides",
-  brush: "Brush",
-  text: "Text",
+  assets: 'Assets',
+  layers: 'Layers',
+  guides: 'Guides',
+  brush: 'Brush',
+  text: 'Text',
 } as const;
 
 interface ResponsiveSidebarProps {
@@ -72,26 +72,26 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
     } = useEditorActions();
 
     const tabs: Array<{ id: SidebarTab; label: string }> = [
-      { id: "assets", label: "Assets" },
-      { id: "layers", label: "Layers" },
-      { id: "brush", label: "Brush" },
-      { id: "text", label: "Text" },
-      { id: "guides", label: "Guides" },
+      { id: 'assets', label: 'Assets' },
+      { id: 'layers', label: 'Layers' },
+      { id: 'brush', label: 'Brush' },
+      { id: 'text', label: 'Text' },
+      { id: 'guides', label: 'Guides' },
     ];
 
     const handleTabClick = (tabId: SidebarTab) => {
       if (activeTab === tabId && !isCollapsed && !isMobile) {
         setIsCollapsed(true);
-        if (tabId === "brush") {
-          setBrushMode("none");
+        if (tabId === 'brush') {
+          setBrushMode('none');
         }
       } else {
         onTabChange(tabId);
         setIsCollapsed(false);
-        if (tabId === "brush") {
-          setBrushMode("brush");
+        if (tabId === 'brush') {
+          setBrushMode('brush');
         } else {
-          setBrushMode("none");
+          setBrushMode('none');
         }
       }
     };
@@ -99,13 +99,13 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
     // Render panel content
     const renderPanelContent = () => {
       switch (activeTab) {
-        case "assets":
+        case 'assets':
           return <AssetPanel onClose={onClose} />;
-        case "layers":
+        case 'layers':
           return <LayersPanel />;
-        case "brush":
+        case 'brush':
           return <BrushPanel onClose={onClose} />;
-        case "text":
+        case 'text':
           return (
             <TextPanel
               textSettings={textSettings}
@@ -114,7 +114,7 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
               onClose={onClose}
             />
           );
-        case "guides":
+        case 'guides':
           return (
             <SmartGuidesControls
               config={snapConfig}
@@ -140,16 +140,16 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
         >
           <div className="h-full flex flex-col">
             {/* Show tab selector for tools (brush, text, guides) */}
-            {(activeTab === "brush" ||
-              activeTab === "text" ||
-              activeTab === "guides") && (
+            {(activeTab === 'brush' ||
+              activeTab === 'text' ||
+              activeTab === 'guides') && (
               <div className="flex gap-2 mb-4 pb-3 border-b border-gray-200 dark:border-gray-700 px-1">
                 {tabs
                   .filter(
                     (tab) =>
-                      tab.id === "brush" ||
-                      tab.id === "text" ||
-                      tab.id === "guides",
+                      tab.id === 'brush' ||
+                      tab.id === 'text' ||
+                      tab.id === 'guides'
                   )
                   .map((tab) => (
                     <button
@@ -157,8 +157,8 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
                       onClick={() => onTabChange(tab.id)}
                       className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                         activeTab === tab.id
-                          ? "bg-kubito-primary text-white shadow-lg"
-                          : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                          ? 'bg-kubito-primary text-white shadow-lg'
+                          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                       }`}
                     >
                       {(() => {
@@ -194,8 +194,8 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
                     p-3 rounded-xl flex items-center justify-center relative transition-colors
                     ${
                       activeTab === tab.id && !isCollapsed
-                        ? "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white shadow-lg"
-                        : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                        ? 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white shadow-lg'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                     }
                   `}
                 >
@@ -223,11 +223,11 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
                   onClick={() => {
                     const newCollapsed = !isCollapsed;
                     setIsCollapsed(newCollapsed);
-                    if (newCollapsed && activeTab === "brush") {
-                      setBrushMode("none");
+                    if (newCollapsed && activeTab === 'brush') {
+                      setBrushMode('none');
                     }
                   }}
-                  onMouseEnter={() => setHoveredTab("collapse")}
+                  onMouseEnter={() => setHoveredTab('collapse')}
                   onMouseLeave={() => setHoveredTab(null)}
                   className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 >
@@ -239,10 +239,10 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
                 </button>
 
                 {/* Tooltip for collapse button */}
-                {hoveredTab === "collapse" && (
+                {hoveredTab === 'collapse' && (
                   <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 pointer-events-none">
                     <div className="bg-gray-900 dark:bg-gray-700 text-white text-sm px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap">
-                      {isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                      {isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                       <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-gray-900 dark:border-r-gray-700" />
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export const ResponsiveUnifiedSidebar = memo<ResponsiveSidebarProps>(
         )}
       </div>
     );
-  },
+  }
 );
 
-ResponsiveUnifiedSidebar.displayName = "ResponsiveUnifiedSidebar";
+ResponsiveUnifiedSidebar.displayName = 'ResponsiveUnifiedSidebar';

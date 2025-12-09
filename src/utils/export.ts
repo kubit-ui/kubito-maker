@@ -267,6 +267,346 @@ export const exportToWebPBlob = async (
   return blob;
 };
 
+/**
+ * Remove white/light background from an image blob using canvas processing
+ * This creates transparency by removing pixels similar to the background color
+ * @param blob - The image blob to process
+ * @param threshold - Color similarity threshold (0-255, default 30)
+ * @returns Blob with transparent background
+ */
+export const removeBackgroundFromBlob = async (
+  blob: Blob,
+  threshold = 30,
+): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const img = new Image();
+      const url = URL.createObjectURL(blob);
+
+      img.onload = () => {
+        try {
+          // Create canvas
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          if (!ctx) {
+            throw new Error("Could not get canvas context");
+          }
+
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          // Draw image
+          ctx.drawImage(img, 0, 0);
+
+          // Get image data
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const data = imageData.data;
+
+          // Sample background color from corners (assume corners are background)
+          const corners = [
+            { x: 0, y: 0 }, // top-left
+            { x: canvas.width - 1, y: 0 }, // top-right
+            { x: 0, y: canvas.height - 1 }, // bottom-left
+            { x: canvas.width - 1, y: canvas.height - 1 }, // bottom-right
+          ];
+
+          let avgR = 0,
+            avgG = 0,
+            avgB = 0;
+
+          corners.forEach(({ x, y }) => {
+            const idx = (y * canvas.width + x) * 4;
+            avgR += data[idx] ?? 0;
+            avgG += data[idx + 1] ?? 0;
+            avgB += data[idx + 2] ?? 0;
+          });
+
+          const bgR = avgR / 4;
+          const bgG = avgG / 4;
+          const bgB = avgB / 4;
+
+          // Make pixels similar to background transparent
+          for (let i = 0; i < data.length; i += 4) {
+            const r = data[i] ?? 0;
+            const g = data[i + 1] ?? 0;
+            const b = data[i + 2] ?? 0;
+
+            // Calculate color distance
+            const distance = Math.sqrt(
+              Math.pow(r - bgR, 2) +
+                Math.pow(g - bgG, 2) +
+                Math.pow(b - bgB, 2),
+            );
+
+            // If color is similar to background, make it transparent
+            if (distance < threshold) {
+              data[i + 3] = 0; // Set alpha to 0
+            }
+          }
+
+          // Put modified image data back
+          ctx.putImageData(imageData, 0, 0);
+
+          // Convert to blob
+          canvas.toBlob(
+            (resultBlob) => {
+              URL.revokeObjectURL(url);
+              if (resultBlob) {
+                resolve(resultBlob);
+              } else {
+                reject(new Error("Failed to create blob from canvas"));
+              }
+            },
+            "image/png",
+            1.0,
+          );
+        } catch (err) {
+          URL.revokeObjectURL(url);
+          reject(
+            err instanceof Error
+              ? err
+              : new Error("Unknown error during background removal"),
+          );
+        }
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("Failed to load image"));
+      };
+
+      img.src = url;
+    } catch (error) {
+      console.error("Background removal failed:", error);
+      reject(
+        new Error("Failed to remove background: " + (error as Error).message),
+      );
+    }
+  });
+};
+
+/**
+ * Export canvas as PNG with optional background removal
+ */
+export const exportPNGWithBackgroundRemoval = async (
+  svgElement: SVGSVGElement,
+  options: Partial<ExportOptions> & {
+    filename?: string;
+    removeBackground?: boolean;
+  } = {},
+): Promise<void> => {
+  const {
+    width = 720,
+    height = 720,
+    transparentBackground = false,
+    filename = "kubito.png",
+    removeBackground: shouldRemoveBackground = false,
+  } = options;
+
+  // Wait for fonts to load and give rendering time
+  await document.fonts.ready;
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  // Inject fonts into SVG
+  const cleanupFonts = await injectFontsIntoSVG(svgElement);
+
+  // Hide all foreignObject elements during export
+  const foreignObjects = svgElement.querySelectorAll("foreignObject");
+  const originalDisplays: string[] = [];
+  foreignObjects.forEach((fo, index) => {
+    originalDisplays[index] = fo.style.display;
+    fo.style.display = "none";
+  });
+
+  try {
+    const dataUrl = await toPng(svgElement as unknown as HTMLElement, {
+      width,
+      height,
+      pixelRatio: 3,
+      backgroundColor: transparentBackground ? undefined : "#ffffff",
+      skipFonts: false,
+      filter: (node: Element) => {
+        if (node instanceof Element) {
+          const dataUi = node.getAttribute("data-ui");
+          const dataHandle = node.getAttribute("data-handle");
+          if (dataHandle) return false;
+          if (dataUi) {
+            if (dataUi === "grid" && !transparentBackground) return true;
+            return false;
+          }
+        }
+        // Exclude foreignObject from export
+        if (node instanceof SVGForeignObjectElement) return false;
+        return true;
+      },
+    });
+
+    // If background removal is requested
+    if (shouldRemoveBackground) {
+      // Convert data URL to blob
+      const response = await window.fetch(dataUrl);
+      const blob = await response.blob();
+      
+      // Remove background
+      const processedBlob = await removeBackgroundFromBlob(blob);
+      
+      // Download the processed image
+      downloadBlob(processedBlob, filename);
+    } else {
+      // Download without processing
+      downloadDataUrl(dataUrl, filename);
+    }
+  } finally {
+    // Restore foreignObject visibility
+    foreignObjects.forEach((fo, index) => {
+      fo.style.display = originalDisplays[index] || "";
+    });
+
+    // Remove injected fonts
+    cleanupFonts();
+  }
+};
+
+/**
+ * Export canvas as WebP with optional background removal
+ */
+export const exportWebPWithBackgroundRemoval = async (
+  svgElement: SVGSVGElement,
+  options: Partial<ExportOptions> & {
+    filename?: string;
+    removeBackground?: boolean;
+  } = {},
+): Promise<void> => {
+  const {
+    width = 720,
+    height = 720,
+    quality = 0.95,
+    transparentBackground = false,
+    filename = "kubito.webp",
+    removeBackground: shouldRemoveBackground = false,
+  } = options;
+
+  // Wait for fonts to load and give rendering time
+  await document.fonts.ready;
+  await new Promise((resolve) => setTimeout(resolve, 100));
+
+  // Inject fonts into SVG
+  const cleanupFonts = await injectFontsIntoSVG(svgElement);
+
+  // Hide all foreignObject elements during export
+  const foreignObjects = svgElement.querySelectorAll("foreignObject");
+  const originalDisplays: string[] = [];
+  foreignObjects.forEach((fo, index) => {
+    originalDisplays[index] = fo.style.display;
+    fo.style.display = "none";
+  });
+
+  try {
+    const pngDataUrl = await toPng(svgElement as unknown as HTMLElement, {
+      width,
+      height,
+      pixelRatio: 3,
+      backgroundColor: transparentBackground ? undefined : "#ffffff",
+      skipFonts: false,
+      filter: (node: Element) => {
+        if (node instanceof Element) {
+          const dataUi = node.getAttribute("data-ui");
+          const dataHandle = node.getAttribute("data-handle");
+          if (dataHandle) return false;
+          if (dataUi) {
+            if (dataUi === "grid" && !transparentBackground) return true;
+            return false;
+          }
+        }
+        // Exclude foreignObject from export
+        if (node instanceof SVGForeignObjectElement) return false;
+        return true;
+      },
+    });
+
+    // If background removal is requested, first convert to blob
+    let finalBlob: Blob;
+
+    if (shouldRemoveBackground) {
+      // Convert PNG to blob
+      const pngResponse = await window.fetch(pngDataUrl);
+      const pngBlob = await pngResponse.blob();
+      
+      // Remove background (this will return PNG)
+      const processedBlob = await removeBackgroundFromBlob(pngBlob);
+      
+      // Now convert the processed PNG to WebP
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("Failed to load processed image"));
+        img.src = URL.createObjectURL(processedBlob);
+      });
+
+      // Create canvas and convert to WebP
+      const canvas = document.createElement("canvas");
+      canvas.width = width * 3;
+      canvas.height = height * 3;
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) throw new Error("Could not get canvas context");
+
+      ctx.drawImage(img, 0, 0);
+
+      // Convert to WebP blob
+      const webpBlob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob(resolve, "image/webp", quality);
+      });
+
+      if (!webpBlob) throw new Error("Failed to create WebP blob");
+      
+      finalBlob = webpBlob;
+    } else {
+      // Normal WebP conversion without background removal
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("Failed to load image"));
+        img.src = pngDataUrl;
+      });
+
+      // Create canvas and convert to WebP
+      const canvas = document.createElement("canvas");
+      canvas.width = width * 3;
+      canvas.height = height * 3;
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) throw new Error("Could not get canvas context");
+
+      ctx.drawImage(img, 0, 0);
+
+      // Convert to WebP blob
+      const blob = await new Promise<Blob | null>((resolve) => {
+        canvas.toBlob(resolve, "image/webp", quality);
+      });
+
+      if (!blob) throw new Error("Failed to create WebP blob");
+      
+      finalBlob = blob;
+    }
+
+    downloadBlob(finalBlob, filename);
+  } finally {
+    // Restore foreignObject visibility
+    foreignObjects.forEach((fo, index) => {
+      fo.style.display = originalDisplays[index] || "";
+    });
+
+    // Remove injected fonts
+    cleanupFonts();
+  }
+};
+
 export const exportJPEG = async (
   svgElement: SVGSVGElement,
   options: Partial<ExportOptions> & { filename?: string } = {},

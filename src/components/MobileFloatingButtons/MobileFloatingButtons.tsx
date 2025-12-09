@@ -1,8 +1,8 @@
-import { memo, useState, useRef } from "react";
-import { Palette, Layers, Menu, X, Wand2 } from "lucide-react";
-import { motion, AnimatePresence, useDragControls } from "framer-motion";
+import { memo, useState, useRef } from 'react';
+import { Palette, Layers, Menu, X, Wand2 } from 'lucide-react';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 
-type MobileTab = "assets" | "layers" | "tools";
+type MobileTab = 'assets' | 'layers' | 'tools';
 
 interface MobileFloatingButtonsProps {
   onTabClick: (tab: MobileTab) => void;
@@ -26,22 +26,22 @@ export const MobileFloatingButtons = memo<MobileFloatingButtonsProps>(
       description: string;
     }> = [
       {
-        id: "assets",
+        id: 'assets',
         icon: Palette,
-        label: "Assets",
-        description: "Bodies, Eyes, Hairs...",
+        label: 'Assets',
+        description: 'Bodies, Eyes, Hairs...',
       },
       {
-        id: "layers",
+        id: 'layers',
         icon: Layers,
-        label: "Layers",
-        description: "Manage elements",
+        label: 'Layers',
+        description: 'Manage elements',
       },
       {
-        id: "tools",
+        id: 'tools',
         icon: Wand2,
-        label: "Tools",
-        description: "Brush, Text, Filters",
+        label: 'Tools',
+        description: 'Brush, Text, Filters',
       },
     ];
 
@@ -66,17 +66,17 @@ export const MobileFloatingButtons = memo<MobileFloatingButtonsProps>(
           dragConstraints={constraintsRef}
           dragElastic={0.1}
           dragMomentum={false}
-          whileDrag={{ scale: 1.1, cursor: "grabbing" }}
+          whileDrag={{ scale: 1.1, cursor: 'grabbing' }}
           initial={{ x: 0, y: 0, scale: 0 }}
           animate={{ x: 0, y: 0, scale: 1 }}
           transition={{
-            scale: { delay: 0.2, type: "spring", stiffness: 260, damping: 20 },
+            scale: { delay: 0.2, type: 'spring', stiffness: 260, damping: 20 },
           }}
           onClick={() => setIsOpen(!isOpen)}
           className={`fixed bottom-6 left-6 z-[80] w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-colors cursor-grab ${
             activeTab
-              ? "bg-kubito-primary text-white"
-              : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+              ? 'bg-kubito-primary text-white'
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200'
           }`}
           aria-label="Menu"
         >
@@ -101,7 +101,7 @@ export const MobileFloatingButtons = memo<MobileFloatingButtonsProps>(
                 initial={{ opacity: 0, y: 20, scale: 0.8 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 20, scale: 0.8 }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                 className="fixed bottom-28 left-6 z-[85] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-2 space-y-1 border border-gray-200 dark:border-gray-700 min-w-[180px]"
               >
                 {buttons.map(({ id, icon: Icon, label, description }) => (
@@ -110,8 +110,8 @@ export const MobileFloatingButtons = memo<MobileFloatingButtonsProps>(
                     onClick={() => handleOptionClick(id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-left ${
                       activeTab === id
-                        ? "bg-kubito-primary text-white shadow-lg"
-                        : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
+                        ? 'bg-kubito-primary text-white shadow-lg'
+                        : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
                     }`}
                   >
                     <Icon className="h-5 w-5 flex-shrink-0" />
@@ -120,8 +120,8 @@ export const MobileFloatingButtons = memo<MobileFloatingButtonsProps>(
                       <div
                         className={`text-xs ${
                           activeTab === id
-                            ? "text-white/80"
-                            : "text-gray-500 dark:text-gray-400"
+                            ? 'text-white/80'
+                            : 'text-gray-500 dark:text-gray-400'
                         }`}
                       >
                         {description}
@@ -135,10 +135,7 @@ export const MobileFloatingButtons = memo<MobileFloatingButtonsProps>(
         </AnimatePresence>
       </>
     );
-  },
+  }
 );
 
-MobileFloatingButtons.displayName = "MobileFloatingButtons";
-
-
-
+MobileFloatingButtons.displayName = 'MobileFloatingButtons';

@@ -1,21 +1,21 @@
-import React, { memo, useState, useMemo } from "react";
-import { useDraggable } from "@dnd-kit/core";
-import type { Asset, AssetCategory } from "@/types";
-import { ASSETS_LIBRARY, bodies } from "@/data";
+import React, { memo, useState, useMemo } from 'react';
+import { useDraggable } from '@dnd-kit/core';
+import type { Asset, AssetCategory } from '@/types';
+import { ASSETS_LIBRARY, bodies } from '@/data';
 import {
   useConfig,
   useSelectedBodyId,
   useEditorActions,
-} from "@/store/editorStore";
-import { useAnalytics } from "@/hooks";
-import { AssetRenderer } from "../AssetRenderer";
-import { BodyRenderer } from "../BodyRenderer";
+} from '@/store/editorStore';
+import { useAnalytics } from '@/hooks';
+import { AssetRenderer } from '../AssetRenderer';
+import { BodyRenderer } from '../BodyRenderer';
 
 interface AssetPanelProps {
   onClose?: () => void;
 }
 
-type Tab = "assets" | "bodies";
+type Tab = 'assets' | 'bodies';
 
 // Draggable Asset Component with @dnd-kit
 const DraggableAsset = ({
@@ -79,12 +79,12 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
   const selectedBodyId = useSelectedBodyId();
   const { addItem, setSelectedBodyId, clearAll } = useEditorActions();
   const { trackAssetAdded, trackBodyChanged } = useAnalytics();
-  const [activeTab, setActiveTab] = useState<Tab>("assets");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState<Tab>('assets');
+  const [searchTerm, setSearchTerm] = useState('');
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set(
-      Object.keys(ASSETS_LIBRARY).filter((category) => category !== "Bodies"),
-    ),
+      Object.keys(ASSETS_LIBRARY).filter((category) => category !== 'Bodies')
+    )
   );
 
   const handleAssetClick = (category: AssetCategory, asset: Asset) => {
@@ -123,13 +123,13 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
   const filteredAssets = useMemo(() => {
     // Exclude Bodies and Noses categories from assets library
     const assetsWithoutBodies = Object.entries(ASSETS_LIBRARY)
-      .filter(([category]) => category !== "Bodies" && category !== "Noses")
+      .filter(([category]) => category !== 'Bodies' && category !== 'Noses')
       .reduce(
         (acc, [category, assets]) => {
           acc[category] = assets;
           return acc;
         },
-        {} as Record<string, Asset[]>,
+        {} as Record<string, Asset[]>
       );
 
     if (!searchTerm.trim()) return assetsWithoutBodies;
@@ -141,7 +141,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
       const matchingAssets = assets.filter(
         (asset) =>
           asset.name.toLowerCase().includes(term) ||
-          category.toLowerCase().includes(term),
+          category.toLowerCase().includes(term)
       );
       if (matchingAssets.length > 0) {
         filtered[category] = matchingAssets;
@@ -160,7 +160,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
 
   const handleBodySelect = (bodyId: string) => {
     if (
-      window.confirm("Change body? All elements from the canvas will be lost.")
+      window.confirm('Change body? All elements from the canvas will be lost.')
     ) {
       clearAll();
       setSelectedBodyId(bodyId);
@@ -179,7 +179,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
     <aside className="w-full md:w-64 bg-white dark:bg-gray-900 md:rounded-2xl md:shadow-xl p-3 flex flex-col gap-3 h-full overflow-hidden">
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-          {activeTab === "assets" ? "Assets" : "Bodies"}
+          {activeTab === 'assets' ? 'Assets' : 'Bodies'}
         </h3>
         {onClose && (
           <button
@@ -194,21 +194,21 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
       {/* Tabs */}
       <div className="flex gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
         <button
-          onClick={() => setActiveTab("assets")}
+          onClick={() => setActiveTab('assets')}
           className={`flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-            activeTab === "assets"
-              ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            activeTab === 'assets'
+              ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
           }`}
         >
           Assets
         </button>
         <button
-          onClick={() => setActiveTab("bodies")}
+          onClick={() => setActiveTab('bodies')}
           className={`flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-            activeTab === "bodies"
-              ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
-              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            activeTab === 'bodies'
+              ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
           }`}
         >
           Bodies
@@ -216,7 +216,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
       </div>
 
       {/* Assets Tab Content */}
-      {activeTab === "assets" && (
+      {activeTab === 'assets' && (
         <>
           {/* Search bar */}
           <div className="relative">
@@ -242,7 +242,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
             </svg>
             {searchTerm && (
               <button
-                onClick={() => setSearchTerm("")}
+                onClick={() => setSearchTerm('')}
                 className="absolute right-2 top-2 p-0.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
               >
                 <svg
@@ -288,7 +288,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
                         </span>
                         <svg
                           className={`w-4 h-4 text-gray-500 transition-transform ${
-                            isExpanded ? "rotate-180" : ""
+                            isExpanded ? 'rotate-180' : ''
                           }`}
                           fill="none"
                           stroke="currentColor"
@@ -316,7 +316,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
                               onClick={() =>
                                 handleAssetClick(
                                   category as AssetCategory,
-                                  asset,
+                                  asset
                                 )
                               }
                             />
@@ -333,7 +333,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
       )}
 
       {/* Bodies Tab Content */}
-      {activeTab === "bodies" && (
+      {activeTab === 'bodies' && (
         <div className="flex-1 overflow-y-auto pr-1">
           <p className="text-xs text-gray-500 dark:text-gray-400 px-1 mb-3">
             Select a body. Current items will be removed.
@@ -345,8 +345,8 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
                 onClick={() => handleBodySelect(body.id)}
                 className={`w-full border-2 rounded-lg p-3 transition-colors ${
                   selectedBodyId === body.id
-                    ? "border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20"
-                    : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600"
+                    ? 'border-kubito-primary bg-kubito-secondary-bg dark:bg-kubito-primary/20'
+                    : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
                 <div className="flex flex-col items-center gap-2">
@@ -355,7 +355,7 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
                     <svg
                       viewBox="0 0 400 400"
                       className="w-full h-full"
-                      style={{ maxWidth: "120px", maxHeight: "120px" }}
+                      style={{ maxWidth: '120px', maxHeight: '120px' }}
                     >
                       <g transform="translate(200, 200)">
                         <BodyRenderer body={body} />
@@ -381,4 +381,4 @@ export const AssetPanel = memo<AssetPanelProps>(({ onClose }) => {
   );
 });
 
-AssetPanel.displayName = "AssetPanel";
+AssetPanel.displayName = 'AssetPanel';

@@ -1,0 +1,1 @@
+export { RemoveBackgroundModal } from "./RemoveBackgroundModal";

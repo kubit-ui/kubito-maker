@@ -1,5 +1,5 @@
-import { memo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { memo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
   X,
@@ -13,18 +13,18 @@ import {
   FileText,
   Image,
   Briefcase,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   useItems,
   useConfig,
   useEditorActions,
   useBrushStrokes,
   useSelectedBodyId,
-} from "@/store/editorStore";
-import { TipsModal } from "../TipsModal";
-import { ShareKubitoModal } from "../ShareKubitoModal";
-import { CommunityGalleryModal } from "../CommunityGalleryModal";
-import { CanvasSizeSelector } from "../CanvasSizeSelector";
+} from '@/store/editorStore';
+import { TipsModal } from '../TipsModal';
+import { ShareKubitoModal } from '../ShareKubitoModal';
+import { CommunityGalleryModal } from '../CommunityGalleryModal';
+import { CanvasSizeSelector } from '../CanvasSizeSelector';
 import {
   exportSVG,
   exportPNG,
@@ -32,10 +32,10 @@ import {
   exportWebP,
   exportProject,
   importProject,
-} from "@/utils/export";
-import { ExportService } from "@/domain";
-import { useAnalytics } from "@/hooks";
-import { useRef } from "react";
+} from '@/utils/export';
+import { ExportService } from '@/domain';
+import { useAnalytics } from '@/hooks';
+import { useRef } from 'react';
 
 interface MobileMenuFABProps {
   kubitoName: string;
@@ -68,11 +68,11 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
     const handleExportSVG = async () => {
       deselectAll();
       await new Promise((resolve) => setTimeout(resolve, 50));
-      const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+      const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
       if (!svg) return;
       const filename = `kubito_${kubitoName}.svg`;
       await exportSVG(svg, filename);
-      trackExport("SVG", config.canvasWidth, config.canvasHeight);
+      trackExport('SVG', config.canvasWidth, config.canvasHeight);
       setShowExportMenu(false);
       setIsOpen(false);
     };
@@ -80,25 +80,25 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
     const handleExportPNG = async () => {
       deselectAll();
       await new Promise((resolve) => setTimeout(resolve, 50));
-      const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+      const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
       if (!svg) return;
       const hasBackground = items.some(
-        (item) => (item as any).category === "Backgrounds",
+        (item) => (item as any).category === 'Backgrounds'
       );
       const options = ExportService.createDefaultOptions(
         config.canvasWidth,
-        config.canvasHeight,
+        config.canvasHeight
       );
-      options.format = "png";
+      options.format = 'png';
       options.transparentBackground = !hasBackground;
       const validation = ExportService.validateOptions(options);
       if (!validation.valid) {
-        alert(`Export error: ${validation.errors.join(", ")}`);
+        alert(`Export error: ${validation.errors.join(', ')}`);
         return;
       }
       const filename = `kubito_${kubitoName}.png`;
       await exportPNG(svg, { ...options, filename });
-      trackExport("PNG", config.canvasWidth, config.canvasHeight);
+      trackExport('PNG', config.canvasWidth, config.canvasHeight);
       setShowExportMenu(false);
       setIsOpen(false);
     };
@@ -106,22 +106,22 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
     const handleExportJPEG = async () => {
       deselectAll();
       await new Promise((resolve) => setTimeout(resolve, 50));
-      const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+      const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
       if (!svg) return;
       const options = ExportService.createDefaultOptions(
         config.canvasWidth,
-        config.canvasHeight,
+        config.canvasHeight
       );
-      options.format = "jpeg";
+      options.format = 'jpeg';
       options.quality = 0.98;
       const validation = ExportService.validateOptions(options);
       if (!validation.valid) {
-        alert(`Export error: ${validation.errors.join(", ")}`);
+        alert(`Export error: ${validation.errors.join(', ')}`);
         return;
       }
       const filename = `kubito_${kubitoName}.jpeg`;
       await exportJPEG(svg, { ...options, filename });
-      trackExport("JPEG", config.canvasWidth, config.canvasHeight);
+      trackExport('JPEG', config.canvasWidth, config.canvasHeight);
       setShowExportMenu(false);
       setIsOpen(false);
     };
@@ -129,34 +129,34 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
     const handleExportWebP = async () => {
       deselectAll();
       await new Promise((resolve) => setTimeout(resolve, 50));
-      const svg = document.querySelector("#kubito-canvas") as SVGSVGElement;
+      const svg = document.querySelector('#kubito-canvas') as SVGSVGElement;
       if (!svg) return;
       const hasBackground = items.some(
-        (item) => (item as any).category === "Backgrounds",
+        (item) => (item as any).category === 'Backgrounds'
       );
       const options = ExportService.createDefaultOptions(
         config.canvasWidth,
-        config.canvasHeight,
+        config.canvasHeight
       );
-      options.format = "webp";
+      options.format = 'webp';
       options.quality = 0.95;
       options.transparentBackground = !hasBackground;
       const validation = ExportService.validateOptions(options);
       if (!validation.valid) {
-        alert(`Export error: ${validation.errors.join(", ")}`);
+        alert(`Export error: ${validation.errors.join(', ')}`);
         return;
       }
       const filename = `kubito_${kubitoName}.webp`;
       await exportWebP(svg, { ...options, filename });
-      trackExport("WebP", config.canvasWidth, config.canvasHeight);
+      trackExport('WebP', config.canvasWidth, config.canvasHeight);
       setShowExportMenu(false);
       setIsOpen(false);
     };
 
     const handleExportProject = () => {
       const kubitoItems = items.filter(
-        (item): item is import("@/types").KubitoItem =>
-          "category" in item && item.category !== undefined,
+        (item): item is import('@/types').KubitoItem =>
+          'category' in item && item.category !== undefined
       );
       exportProject(kubitoItems, brushStrokes, config, selectedBodyId);
       trackProjectSaved();
@@ -165,7 +165,7 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
     };
 
     const handleImportProject = async (
-      e: React.ChangeEvent<HTMLInputElement>,
+      e: React.ChangeEvent<HTMLInputElement>
     ) => {
       const file = e.target.files?.[0];
       if (!file) return;
@@ -175,14 +175,14 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
           projectData.items,
           projectData.config,
           projectData.brushStrokes || [],
-          projectData.selectedBodyId,
+          projectData.selectedBodyId
         );
         trackProjectLoaded();
       } catch (error) {
-        alert("Failed to load project: " + (error as Error).message);
+        alert('Failed to load project: ' + (error as Error).message);
       }
       if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        fileInputRef.current.value = '';
       }
       setIsOpen(false);
     };
@@ -193,7 +193,7 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
     const handleExportJPEGClick = () => void handleExportJPEG();
     const handleExportWebPClick = () => void handleExportWebP();
     const handleImportProjectChange = (
-      e: React.ChangeEvent<HTMLInputElement>,
+      e: React.ChangeEvent<HTMLInputElement>
     ) => void handleImportProject(e);
 
     return (
@@ -204,7 +204,7 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
           animate={{ scale: 1 }}
           transition={{
             delay: 0.2,
-            type: "spring",
+            type: 'spring',
             stiffness: 260,
             damping: 20,
           }}
@@ -233,7 +233,7 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                 className="fixed inset-0 z-[65] flex items-start justify-center pt-20 px-4 overflow-y-auto pb-safe"
               >
                 <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-6 space-y-4">
@@ -316,7 +316,7 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
 
                     <button
                       onClick={() => {
-                        if (confirm("Clear all items?")) {
+                        if (confirm('Clear all items?')) {
                           clearAll();
                           setIsOpen(false);
                         }
@@ -376,7 +376,7 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                 className="fixed inset-0 z-[75] flex items-center justify-center p-4"
               >
                 <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-6 space-y-3 max-h-[90vh] overflow-y-auto">
@@ -502,7 +502,7 @@ export const MobileMenuFAB = memo<MobileMenuFABProps>(
         />
       </>
     );
-  },
+  }
 );
 
-MobileMenuFAB.displayName = "MobileMenuFAB";
+MobileMenuFAB.displayName = 'MobileMenuFAB';
